@@ -65,4 +65,8 @@ namespace WrenchIt
             });
         }
     }
+    public class DbConfiguration
+    {
+        public string ConnectionString { get; set; }
+    }
 }

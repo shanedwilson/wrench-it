@@ -54,5 +54,16 @@ namespace WrenchIt.Controllers
 
             return Ok(user);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, User userToUpdate)
+        {
+            if (id != userToUpdate.Id)
+            {
+                return BadRequest();
+            }
+            var updatedUser = _repository.UpdateUser(id, userToUpdate);
+            return Ok(updatedUser);
+        }
     }
 }

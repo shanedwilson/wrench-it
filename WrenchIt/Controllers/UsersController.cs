@@ -46,5 +46,13 @@ namespace WrenchIt.Controllers
 
             return Ok(users);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSingleUser(string id)
+        {
+            var user = _repository.GetSingleUser(id);
+
+            return Ok(user);
+        }
     }
 }

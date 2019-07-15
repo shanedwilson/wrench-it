@@ -54,5 +54,19 @@ namespace WrenchIt.Data
                 return users;
             }
         }
+
+        public User GetSingleUser(string id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var user = db.QueryFirstOrDefault<User>(@"
+                    select *
+                    from users
+                    where firebaseid = @id",
+                   new { id });
+
+                return user;
+            }
+        }
     }
 }

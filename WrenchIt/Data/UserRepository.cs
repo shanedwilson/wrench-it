@@ -93,5 +93,20 @@ namespace WrenchIt.Data
 
             throw new Exception("Could not update user");
         }
+
+        public void DeleteUser(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"Update Users
+                            Set isActive = 0
+                            Where id = @id";
+
+                var rowsAffected = db.Execute(sql, new { Id = id });
+
+                if (rowsAffected != 1)
+                    throw new Exception("Could not delete user");
+            }
+        }
     }
 }

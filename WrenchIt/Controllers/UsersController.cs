@@ -65,5 +65,13 @@ namespace WrenchIt.Controllers
             var updatedUser = _repository.UpdateUser(id, userToUpdate);
             return Ok(updatedUser);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUser(int id)
+        {
+            _repository.DeleteUser(id);
+
+            return Ok("IsActive status set to false.");
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace WrenchIt.Models
         public int Type { get; set; }
         public string OilType { get; set; }
         public int OilQuantity { get; set; }
-        public int MyProperty { get; set; }
         public string TireSize { get; set; }
         public int TirePressure { get; set; }
         public int ServiceInterval { get; set; }

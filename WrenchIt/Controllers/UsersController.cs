@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using WrenchIt.Data;
 using WrenchIt.Models;
 using WrenchIt.Validators;
+using static WrenchIt.Controllers.SecureControllerBaseController;
 
 namespace WrenchIt.Controllers
 {
@@ -36,6 +37,14 @@ namespace WrenchIt.Controllers
                 createRequest.PostalCode, createRequest.PhoneNumber);
 
             return Created($"api/users/{newUser.Id}", newUser);
+        }
+
+        [HttpGet]
+        public ActionResult GetAllUsers()
+        {
+            var users = _repository.GetAllUsers();
+
+            return Ok(users);
         }
     }
 }

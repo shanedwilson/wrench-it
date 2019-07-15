@@ -40,5 +40,19 @@ namespace WrenchIt.Data
             }
 
         }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            using(var db = new SqlConnection(_connectionString))
+            {
+                var users = db.Query<User>(@"
+                    select *
+                    from users
+                    where isActive = 1
+                    ").ToList();
+
+                return users;
+            }
+        }
     }
 }

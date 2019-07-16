@@ -48,6 +48,20 @@ namespace WrenchIt.Data
 
                 return links;
             }
+        }
+
+        public Link GetSingleLink(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var link = db.QueryFirstOrDefault<Link>(@"
+                    select *
+                    from links
+                    where id = @id",
+                    new { id });
+
+                return link;
+            }
 
         }
     }

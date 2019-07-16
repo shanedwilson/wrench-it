@@ -43,5 +43,13 @@ namespace WrenchIt.Controllers
 
             return Ok(links);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSingleLink(int id)
+        {
+            var link = _repository.GetSingleLink(id);
+
+            return Ok(link);
+        }
     }
 }

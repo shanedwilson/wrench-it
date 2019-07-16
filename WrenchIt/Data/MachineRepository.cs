@@ -84,8 +84,8 @@ namespace WrenchIt.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"Update Machines
-                            Set year = @year,
+                var sql = @"update machines
+                            set year = @year,
                                 make = @make,
                                 model = @model,
                                 trim = @trim,
@@ -96,7 +96,7 @@ namespace WrenchIt.Data
                                 tirePressure = @tirePressure,
                                 serviceInterval = @serviceInterval,
                                 isActive = 1
-                            Where id = @id";
+                            where id = @id";
 
                 var rowsAffected = db.Execute(sql, machineToUpdate);
 
@@ -111,14 +111,14 @@ namespace WrenchIt.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"Update Machines
-                            Set isActive = 0
-                            Where id = @id";
+                var sql = @"update machines
+                            set isactive = 0
+                            where id = @id";
 
                 var rowsAffected = db.Execute(sql, new { Id = id });
 
                 if (rowsAffected != 1)
-                    throw new Exception("Could not delete machine");
+                    throw new Exception("Could Not Delete Machine.");
             }
         }
     }

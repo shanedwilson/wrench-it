@@ -62,5 +62,13 @@ namespace WrenchIt.Controllers
             var updatedMachine = _repository.UpdatePart(id, partToUpdate);
             return Ok(partToUpdate);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeletePart(int id)
+        {
+            _repository.DeletePart(id);
+
+            return Ok("IsActive Status Set To False.");
+        }
     }
 }

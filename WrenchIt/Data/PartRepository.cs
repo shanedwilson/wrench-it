@@ -70,11 +70,11 @@ namespace WrenchIt.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var sql = @"update parts
-                            Set typeid = @typeid,
+                            set typeid = @typeid,
                                 brand = @brand,
                                 partNumber = @partNumber,
                                 isActive = 1
-                            Where id = @id";
+                            where id = @id";
 
                 var rowsAffected = db.Execute(sql, partToUpdate);
 
@@ -83,6 +83,22 @@ namespace WrenchIt.Data
             }
 
             throw new Exception("Could Not Update Part.");
+        }
+
+        public void DeletePart(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"update parts
+                            set isactive = 0
+                            where id = @id";
+
+                var rowsAffected = db.Execute(sql, new { Id = id });
+
+                if(rowsAffected != 1)
+                    throw new Exception("Could Not Delete Part.");
+            }
+
         }
     }
 }

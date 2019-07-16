@@ -48,7 +48,7 @@ namespace WrenchIt.Data
                 {
                     return newMachine;
                 }
-                throw new Exception("No machine created");
+                throw new Exception("No Machine Created.");
             }
         }
 

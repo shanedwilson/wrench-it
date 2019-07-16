@@ -73,8 +73,8 @@ namespace WrenchIt.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"Update Users
-                            Set email = @email,
+                var sql = @"update users
+                            set email = @email,
                                 firebaseId = @firebaseId,
                                 name = @name,
                                 street = @street,
@@ -83,7 +83,7 @@ namespace WrenchIt.Data
                                 postalcode = @postalcode,
                                 phoneNumber = @phoneNumber,
                                 isActive = 1
-                            Where id = @id";
+                            where id = @id";
 
                 var rowsAffected = db.Execute(sql, userToUpdate);
 
@@ -91,21 +91,21 @@ namespace WrenchIt.Data
                     return userToUpdate;
             }
 
-            throw new Exception("Could not update user");
+            throw new Exception("Could Not Update User.");
         }
 
         public void DeleteUser(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"Update Users
-                            Set isActive = 0
-                            Where id = @id";
+                var sql = @"update users
+                            set isactive = 0
+                            where id = @id";
 
                 var rowsAffected = db.Execute(sql, new { Id = id });
 
                 if (rowsAffected != 1)
-                    throw new Exception("Could not delete user");
+                    throw new Exception("Could Not Delete User.");
             }
         }
     }

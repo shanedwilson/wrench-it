@@ -36,5 +36,34 @@ namespace WrenchIt.Data
             }
 
         }
+
+        public IEnumerable<Service> GetAllServices()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var services = db.Query<Service>(@"
+                    select *
+                    from services
+                    ").ToList();
+
+                return services;
+            }
+
+        }
+
+        public Service GetSingleService(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var service = db.QueryFirstOrDefault<Service>(@"
+                    select *
+                    from services
+                    where id = @id",
+                    new { id });
+
+                return service;
+            }
+
+        }
     }
 }

@@ -36,5 +36,21 @@ namespace WrenchIt.Controllers
 
             return Created($"api/services/{newService.Id}", newService);
         }
+
+        [HttpGet]
+        public ActionResult GetAllServices()
+        {
+            var services = _repository.GetAllServices();
+
+            return Ok(services);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSingleService(int id)
+        {
+            var service = _repository.GetSingleService(id);
+
+            return Ok(service);
+        }
     }
 }

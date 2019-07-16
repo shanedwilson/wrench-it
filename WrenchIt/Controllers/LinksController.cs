@@ -62,5 +62,13 @@ namespace WrenchIt.Controllers
             var updatedLink = _repository.UpdateLink(id, linkToUpdate);
             return Ok(updatedLink);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteLink(int id)
+        {
+            _repository.DeleteLink(id);
+
+            return Ok("Is Active Status Set To False.");
+        }
     }
 }

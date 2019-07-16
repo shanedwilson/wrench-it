@@ -71,7 +71,8 @@ namespace WrenchIt.Data
                 var sql = @"
                     update links
                     set name = @name,
-                        url = @url
+                        url = @url,
+                        isactive = 1
                     where id = @id";
 
                 var rowsAffected = db.Execute(sql, linkToUpdate);
@@ -83,6 +84,23 @@ namespace WrenchIt.Data
                 throw new Exception("Could Not Update Link.");
             }
 
+        }
+
+        public void DeleteLink(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"update links
+                            set isactive = 0
+                            where id = @id";
+
+                var rowsAffected = db.Execute(sql, new { Id = id });
+
+                if(rowsAffected != 1)
+                {
+                    throw new Exception("Could Not Delete Link.");
+                }
+            }
         }
     }
 }

@@ -37,5 +37,40 @@ namespace WrenchIt.Controllers
 
             return Created($"api/machines/{newMachine.Id}", newMachine);
         }
+
+        [HttpGet]
+        public ActionResult GetAllMachines()
+        {
+            var machines = _repository.GetAllMachines();
+
+            return Ok(machines);
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSingleMachine(string id)
+        {
+            var machine = _repository.GetSingleMachine(id);
+
+            return Ok(machine);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateMachine(int id, Machine machineToUpdate)
+        {
+            if (id != machineToUpdate.Id)
+            {
+                return BadRequest();
+            }
+            var updatedMachine = _repository.UpdateMachine(id, machineToUpdate);
+            return Ok(updatedMachine);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteMachine(int id)
+        {
+            _repository.DeleteMachine(id);
+
+            return Ok("IsActive status set to false.");
+        }
     }
 }

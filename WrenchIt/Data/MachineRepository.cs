@@ -51,5 +51,75 @@ namespace WrenchIt.Data
                 throw new Exception("No machine created");
             }
         }
+
+        public IEnumerable<Machine> GetAllMachines()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machines = db.Query<Machine>(@"
+                    select *
+                    from machines
+                    where isActive = 1
+                    ").ToList();
+
+                return machines;
+            }
+        }
+
+        public Machine GetSingleMachine(string id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machine = db.QueryFirstOrDefault<Machine>(@"
+                    select *
+                    from machines
+                    where id = @id",
+                   new { id });
+
+                return machine;
+            }
+        }
+
+        public Machine UpdateMachine(int id, Machine machineToUpdate)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"Update Machines
+                            Set year = @year,
+                                make = @make,
+                                model = @model,
+                                trim = @trim,
+                                typeId = @typeId,
+                                oilType = @oilType,
+                                oilQuantity = @oilQuantity,
+                                tireSize = @tireSize,
+                                tirePressure = @tirePressure,
+                                serviceInterval = @serviceInterval,
+                                isActive = 1
+                            Where id = @id";
+
+                var rowsAffected = db.Execute(sql, machineToUpdate);
+
+                if (rowsAffected >= 1)
+                    return machineToUpdate;
+            }
+
+            throw new Exception("Could not update machine");
+        }
+
+        public void DeleteMachine(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"Update Machines
+                            Set isActive = 0
+                            Where id = @id";
+
+                var rowsAffected = db.Execute(sql, new { Id = id });
+
+                if (rowsAffected != 1)
+                    throw new Exception("Could not delete machine");
+            }
+        }
     }
 }

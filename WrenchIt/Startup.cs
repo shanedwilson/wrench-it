@@ -46,7 +46,7 @@ namespace WrenchIt
             services.AddTransient<MachineRepository>();
             services.AddTransient<MachineTypeRepository>();
             services.AddTransient<PartTypeRepository>();
-            //services.AddTransient<UserPaymentRepository>();
+            services.AddTransient<PartRepository>();
             //services.AddTransient<RentalRepository>();
             //services.AddTransient<LikedPropertyRepository>();
 

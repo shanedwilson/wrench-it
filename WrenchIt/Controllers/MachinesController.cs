@@ -47,7 +47,7 @@ namespace WrenchIt.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetSingleMachine(string id)
+        public ActionResult GetSingleMachine(int id)
         {
             var machine = _repository.GetSingleMachine(id);
 

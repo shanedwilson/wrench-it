@@ -50,5 +50,39 @@ namespace WrenchIt.Data
                 return parts;
             }
         }
+
+        public Part GetSinglePart(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var part = db.QueryFirstOrDefault<Part>(@"
+                    select *
+                    from parts
+                    where id = @id",
+                    new { id });
+
+                return part;
+            }
+        }
+
+        public Part UpdatePart(int id, Part partToUpdate)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"update parts
+                            Set typeid = @typeid,
+                                brand = @brand,
+                                partNumber = @partNumber,
+                                isActive = 1
+                            Where id = @id";
+
+                var rowsAffected = db.Execute(sql, partToUpdate);
+
+                if (rowsAffected >= 1)
+                    return partToUpdate;
+            }
+
+            throw new Exception("Could Not Update Part.");
+        }
     }
 }

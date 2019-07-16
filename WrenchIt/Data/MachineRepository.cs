@@ -66,7 +66,7 @@ namespace WrenchIt.Data
             }
         }
 
-        public Machine GetSingleMachine(string id)
+        public Machine GetSingleMachine(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {

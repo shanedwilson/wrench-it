@@ -43,5 +43,24 @@ namespace WrenchIt.Controllers
 
             return Ok(parts);
         }
+
+        [HttpGet("{id}")]
+        public ActionResult GetSinglePart(int id)
+        {
+            var part = _repository.GetSinglePart(id);
+
+            return Ok(part);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdatePart(int id, Part partToUpdate)
+        {
+            if(id != partToUpdate.Id)
+            {
+                return BadRequest();
+            }
+            var updatedMachine = _repository.UpdatePart(id, partToUpdate);
+            return Ok(partToUpdate);
+        }
     }
 }

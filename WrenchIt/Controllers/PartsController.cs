@@ -35,5 +35,13 @@ namespace WrenchIt.Controllers
 
             return Created($"api/parts/{newPart.Id}", newPart);
         }
+
+        [HttpGet]
+        public ActionResult GetAllParts()
+        {
+            var parts = _repository.GetAllParts();
+
+            return Ok(parts);
+        }
     }
 }

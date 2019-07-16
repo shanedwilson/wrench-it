@@ -35,7 +35,20 @@ namespace WrenchIt.Data
                 }
                 throw new Exception("No part created");
             }
+        }
 
+        public IEnumerable<Part> GetAllParts()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var parts = db.Query<Part>(@"
+                    select *
+                    from parts
+                    where isactive = 1"
+                    ).ToList();
+
+                return parts;
+            }
         }
     }
 }

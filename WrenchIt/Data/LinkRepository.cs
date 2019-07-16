@@ -36,5 +36,19 @@ namespace WrenchIt.Data
             }
 
         }
+
+        public IEnumerable<Link> GetAllLinks()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var links = db.Query<Link>(@"
+                    select *
+                    from links"
+                    ).ToList();
+
+                return links;
+            }
+
+        }
     }
 }

@@ -35,5 +35,13 @@ namespace WrenchIt.Controllers
 
             return Created($"api/links/{ newLink.Id }", newLink);
         }
+
+        [HttpGet]
+        public ActionResult GetAllLinks()
+        {
+            var links = _repository.GetAllLinks();
+
+            return Ok(links);
+        }
     }
 }

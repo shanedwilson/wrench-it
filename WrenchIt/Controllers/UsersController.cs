@@ -29,7 +29,7 @@ namespace WrenchIt.Controllers
         {
             if (_validator.Validate(createRequest))
             {
-                return BadRequest(new { error = "please enter all fields" });
+                return BadRequest(new { error = "Please Enter All Fields." });
             }
 
             var newUser = _repository.AddUser(createRequest.FirebaseId, createRequest.Email,

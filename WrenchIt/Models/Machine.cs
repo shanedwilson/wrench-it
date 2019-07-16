@@ -12,7 +12,7 @@ namespace WrenchIt.Models
         public string Make { get; set; }
         public string Model { get; set; }
         public string Trim { get; set; }
-        public int Type { get; set; }
+        public int TypeId { get; set; }
         public string OilType { get; set; }
         public int OilQuantity { get; set; }
         public string TireSize { get; set; }
@@ -20,4 +20,6 @@ namespace WrenchIt.Models
         public int ServiceInterval { get; set; }
         public bool IsActive { get; set; }
     }
+
+
 }

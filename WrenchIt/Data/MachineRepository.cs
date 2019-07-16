@@ -18,16 +18,16 @@ namespace WrenchIt.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Machine AddMachine(int year, string make, string model, string trim, int type, string oilType,
+        public Machine AddMachine(int year, string make, string model, string trim, int typeId, string oilType,
                         int oilQuantity, string tireSize, int tirePressure, int serviceInterval)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newMachine = db.QueryFirstOrDefault<Machine>(@"
-                    insert into machines (year, make, model, trim, type, oilType, oilQuantity, tireSize,
+                    insert into machines (year, make, model, trim, typeId, oilType, oilQuantity, tireSize,
                     tirePressure, serviceInterval)
                     output inserted.*
-                    values(@year, @make, @model, @trim, @type, @oilType, @oilQuantity, @tireSize,
+                    values(@year, @make, @model, @trim, @typeId, @oilType, @oilQuantity, @tireSize,
                     @tirePressure, @serviceInterval)",
                     new
                     {
@@ -35,7 +35,7 @@ namespace WrenchIt.Data
                         make,
                         model,
                         trim,
-                        type,
+                        typeId,
                         oilType,
                         oilQuantity,
                         tireSize,

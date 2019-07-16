@@ -43,7 +43,7 @@ namespace WrenchIt
             services.Configure<DbConfiguration>(Configuration);
 
             services.AddTransient<UserRepository>();
-            //services.AddTransient<PropertyRepository>();
+            services.AddTransient<MachineRepository>();
             //services.AddTransient<PaymentTypeRepository>();
             //services.AddTransient<UserPaymentRepository>();
             //services.AddTransient<RentalRepository>();

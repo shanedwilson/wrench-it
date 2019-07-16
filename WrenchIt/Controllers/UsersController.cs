@@ -48,7 +48,7 @@ namespace WrenchIt.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetSingleUser(string id)
+        public ActionResult GetSingleUser(int id)
         {
             var user = _repository.GetSingleUser(id);
 

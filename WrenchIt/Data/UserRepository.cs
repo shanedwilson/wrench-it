@@ -36,9 +36,8 @@ namespace WrenchIt.Data
                 {
                     return newUser;
                 }
-                throw new Exception("No user created");
+                throw new Exception("No User Created.");
             }
-
         }
 
         public IEnumerable<User> GetAllUsers()

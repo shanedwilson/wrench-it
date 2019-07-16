@@ -62,6 +62,26 @@ namespace WrenchIt.Data
 
                 return link;
             }
+        }
+
+        public Link UpdateLink(int id, Link linkToUpdate)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"
+                    update links
+                    set name = @name,
+                        url = @url
+                    where id = @id";
+
+                var rowsAffected = db.Execute(sql, linkToUpdate);
+
+                if (rowsAffected >= 1)
+                {
+                    return linkToUpdate;
+                }
+                throw new Exception("Could Not Update Link.");
+            }
 
         }
     }

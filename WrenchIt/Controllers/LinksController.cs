@@ -17,7 +17,7 @@ namespace WrenchIt.Controllers
         readonly LinkRepository _repository;
         readonly CreateLinkRequestValidator _validator;
 
-        public LinksController (LinkRepository repository)
+        public LinksController(LinkRepository repository)
         {
             _repository = repository;
             _validator = new CreateLinkRequestValidator();
@@ -50,6 +50,17 @@ namespace WrenchIt.Controllers
             var link = _repository.GetSingleLink(id);
 
             return Ok(link);
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateLink(int id, Link linkToUpdate)
+        {
+            if (id != linkToUpdate.Id)
+            {
+                return BadRequest();
+            }
+            var updatedLink = _repository.UpdateLink(id, linkToUpdate);
+            return Ok(updatedLink);
         }
     }
 }

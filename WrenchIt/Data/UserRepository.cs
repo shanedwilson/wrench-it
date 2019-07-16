@@ -91,7 +91,7 @@ namespace WrenchIt.Data
                     return userToUpdate;
             }
 
-            throw new Exception("Could not update user");
+            throw new Exception("Could Not Update User.");
         }
 
         public void DeleteUser(int id)

@@ -65,5 +65,28 @@ namespace WrenchIt.Data
             }
 
         }
+
+        public Service UpdateService(int id, Service serviceToUpdate)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"
+                    update services
+                    set usermachineid = @usermachineid,
+                        mileage = @mileage,
+                        servicedate = @servicedate,
+                        notes = notes
+                    where id = @id";
+
+                var rowsAffected = db.Execute(sql, serviceToUpdate);
+
+                if(rowsAffected >= 1)
+                {
+                    return serviceToUpdate;
+                }
+                throw new Exception("Could Not Update Service.");
+            }
+
+        }
     }
 }

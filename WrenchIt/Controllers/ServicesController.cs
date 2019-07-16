@@ -52,5 +52,16 @@ namespace WrenchIt.Controllers
 
             return Ok(service);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateService(int id, Service serviceToUpdate)
+        {
+            if (id != serviceToUpdate.Id)
+            {
+                return BadRequest();
+            }
+            var updatedService = _repository.UpdateService(id, serviceToUpdate);
+            return Ok(updatedService);
+        }
     }
 }

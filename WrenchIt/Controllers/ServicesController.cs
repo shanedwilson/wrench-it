@@ -63,5 +63,13 @@ namespace WrenchIt.Controllers
             var updatedService = _repository.UpdateService(id, serviceToUpdate);
             return Ok(updatedService);
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteService(int id)
+        {
+            _repository.DeleteUser(id);
+
+            return Ok("Service Record Deleted");
+        }
     }
 }

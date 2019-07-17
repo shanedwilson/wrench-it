@@ -31,7 +31,7 @@ namespace WrenchIt.Controllers
                 return BadRequest(new { error = "Please Enter All Fields." });
             }
 
-            var newMachine = _repository.AddMachine(createRequest.Year, createRequest.Make, createRequest.Model,
+            var newMachine = _repository.AddMachine(createRequest.OwnerId, createRequest.Year, createRequest.Make, createRequest.Model,
                 createRequest.Trim, createRequest.TypeId, createRequest.OilType, createRequest.OilQuantity,
                 createRequest.TireSize, createRequest.TirePressure, createRequest.ServiceInterval);
 

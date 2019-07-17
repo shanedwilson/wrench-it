@@ -19,6 +19,7 @@ namespace WrenchIt.Validators
                    || string.IsNullOrEmpty(requestToValidate.OilQuantity.ToString())
                    || string.IsNullOrEmpty(requestToValidate.TireSize)
                    || string.IsNullOrEmpty(requestToValidate.ServiceInterval.ToString())
+                   || string.IsNullOrEmpty(requestToValidate.OwnerId.ToString()
                    );
         }
     }

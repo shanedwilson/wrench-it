@@ -36,5 +36,67 @@ namespace WrenchIt.Data
                 throw new Exception("No MachinePart Created.");
             }
         }
+
+        public IEnumerable<MachinePart> GetAllMachineParts()
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machineParts = db.Query<MachinePart>(@"
+                    select *
+                    from machineparts").ToList();
+
+                return machineParts;
+            }
+        }
+
+        public MachinePart GetSingleMachinePart(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machinePart = db.QueryFirstOrDefault<MachinePart>(@"
+                    select *
+                    from machineParts
+                    where id = @id",
+                    new { id });
+
+                return machinePart;
+            }
+        }
+
+        public MachinePart UpdateMachinePart(int id, MachinePart machinePartToUpdate)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"
+                    update machineParts
+                    set machineId = @machineId,
+                        partId = @partId,
+                        isactive = 1
+                    where id = @id";
+
+                var rowsAffected = db.Execute(sql, machinePartToUpdate);
+
+                if(rowsAffected >= 1)
+                {
+                    return machinePartToUpdate;
+                }
+                throw new Exception("Could Not Update Machine Part");
+            }
+        }
+
+        public void DeleteMachinePart(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"update machineParts
+                            set isactive = 0
+                            where id = @id";
+
+                var rowsAffected = db.Execute(sql, new { Id = id });
+
+                if (rowsAffected != 1)
+                    throw new Exception("Could Not Delete MachinePart.");
+            }
+        }
     }
 }

@@ -49,6 +49,7 @@ namespace WrenchIt
             services.AddTransient<PartRepository>();
             services.AddTransient<LinkRepository>();
             services.AddTransient<ServiceRepository>();
+            services.AddTransient<MachinePartRepository>();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

@@ -10,5 +10,6 @@ namespace WrenchIt.Models
         public int Id { get; set; }
         public int MachineId { get; set; }
         public int PartId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

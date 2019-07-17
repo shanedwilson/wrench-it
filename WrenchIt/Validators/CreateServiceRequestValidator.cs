@@ -10,7 +10,7 @@ namespace WrenchIt.Validators
     {
         public bool Validate(CreateServiceRequest createRequest)
         {
-            return (string.IsNullOrEmpty(createRequest.UserMachineId.ToString())
+            return (string.IsNullOrEmpty(createRequest.MachineId.ToString())
                 || string.IsNullOrEmpty(createRequest.Mileage.ToString())
                 || string.IsNullOrEmpty(createRequest.ServiceDate.ToString())
                 || string.IsNullOrEmpty(createRequest.Notes)

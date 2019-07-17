@@ -31,7 +31,7 @@ namespace WrenchIt.Controllers
                 return BadRequest(new { error = "Please Enter All Fields." });
             }
 
-            var newService = _repository.AddService(createRequest.UserMachineId, createRequest.Mileage,
+            var newService = _repository.AddService(createRequest.MachineId, createRequest.Mileage,
                 createRequest.ServiceDate, createRequest.Notes);
 
             return Created($"api/services/{newService.Id}", newService);
@@ -61,6 +61,7 @@ namespace WrenchIt.Controllers
                 return BadRequest();
             }
             var updatedService = _repository.UpdateService(id, serviceToUpdate);
+
             return Ok(updatedService);
         }
 

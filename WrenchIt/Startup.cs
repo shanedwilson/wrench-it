@@ -25,20 +25,20 @@ namespace WrenchIt
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //    .AddJwtBearer(options =>
-        //    {
-        //        options.IncludeErrorDetails = true;
-        //        options.Authority = "https://securetoken.google.com/wrench-it";
-        //        options.TokenValidationParameters = new TokenValidationParameters
-        //        {
-        //            ValidateIssuer = true,
-        //            ValidIssuer = "https://securetoken.google.com/wrench-it",
-        //            ValidateAudience = true,
-        //            ValidAudience = "wrench-it",
-        //            ValidateLifetime = true
-        //        };
-        //});
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.IncludeErrorDetails = true;
+                options.Authority = "https://securetoken.google.com/wrench-it";
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = "https://securetoken.google.com/wrench-it",
+                    ValidateAudience = true,
+                    ValidAudience = "wrench-it",
+                    ValidateLifetime = true
+                };
+            });
 
             services.Configure<DbConfiguration>(Configuration);
 
@@ -74,15 +74,11 @@ namespace WrenchIt
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvc();
 
             app.UseSpa(spa =>
             {

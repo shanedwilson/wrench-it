@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 
 namespace WrenchIt.Models
 {
-    public class Service
+    public class MachinePart
     {
         public int Id { get; set; }
         public int MachineId { get; set; }
-        public int Mileage { get; set; }
-        public DateTime ServiceDate { get; set; }
-        public string Notes { get; set; }
+        public int PartId { get; set; }
+        public bool IsActive { get; set; }
     }
 }

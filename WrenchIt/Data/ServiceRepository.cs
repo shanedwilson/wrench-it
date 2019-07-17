@@ -18,15 +18,15 @@ namespace WrenchIt.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Service AddService(int machineId, int mileage, DateTime serviceDate, string notes)
+        public Service AddService(int machineId, int mileage, bool tireRotation, DateTime serviceDate, string notes)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newService = db.QueryFirstOrDefault<Service>(@"
-                    insert into services (machineId, mileage, serviceDate, notes)
+                    insert into services (machineId, mileage, tireRotation, serviceDate, notes)
                     output inserted.*
-                    values (@machineId, @mileage, @serviceDate, @notes)",
-                    new { machineId, mileage, serviceDate, notes }
+                    values (@machineId, @mileage, @tireRotation, @serviceDate, @notes)",
+                    new { machineId, mileage, tireRotation, serviceDate, notes }
                     );
                 if(newService != null)
                 {
@@ -74,6 +74,7 @@ namespace WrenchIt.Data
                     update services
                     set machineid = @machineid,
                         mileage = @mileage,
+                        tireRotation = @tireRotation,
                         servicedate = @servicedate,
                         notes = notes
                     where id = @id";

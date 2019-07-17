@@ -32,7 +32,7 @@ namespace WrenchIt.Controllers
             }
 
             var newService = _repository.AddService(createRequest.MachineId, createRequest.Mileage,
-                createRequest.ServiceDate, createRequest.Notes);
+                createRequest.TireRotation, createRequest.ServiceDate, createRequest.Notes);
 
             return Created($"api/services/{newService.Id}", newService);
         }

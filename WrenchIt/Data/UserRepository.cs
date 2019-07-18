@@ -54,7 +54,7 @@ namespace WrenchIt.Data
             }
         }
 
-        public User GetSingleUser(int id)
+        public User GetSingleUser(string id)
         {
             using (var db = new SqlConnection(_connectionString))
             {

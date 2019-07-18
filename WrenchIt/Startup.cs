@@ -24,21 +24,21 @@ namespace WrenchIt
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.IncludeErrorDetails = true;
+                    options.Authority = "https://securetoken.google.com/wrench-it";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/wrench-it",
+                        ValidateAudience = true,
+                        ValidAudience = "wrench-it",
+                        ValidateLifetime = true
+                    };
+                });
 
-        //    services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        //    .AddJwtBearer(options =>
-        //    {
-        //        options.IncludeErrorDetails = true;
-        //        options.Authority = "https://securetoken.google.com/wrench-it";
-        //        options.TokenValidationParameters = new TokenValidationParameters
-        //        {
-        //            ValidateIssuer = true,
-        //            ValidIssuer = "https://securetoken.google.com/wrench-it",
-        //            ValidateAudience = true,
-        //            ValidAudience = "wrench-it",
-        //            ValidateLifetime = true
-        //        };
-        //});
 
             services.Configure<DbConfiguration>(Configuration);
 
@@ -51,6 +51,7 @@ namespace WrenchIt
             services.AddTransient<ServiceRepository>();
             services.AddTransient<MachinePartRepository>();
             services.AddTransient<MachineLinkRepository>();
+            services.AddSingleton<IConfiguration>(Configuration);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -62,27 +63,27 @@ namespace WrenchIt
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            if(env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseMvc(routes =>
+            app.UseCors(builder =>
             {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
+                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials();
             });
+
+            app.UseMvc();
 
             app.UseSpa(spa =>
             {

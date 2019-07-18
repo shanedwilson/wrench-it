@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WrenchIt.Data;
 using WrenchIt.Models;
 using WrenchIt.Validators;
-using static WrenchIt.Controllers.SecureControllerBaseController;
 
 namespace WrenchIt.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : SecureControllerBase
     {
         readonly UserRepository _repository;
         readonly CreateUserRequestValidator _validator;
@@ -48,7 +42,7 @@ namespace WrenchIt.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult GetSingleUser(int id)
+        public ActionResult GetSingleUser(string id)
         {
             var user = _repository.GetSingleUser(id);
 

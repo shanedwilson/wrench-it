@@ -36,6 +36,7 @@ namespace WrenchIt.Controllers
         [HttpGet]
         public ActionResult GetAllUsers()
         {
+            var myId = UserId;
             var users = _repository.GetAllUsers();
 
             return Ok(users);

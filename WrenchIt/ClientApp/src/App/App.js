@@ -102,7 +102,7 @@ export default class App extends Component {
                   />
                   <PrivateRoute path='/' exact component={Auth} authed={this.state.authed} />
                   <PrivateRoute path='/register' exact
-                    component={props => <Register isRegistered={isRegistered} {...props} currentUser={currentUser}/>}
+                    component={props => <Register getUser={this.getUser} isRegistered={isRegistered} {...props} currentUser={currentUser}/>}
                       authed={this.state.authed}/>
                   <PrivateRoute path="/home" component={Home} authed={this.state.authed}/>
                   {/* <PrivateRoute exact path="/profile" component={props => <Profile {...props} getUser={this.getUser} currentUser={currentUser}/>}

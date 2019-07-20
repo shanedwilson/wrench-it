@@ -12,6 +12,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Register from '../components/pages/Register/Register'
 import Home from '../components/pages/Home/Home'
 import MyGarage from '../components/pages/MyGarage/MyGarage';
+import Links from '../components/pages/Links/Links'
 import authRequests from '../helpers/data/authRequests';
 import userRequests from '../helpers/data/userRequests';
 import connection from '../helpers/data/connection';
@@ -109,7 +110,7 @@ export default class App extends Component {
                   {/* <PrivateRoute exact path="/profile" component={props => <Profile {...props} getUser={this.getUser} currentUser={currentUser}/>}
                       authed={this.state.authed}/>}/> */}
                   <PrivateRoute path="/mygarage" component={MyGarage} authed={authed}/>
-                  {/* <PrivateRoute path="/links" component={Links} authed={this.state.authed}/> */}
+                  <PrivateRoute path="/links" component={Links} authed={this.state.authed}/>
                   {/* <PrivateRoute exact path="/lightHouses/:id" authed={this.state.authed} component={props => <LightHouseDetail {...props} currentUser={currentUser}/>}/> */}
                   {/* <PrivateRoute path="/properties/siloNuclears" component={SiloNuclears} authed={this.state.authed}/> */}
                   {/* <PrivateRoute exact path="/siloNuclears/:id" authed={this.state.authed} component={props => <SiloNuclearDetail {...props} currentUser={currentUser}/>}/> */}

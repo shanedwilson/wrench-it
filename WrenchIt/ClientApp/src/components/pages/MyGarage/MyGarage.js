@@ -60,7 +60,7 @@ class MyGarage extends React.Component{
 
         const { currentUser } = this.props;
 
-        const { selectedMachine, modal } = this.state;
+        const { selectedMachine, modal, isEditing } = this.state;
 
         const makeDropdown = () => {
             return (
@@ -115,6 +115,7 @@ class MyGarage extends React.Component{
                 <AddEditMachine
                     toggleMachineModal = {this.toggleMachineModal}
                     modal = {modal}
+                    isEditing = {isEditing}
                     currentUser = {currentUser}
                     selectedMachine = {selectedMachine}
                 />

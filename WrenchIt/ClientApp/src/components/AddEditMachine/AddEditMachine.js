@@ -132,7 +132,18 @@ import {
 
         const machineTypes = [ ...this.state.machineTypes ];
 
-        const { modal } = this.props;
+        const { modal, isEditing } = this.props;
+
+        const makeHeader = () => {
+            if (isEditing) {
+              return (
+                <div>Edit Your Machine</div>
+              );
+            }
+            return (
+              <div>Add A Machine</div>
+            );
+          };
 
         const makeMachineTypeDropdown = () => {
             let counter = 0;
@@ -154,7 +165,7 @@ import {
 
         return(
             <Modal isOpen={modal} className="modal-lg">
-                <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>Add/Edit Machine</ModalHeader>
+                <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
                 <ModalBody className="text-center modal-body" id="machine-modal">
                     <div className="">
                         <div className="reg-container d-flex animated fadeIn">

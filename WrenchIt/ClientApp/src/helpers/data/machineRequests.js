@@ -25,6 +25,19 @@ const getAllMachinesById = (id) => new Promise((resolve, reject) => {
       });
   });
 
+  const getSingleMachine = machineId => axios.get(`${apiUrl}/machine/${machineId}`);
+
   const createMachine = machineObject => axios.post(`${apiUrl}`, (machineObject));
 
-  export default { getAllMachines, getAllMachinesById, createMachine };
+  const updateMachine = (machineId, machineObject) => axios.put(`${apiUrl}/${machineId}`, machineObject);
+
+  const deleteMachine = machineId => axios.delete(`${apiUrl}/${machineId}`);
+
+  export default {
+                    getAllMachines,
+                    getAllMachinesById,
+                    getSingleMachine,
+                    createMachine,
+                    updateMachine,
+                    deleteMachine,
+                };

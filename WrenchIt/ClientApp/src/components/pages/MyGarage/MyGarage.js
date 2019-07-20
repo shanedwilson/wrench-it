@@ -1,4 +1,5 @@
 import React from 'react';
+import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import machineRequests from '../../../helpers/data/machineRequests';
 
 import './MyGarage.scss';
@@ -8,19 +9,60 @@ class MyGarage extends React.Component{
 
     state = {
         machines: [],
-        selectedMachine: 0,
+        selectedMachineId: 0,
+        selectedMachine: {},
+        isEditing: false,
+        modal: false,
+    }
+
+    toggleMachineModal = () => {
+        const { modal, selectedMachineId } = this.state;
+
+        this.setState({ modal: !modal });
+        if(!modal){
+            this.getSingleMachine(selectedMachineId);
+        }
     }
 
     getAllMachinesById = (id) => {
         machineRequests.getAllMachinesById(id)
-          .then((machines) => {
-            this.setState({ machines });
+          .then((machinesObject) => {
+            this.setState({ machines: machinesObject });
           });
       }
 
-    selectMachineType = (e) => {
-        this.setState({ selectedMachine: e.target.value });
-    }      
+    getSingleMachine = (id) => {
+        machineRequests.getSingleMachine(id)
+          .then((machine) => {
+            this.setState({ selectedMachine: machine.data });
+          });
+      }
+
+
+    selectMachine = (e) => {
+        console.log(e.target.value);
+        this.setState({ selectedMachineId: e.target.value * 1 });
+        this.getSingleMachine(e.target.value * 1);
+    }
+
+    editMachine = () => {
+        this.setState({ isEditing: true });
+        this.toggleMachineModal();
+    }
+
+    machineDeleteCleanup = () => {
+        const id = this.props.currentUser.id;
+        this.setState({ selectedMachine: [] });
+        this.getAllMachinesById(id);
+    }
+
+    deleteMachine = () => {
+        const id = this.state.selectedMachine.id;
+        machineRequests.deleteMachine(id)
+        .then(()=> {
+            this.machineDeleteCleanup();
+        });
+    }
 
     componentDidMount(){
         const { currentUser } = this.props;
@@ -33,27 +75,68 @@ class MyGarage extends React.Component{
     render(){
         const machines = [...this.state.machines];
 
-        const { selectedMachine } = this.state;
+        const { currentUser } = this.props;
+
+        const { selectedMachine, modal, isEditing } = this.state;
 
         const makeDropdown = () => {
-            let counter = 0;
             return (
-                        <div>
-                            <select name="machines" required className="custom-select" value={selectedMachine}
-                                    onChange={(event) => { this.selectMachine(event) }}>
-                            <option value="">Select Your Machine</option>
-                            {
-                                machines.map(machine => (<option key={counter++}value={machine.Id}>{machine.year}</option>))
-                            }
-                            </select>
-                        </div>
+                    <div className="text-center mt-5">
+                        <select name="machines" required className="custom-select w-50" value={selectedMachine}
+                                onChange={(event) => { this.selectMachine(event) }}>
+                        <option value="">Select Your Machine</option>
+                        {
+                            machines.map(machine => (
+                                <option key={machine.id}value={machine.id}>
+                                    {machine.year} {machine.make} {machine.model} {machine.trim}
+                                </option>))
+                        }
+                        </select>
+                    </div>
                     );
         };
+
+        const makeMachineCard = () => {
+            if(selectedMachine.id){
+                return (
+                        <div className="d-flex justify-content-center">
+                            <div className="machine-card border border-dark rounded animated fadeIn w-50 mt-5 text-center" id={selectedMachine.id}>
+                                <h3 className="text-center profile-header">{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</h3>
+                                <div className="ml-1">Oil Type: {selectedMachine.oilType}</div>
+                                <div className="ml-1">Oil Quantity: {selectedMachine.oilQuantity} Quarts</div>
+                                <div className="ml-1">Tire Size: {selectedMachine.tireSize}</div>
+                                <div className="ml-1">Tire Pressure: {selectedMachine.tirePressure}</div>
+                                <div className="ml-1">Service Interval: {selectedMachine.serviceInterval}</div>
+                                <button id='machine-edit' type="button" className="bttn-pill profile-edit-btn ml-2" onClick={this.editMachine} title="Edit Machine">
+                                    <i className="far fa-edit fa-1x"/>
+                                </button>
+                                <button id='machine-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.deleteMachine} title="Delete Machine">
+                                    <i className="profile-delete-btn fas fa-trash fa-1x"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                  );
+            }
+            return<div></div>
+        }
+
         return(
             
             <div className="myGarage mx-auto">
                 <h1 className="text-center">My Garage</h1>
-                {makeDropdown()}
+                <div className="w-75 mx-auto">
+                    {makeDropdown()}
+                    {makeMachineCard()}
+                </div>
+                <AddEditMachine
+                    toggleMachineModal = {this.toggleMachineModal}
+                    modal = {modal}
+                    isEditing = {isEditing}
+                    currentUser = {currentUser}
+                    selectedMachine = {selectedMachine}
+                    getSingleMachine = {this.getSingleMachine}
+                />
             </div>
         )
     }

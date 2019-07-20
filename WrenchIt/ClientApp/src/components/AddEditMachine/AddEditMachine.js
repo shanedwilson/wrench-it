@@ -45,7 +45,7 @@ import {
       }
 
     toggleEvent = () => {
-        const { toggleMachineModal } = this.props;
+        const { toggleMachineModal, } = this.props;
         toggleMachineModal();
     }
 
@@ -91,10 +91,9 @@ import {
 
     formSubmit = (e) => {
         e.preventDefault();
-        // const { isEditingAccount, isRegistering } = this.props;
+        const { isEditing, getSingleMachine, selectedMachine } = this.props;
         const myMachine = { ...this.state.newMachine };
-        // if (isEditingAccount === false) {
-        //   myPaymentMethod.isActive = true;
+        if (isEditing === false) {
             myMachine.ownerId = this.props.currentUser.id;
           this.setState({ newMachine: defaultMachine });
           machineRequests.createMachine(myMachine)
@@ -102,28 +101,32 @@ import {
               this.toggleEvent();
             });
         } 
-        // else {
-        //   paymentMethodRequests.updateUserPayment(myPaymentMethod.id, myPaymentMethod)
-        //     .then(() => {
-        //       this.props.cancelPaymentModalEvent();
-        //     });
-        // }
-    //   };
+        else {
+          machineRequests.updateMachine(myMachine.id, myMachine)
+            .then(() => {
+                getSingleMachine(selectedMachine.id);
+                this.toggleEvent();
+            });
+        }
+    };
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         const { currentUser } = this.props;
         this.modalMounted = !!currentUser.id;
         if (this.modalMounted) {
             this.getMachineTypes();
         }
-        // const { isEditingAccount, paymentAccount } = this.props;
-        // if (prevProps !== this.props && isEditingAccount) {
-        //   this.setState({
-        //     newMachineType: machineType,
-        //     selectedPaymentType: paymentAccount.paymentTypeId,
-        //   });
-        // }
-      }
+    }
+        
+    componentWillReceiveProps(props) {
+        const { isEditing, selectedMachine } = props;
+        if (isEditing) {
+            this.setState({
+            newMachine: selectedMachine,
+            selectedMachineType: selectedMachine.typeId,
+            });
+        }
+    }
 
     render(){
         const { selectedMachineType } = this.state;
@@ -132,7 +135,18 @@ import {
 
         const machineTypes = [ ...this.state.machineTypes ];
 
-        const { modal } = this.props;
+        const { modal, isEditing } = this.props;
+
+        const makeHeader = () => {
+            if (isEditing) {
+              return (
+                <div>Edit Your Machine</div>
+              );
+            }
+            return (
+              <div>Add A Machine</div>
+            );
+          };
 
         const makeMachineTypeDropdown = () => {
             let counter = 0;
@@ -154,7 +168,7 @@ import {
 
         return(
             <Modal isOpen={modal} className="modal-lg">
-                <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>Add/Edit Machine</ModalHeader>
+                <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
                 <ModalBody className="text-center modal-body" id="machine-modal">
                     <div className="">
                         <div className="reg-container d-flex animated fadeIn">
@@ -163,7 +177,7 @@ import {
                                 <div className="form col-11 mt-2">
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
-                                            <div className="input-group-prepend">
+                                            <div className="input-group-prepend w-10">
                                             <div className="input-group-text">Year</div>
                                             </div>
                                             <input

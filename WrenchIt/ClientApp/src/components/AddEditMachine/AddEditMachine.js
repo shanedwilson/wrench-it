@@ -1,5 +1,6 @@
 import React from 'react';
 import machineTypeRequests from '../../helpers/data/machineTypeRequests';
+import machineRequests from '../../helpers/data/machineRequests';
 import {
     Modal,
     ModalHeader,
@@ -74,7 +75,7 @@ import {
   
     oilTypeChange = e => this.formFieldStringState('oilType', e);
   
-    oilQuantityChange = e => this.formFieldNumberState('oilQyantity', e);
+    oilQuantityChange = e => this.formFieldNumberState('oilQuantity', e);
 
     tireSizeChange = e => this.formFieldStringState('tireSize', e);
 
@@ -86,7 +87,28 @@ import {
         const myMachine = { ...this.state.newMachine };
         myMachine.typeId = e.target.value;
         this.setState({ selectedMachineType: e.target.value });
-      }
+    }
+
+    formSubmit = (e) => {
+        e.preventDefault();
+        // const { isEditingAccount, isRegistering } = this.props;
+        const myMachine = { ...this.state.newMachine };
+        // if (isEditingAccount === false) {
+        //   myPaymentMethod.isActive = true;
+            myMachine.ownerId = this.props.currentUser.id;
+          this.setState({ newMachine: defaultMachine });
+          machineRequests.createMachine(myMachine)
+            .then(() => {
+              this.toggleEvent();
+            });
+        } 
+        // else {
+        //   paymentMethodRequests.updateUserPayment(myPaymentMethod.id, myPaymentMethod)
+        //     .then(() => {
+        //       this.props.cancelPaymentModalEvent();
+        //     });
+        // }
+    //   };
 
     componentDidMount(prevProps) {
         const { currentUser } = this.props;
@@ -106,9 +128,9 @@ import {
     render(){
         const { selectedMachineType } = this.state;
 
-        const newMachine = { ...this.stete };
+        const newMachine = { ...this.state.newMachine };
 
-        const machineTypes = { ...this.state };
+        const machineTypes = [ ...this.state.machineTypes ];
 
         const { modal } = this.props;
 
@@ -123,7 +145,7 @@ import {
                                 onChange={(event) => { this.selectMachineType(event); this.typeIdChange(event); }}>
                         <option value="">Select Machine Type</option>
                           {
-                            // machineTypes.map(machineType => (<option key={counter++}value={counter}>{machineType}</option>))
+                            machineTypes.map(machineType => (<option key={counter++}value={counter}>{machineType}</option>))
                           }
                         </select>
                     </div>
@@ -134,7 +156,7 @@ import {
             <Modal isOpen={modal} className="modal-lg">
                 <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>Add/Edit Machine</ModalHeader>
                 <ModalBody className="text-center modal-body" id="machine-modal">
-                    <div className="border border-dark rounded">
+                    <div className="">
                         <div className="reg-container d-flex animated fadeIn">
                             <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
                                 <h3 className="reg-title mx-auto">Please Enter Your Machine's Info:</h3>
@@ -148,7 +170,7 @@ import {
                                             type="text"
                                             className="form-control"
                                             id="year"
-                                            placeholder="1870"
+                                            placeholder="1968"
                                             value={newMachine.year}
                                             onChange={this.yearChange}
                                             required
@@ -249,7 +271,7 @@ import {
                                             id="tireSize"
                                             placeholder="165/80R14"
                                             value={newMachine.tireSize}
-                                            onChange={this.tireSizChange}
+                                            onChange={this.tireSizeChange}
                                             required
                                             />
                                         </div>
@@ -266,6 +288,22 @@ import {
                                             placeholder="32"
                                             value={newMachine.tirePressure}
                                             onChange={this.tirePressureChange}
+                                            required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-auto form-lines p-0">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
+                                            <div className="input-group-text">Service Interval</div>
+                                            </div>
+                                            <input
+                                            type="text"
+                                            className="form-control"
+                                            id="serviceInterval"
+                                            placeholder="3000"
+                                            value={newMachine.serviceInterval}
+                                            onChange={this.serviceIntervalChange}
                                             required
                                             />
                                         </div>

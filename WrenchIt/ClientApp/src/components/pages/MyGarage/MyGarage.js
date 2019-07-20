@@ -16,9 +16,12 @@ class MyGarage extends React.Component{
     }
 
     toggleMachineModal = () => {
-        const { modal } = this.state;
+        const { modal, selectedMachineId } = this.state;
 
         this.setState({ modal: !modal });
+        if(!modal){
+            this.getSingleMachine(selectedMachineId);
+        }
     }
 
     getAllMachinesById = (id) => {
@@ -118,6 +121,7 @@ class MyGarage extends React.Component{
                     isEditing = {isEditing}
                     currentUser = {currentUser}
                     selectedMachine = {selectedMachine}
+                    getSingleMachine = {this.getSingleMachine}
                 />
             </div>
         )

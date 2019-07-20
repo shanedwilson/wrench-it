@@ -29,4 +29,6 @@ const getAllMachinesById = (id) => new Promise((resolve, reject) => {
 
   const createMachine = machineObject => axios.post(`${apiUrl}`, (machineObject));
 
-  export default { getAllMachines, getAllMachinesById, getSingleMachine, createMachine };
+  const updateMachine = (machineId, machineObject) => axios.put(`${apiUrl}/${machineId}`, machineObject);
+
+  export default { getAllMachines, getAllMachinesById, getSingleMachine, createMachine, updateMachine };

@@ -45,7 +45,8 @@ import {
       }
 
     toggleEvent = () => {
-        const { toggleMachineModal } = this.props;
+        const { toggleMachineModal, getSingleMachine, selectedMachine } = this.props;
+        getSingleMachine(selectedMachine.id);
         toggleMachineModal();
     }
 
@@ -91,10 +92,9 @@ import {
 
     formSubmit = (e) => {
         e.preventDefault();
-        // const { isEditingAccount, isRegistering } = this.props;
+        const { isEditing } = this.props;
         const myMachine = { ...this.state.newMachine };
-        // if (isEditingAccount === false) {
-        //   myPaymentMethod.isActive = true;
+        if (isEditing === false) {
             myMachine.ownerId = this.props.currentUser.id;
           this.setState({ newMachine: defaultMachine });
           machineRequests.createMachine(myMachine)
@@ -102,28 +102,31 @@ import {
               this.toggleEvent();
             });
         } 
-        // else {
-        //   paymentMethodRequests.updateUserPayment(myPaymentMethod.id, myPaymentMethod)
-        //     .then(() => {
-        //       this.props.cancelPaymentModalEvent();
-        //     });
-        // }
-    //   };
+        else {
+          machineRequests.updateMachine(myMachine.id, myMachine)
+            .then(() => {
+                this.toggleEvent();
+            });
+        }
+      };
 
-    componentDidMount(prevProps) {
+    componentDidMount() {
         const { currentUser } = this.props;
         this.modalMounted = !!currentUser.id;
         if (this.modalMounted) {
             this.getMachineTypes();
         }
-        // const { isEditingAccount, paymentAccount } = this.props;
-        // if (prevProps !== this.props && isEditingAccount) {
-        //   this.setState({
-        //     newMachineType: machineType,
-        //     selectedPaymentType: paymentAccount.paymentTypeId,
-        //   });
-        // }
-      }
+    }
+        
+    componentWillReceiveProps(props) {
+        const { isEditing, selectedMachine } = props;
+        if (isEditing) {
+            this.setState({
+            newMachine: selectedMachine,
+            selectedMachineType: selectedMachine.typeId,
+            });
+        }
+    }
 
     render(){
         const { selectedMachineType } = this.state;
@@ -174,7 +177,7 @@ import {
                                 <div className="form col-11 mt-2">
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
-                                            <div className="input-group-prepend">
+                                            <div className="input-group-prepend w-10">
                                             <div className="input-group-text">Year</div>
                                             </div>
                                             <input

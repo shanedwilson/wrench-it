@@ -18,8 +18,9 @@ class MyGarage extends React.Component{
           });
       }
 
-    selectMachineType = (e) => {
-        this.setState({ selectedMachine: e.target.value });
+    selectMachine = (e) => {
+        console.log(e.target.value);
+        this.setState({ selectedMachine: e.target.value * 1 });
     }      
 
     componentDidMount(){
@@ -36,14 +37,16 @@ class MyGarage extends React.Component{
         const { selectedMachine } = this.state;
 
         const makeDropdown = () => {
-            let counter = 0;
             return (
                         <div>
                             <select name="machines" required className="custom-select" value={selectedMachine}
                                     onChange={(event) => { this.selectMachine(event) }}>
                             <option value="">Select Your Machine</option>
                             {
-                                machines.map(machine => (<option key={counter++}value={machine.Id}>{machine.year}</option>))
+                                machines.map(machine => (
+                                    <option key={machine.id}value={machine.id}>
+                                        {machine.year} {machine.make} {machine.model} {machine.trim}
+                                    </option>))
                             }
                             </select>
                         </div>

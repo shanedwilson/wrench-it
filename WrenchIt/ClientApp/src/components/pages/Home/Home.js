@@ -2,7 +2,6 @@ import React from 'react';
 
 class Home extends React.Component{
     changeView = (e) => {
-        console.log('CLICKED!!!')
         const view = e.currentTarget.id;
         this.props.history.push(`/${view}`);
       }
@@ -31,7 +30,7 @@ class Home extends React.Component{
                     </div>
                     <div className="card mt-3 border-dark animated zoomIn" id='alerts' onClick={this.changeView}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i className="fas fa-6x fa-exclamation-triangle"></i>></h4>
+                        <h4 className="card-title"><i className="fas fa-6x fa-exclamation-triangle"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">Alerts</h5>
                         </div>
                     </div>

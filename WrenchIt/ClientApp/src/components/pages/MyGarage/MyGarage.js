@@ -1,6 +1,7 @@
 import React from 'react';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import machineRequests from '../../../helpers/data/machineRequests';
+import partTypeRequests from '../../../helpers/data/partTypeRequests';
 
 import './MyGarage.scss';
 
@@ -9,7 +10,9 @@ class MyGarage extends React.Component{
 
     state = {
         machines: [],
+        partTypes: [],
         selectedMachineId: 0,
+        selectedPartType: 0,
         selectedMachine: {},
         isEditing: false,
         modal: false,
@@ -31,6 +34,13 @@ class MyGarage extends React.Component{
           });
       }
 
+    getAllPartTypes = () => {
+        partTypeRequests.getAllPartTypes()
+          .then((partTypes) => {
+            this.setState({ partTypes });
+          });
+      }
+
     getSingleMachine = (id) => {
         machineRequests.getSingleMachine(id)
           .then((machine) => {
@@ -40,7 +50,6 @@ class MyGarage extends React.Component{
 
 
     selectMachine = (e) => {
-        console.log(e.target.value);
         this.setState({ selectedMachineId: e.target.value * 1 });
         this.getSingleMachine(e.target.value * 1);
     }
@@ -69,15 +78,18 @@ class MyGarage extends React.Component{
         this.myGarageMounted = !!currentUser.id;
         if (this.myGarageMounted) {
             this.getAllMachinesById(currentUser.id);
+            this.getAllPartTypes();
         }
     }
 
     render(){
         const machines = [...this.state.machines];
 
+        const partTypes = [...this.state.partTypes];
+
         const { currentUser } = this.props;
 
-        const { selectedMachine, modal, isEditing } = this.state;
+        const { selectedMachine, modal, isEditing, selectedPartType } = this.state;
 
         const makeDropdown = () => {
             return (
@@ -95,6 +107,27 @@ class MyGarage extends React.Component{
                     </div>
                     );
         };
+
+        const makePartsDropdowns = (partType) => {
+                return (
+                    <div className="parts text-center mt-5">
+                        {
+                            partTypes.map(partType => (
+                                <select name={partType} required className="custom-select w-50" value={selectedPartType}
+                                    onChange={(event) => { this.selectMachine(event) }}>
+                            <option value="">Select A {partType}</option>
+                            {
+                                machines.map(machine => (
+                                    <option key={machine.id}value={machine.id}>
+                                        {machine.year} {machine.make} {machine.model} {machine.trim}
+                                    </option>))
+                            }
+                                </select>
+                            ))
+                        }
+                    </div>
+                );  
+            };         
 
         const makeMachineCard = () => {
             if(selectedMachine.id){
@@ -128,6 +161,7 @@ class MyGarage extends React.Component{
                 <div className="w-75 mx-auto">
                     {makeDropdown()}
                     {makeMachineCard()}
+                    <div>{makePartsDropdowns()}</div>
                 </div>
                 <AddEditMachine
                     toggleMachineModal = {this.toggleMachineModal}

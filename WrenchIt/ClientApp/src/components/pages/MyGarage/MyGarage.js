@@ -26,8 +26,8 @@ class MyGarage extends React.Component{
 
     getAllMachinesById = (id) => {
         machineRequests.getAllMachinesById(id)
-          .then((machines) => {
-            this.setState({ machines });
+          .then((machinesObject) => {
+            this.setState({ machines: machinesObject });
           });
       }
 
@@ -48,6 +48,20 @@ class MyGarage extends React.Component{
     editMachine = () => {
         this.setState({ isEditing: true });
         this.toggleMachineModal();
+    }
+
+    machineDeleteCleanup = () => {
+        const id = this.props.currentUser.id;
+        this.setState({ selectedMachine: [] });
+        this.getAllMachinesById(id);
+    }
+
+    deleteMachine = () => {
+        const id = this.state.selectedMachine.id;
+        machineRequests.deleteMachine(id)
+        .then(()=> {
+            this.machineDeleteCleanup();
+        });
     }
 
     componentDidMount(){

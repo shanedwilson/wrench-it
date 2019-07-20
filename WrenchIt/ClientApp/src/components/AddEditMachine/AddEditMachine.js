@@ -45,8 +45,7 @@ import {
       }
 
     toggleEvent = () => {
-        const { toggleMachineModal, getSingleMachine, selectedMachine } = this.props;
-        getSingleMachine(selectedMachine.id);
+        const { toggleMachineModal, } = this.props;
         toggleMachineModal();
     }
 
@@ -92,7 +91,7 @@ import {
 
     formSubmit = (e) => {
         e.preventDefault();
-        const { isEditing } = this.props;
+        const { isEditing, getSingleMachine, selectedMachine } = this.props;
         const myMachine = { ...this.state.newMachine };
         if (isEditing === false) {
             myMachine.ownerId = this.props.currentUser.id;
@@ -105,10 +104,11 @@ import {
         else {
           machineRequests.updateMachine(myMachine.id, myMachine)
             .then(() => {
+                getSingleMachine(selectedMachine.id);
                 this.toggleEvent();
             });
         }
-      };
+    };
 
     componentDidMount() {
         const { currentUser } = this.props;

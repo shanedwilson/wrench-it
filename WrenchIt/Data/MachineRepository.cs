@@ -74,7 +74,8 @@ namespace WrenchIt.Data
                 var machines = db.Query<Machine>(@"
                     select *
                     from machines
-                    where id = @id",
+                    where id = @id
+                    and isActive = 1",
                     new {  id }).ToList();
 
                 return machines;

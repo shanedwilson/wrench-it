@@ -31,4 +31,13 @@ const getAllMachinesById = (id) => new Promise((resolve, reject) => {
 
   const updateMachine = (machineId, machineObject) => axios.put(`${apiUrl}/${machineId}`, machineObject);
 
-  export default { getAllMachines, getAllMachinesById, getSingleMachine, createMachine, updateMachine };
+  const deleteMachine = machineId => axios.delete(`${apiUrl}/${machineId}`);
+
+  export default {
+                    getAllMachines,
+                    getAllMachinesById,
+                    getSingleMachine,
+                    createMachine,
+                    updateMachine,
+                    deleteMachine,
+                };

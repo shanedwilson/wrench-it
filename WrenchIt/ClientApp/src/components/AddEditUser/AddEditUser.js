@@ -25,41 +25,41 @@ class AddEditUser extends React.Component{
     static propTypes = {
         currentUser: PropTypes.object,
         getUser: PropTypes.func,
-      }
+    }
 
-      formFieldStringState = (name, e) => {
-        e.preventDefault();
-        const tempUser = { ...this.state.newUser };
-        tempUser[name] = e.target.value;
-        this.setState({ newUser: tempUser });
-      }
-    
-      emailChange = e => this.formFieldStringState('email', e);
-    
-      nameChange = e => this.formFieldStringState('name', e);
-    
-      streetChange = e => this.formFieldStringState('street', e);
-    
-      cityChange = e => this.formFieldStringState('city', e);
-    
-      stateChange = e => this.formFieldStringState('state', e);
-    
-      postalCodeChange = e => this.formFieldStringState('postalCode', e);
-    
-      phoneNumberChange = e => this.formFieldStringState('phoneNumber', e);
+    formFieldStringState = (name, e) => {
+      e.preventDefault();
+      const tempUser = { ...this.state.newUser };
+      tempUser[name] = e.target.value;
+      this.setState({ newUser: tempUser });
+    }
+  
+    emailChange = e => this.formFieldStringState('email', e);
+  
+    nameChange = e => this.formFieldStringState('name', e);
+  
+    streetChange = e => this.formFieldStringState('street', e);
+  
+    cityChange = e => this.formFieldStringState('city', e);
+  
+    stateChange = e => this.formFieldStringState('state', e);
+  
+    postalCodeChange = e => this.formFieldStringState('postalCode', e);
+  
+    phoneNumberChange = e => this.formFieldStringState('phoneNumber', e);
 
-      formSubmit = (e) => {
-        e.preventDefault();
-        const myUser = { ...this.state.newUser };
-        myUser.isActive = true;
-        myUser.isOwner = false;
-        myUser.firebaseId = authRequests.getCurrentUid();
-        this.setState({ newUser: defaultUser });
-        userRequests.createUser(myUser)
-          .then(() => {
-            this.props.getUser();
-          });
-      };
+    formSubmit = (e) => {
+      e.preventDefault();
+      const myUser = { ...this.state.newUser };
+      myUser.isActive = true;
+      myUser.isOwner = false;
+      myUser.firebaseId = authRequests.getCurrentUid();
+      this.setState({ newUser: defaultUser });
+      userRequests.createUser(myUser)
+        .then(() => {
+          this.props.getUser();
+        });
+    };
 
     render(){
         const newUser ={ ...this.state.newUser }

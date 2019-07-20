@@ -1,4 +1,5 @@
 import React from 'react';
+import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import machineRequests from '../../../helpers/data/machineRequests';
 
 import './MyGarage.scss';
@@ -10,6 +11,14 @@ class MyGarage extends React.Component{
         machines: [],
         selectedMachineId: 0,
         selectedMachine: {},
+        isEditing: false,
+        modal: false,
+    }
+
+    toggleMachineModal = () => {
+        const { modal } = this.state;
+
+        this.setState({ modal: !modal });
     }
 
     getAllMachinesById = (id) => {
@@ -19,7 +28,7 @@ class MyGarage extends React.Component{
           });
       }
 
-      getSingleMachine = (id) => {
+    getSingleMachine = (id) => {
         machineRequests.getSingleMachine(id)
           .then((machine) => {
             this.setState({ selectedMachine: machine.data });
@@ -31,7 +40,12 @@ class MyGarage extends React.Component{
         console.log(e.target.value);
         this.setState({ selectedMachineId: e.target.value * 1 });
         this.getSingleMachine(e.target.value * 1);
-    }      
+    }
+
+    editMachine = () => {
+        this.setState({ isEditing: true });
+        this.toggleMachineModal();
+    }
 
     componentDidMount(){
         const { currentUser } = this.props;
@@ -44,7 +58,9 @@ class MyGarage extends React.Component{
     render(){
         const machines = [...this.state.machines];
 
-        const { selectedMachine } = this.state;
+        const { currentUser } = this.props;
+
+        const { selectedMachine, modal } = this.state;
 
         const makeDropdown = () => {
             return (
@@ -96,6 +112,12 @@ class MyGarage extends React.Component{
                     {makeDropdown()}
                     {makeMachineCard()}
                 </div>
+                <AddEditMachine
+                    toggleMachineModal = {this.toggleMachineModal}
+                    modal = {modal}
+                    currentUser = {currentUser}
+                    selectedMachine = {selectedMachine}
+                />
             </div>
         )
     }

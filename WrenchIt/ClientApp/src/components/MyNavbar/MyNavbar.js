@@ -30,10 +30,10 @@ class MyNavbar extends React.Component {
 
   render() {
     const { isAuthed, logoutClickEvent, currentUser } = this.props;
-    const isUser = Object.keys(currentUser).length === 0 && currentUser.constructor === Object;
+    const noUser = Object.keys(currentUser).length === 0 && currentUser.constructor === Object;
 
     const buildNavbar = () => {
-      if (isAuthed && !isUser) {
+      if (isAuthed && !noUser) {
         return (
         <Nav className="ml-auto" navbar>
           <NavItem className="nav-item">
@@ -43,10 +43,13 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to="/profile">Profile</NavLink>
           </NavItem>
           <NavItem className="nav-item">
-            <NavLink tag={RRNavLink} to="/properties">My Garage</NavLink>
+            <NavLink tag={RRNavLink} to="/myGarage">My Garage</NavLink>
           </NavItem>
           <NavItem className="nav-item">
-            <NavLink tag={RRNavLink} to="/likedProperties">Links</NavLink>
+            <NavLink tag={RRNavLink} to="/links">Links</NavLink>
+          </NavItem>
+          <NavItem className="nav-item">
+            <NavLink tag={RRNavLink} to="/alerts">Alerts</NavLink>
           </NavItem>
           <NavItem className="nav-item">
             <NavLink onClick={logoutClickEvent}>Logout</NavLink>
@@ -54,7 +57,7 @@ class MyNavbar extends React.Component {
         </Nav>
         );
       }
-      if (isAuthed && isUser) {
+      if (isAuthed && noUser) {
         return (
           <Nav className="ml-auto" navbar>
             <NavItem className="nav-item">

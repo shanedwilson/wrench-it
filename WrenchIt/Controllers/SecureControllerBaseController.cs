@@ -7,6 +7,6 @@ namespace WrenchIt.Controllers
         [ApiController, Authorize]
         public class SecureControllerBase : ControllerBase
         {
-            protected string UserId => User.FindFirst(x => x.Type == "user_id").Value;
+            protected string UserId => User.FindFirst(u => u.Type == "user_id").Value;
         }
 }

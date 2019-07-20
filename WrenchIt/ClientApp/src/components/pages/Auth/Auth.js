@@ -16,10 +16,10 @@ class Auth extends React.Component{
       render() {
         return (
               <div className="Auth">
-                <div className="title-container">
+                <div className="title-container mx-auto">
                   <h1 className="title text-center">Wrench It</h1>
                 </div>
-                <div className="btn-container">
+                <div className="btn-container text-center mt-5">
                   <button className="bttn-pill bttn-lg bttn-danger" onClick={this.authenticateUser}>
                     <i className="fab fa-google"></i> Sign In w/Google
                   </button>

@@ -47,6 +47,14 @@ namespace WrenchIt.Controllers
         }
 
         [HttpGet("{id}")]
+        public ActionResult GetAllMachinesById(int id)
+        {
+            var machines = _repository.GetAllMachines();
+
+            return Ok(machines);
+        }
+
+        [HttpGet("machine/{id}")]
         public ActionResult GetSingleMachine(int id)
         {
             var machine = _repository.GetSingleMachine(id);

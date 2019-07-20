@@ -67,6 +67,20 @@ namespace WrenchIt.Data
             }
         }
 
+        public IEnumerable<Machine> GetAllMachinesByUserId(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machines = db.Query<Machine>(@"
+                    select *
+                    from machines
+                    where id = @id",
+                    new {  id }).ToList();
+
+                return machines;
+            }
+        }
+
         public Machine GetSingleMachine(int id)
         {
             using (var db = new SqlConnection(_connectionString))

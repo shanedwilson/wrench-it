@@ -2,6 +2,7 @@ import React from 'react';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
+import partRequests from '../../../helpers/data/partRequests';
 
 import './MyGarage.scss';
 
@@ -11,6 +12,7 @@ class MyGarage extends React.Component{
     state = {
         machines: [],
         partTypes: [],
+        machineParts: [],
         selectedMachineId: 0,
         selectedPartType: 0,
         selectedMachine: {},
@@ -45,7 +47,16 @@ class MyGarage extends React.Component{
         machineRequests.getSingleMachine(id)
           .then((machine) => {
             this.setState({ selectedMachine: machine.data });
+            this.getPartsByMachine(id);
           });
+      }
+
+      getPartsByMachine = (id) => {
+          console.log('get parts!');
+          partRequests.getPartsByMachineId(id)
+            .then((machineParts) => {
+                this.setState({ machineParts });
+            });
       }
 
 

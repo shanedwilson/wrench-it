@@ -8,7 +8,8 @@ class MyGarage extends React.Component{
 
     state = {
         machines: [],
-        selectedMachine: 0,
+        selectedMachineId: 0,
+        selectedMachine: {},
     }
 
     getAllMachinesById = (id) => {
@@ -18,9 +19,18 @@ class MyGarage extends React.Component{
           });
       }
 
+      getSingleMachine = (id) => {
+        machineRequests.getSingleMachine(id)
+          .then((machine) => {
+            this.setState({ selectedMachine: machine.data });
+          });
+      }
+
+
     selectMachine = (e) => {
         console.log(e.target.value);
-        this.setState({ selectedMachine: e.target.value * 1 });
+        this.setState({ selectedMachineId: e.target.value * 1 });
+        this.getSingleMachine(e.target.value * 1);
     }      
 
     componentDidMount(){
@@ -38,25 +48,46 @@ class MyGarage extends React.Component{
 
         const makeDropdown = () => {
             return (
-                        <div>
-                            <select name="machines" required className="custom-select" value={selectedMachine}
-                                    onChange={(event) => { this.selectMachine(event) }}>
-                            <option value="">Select Your Machine</option>
-                            {
-                                machines.map(machine => (
-                                    <option key={machine.id}value={machine.id}>
-                                        {machine.year} {machine.make} {machine.model} {machine.trim}
-                                    </option>))
-                            }
-                            </select>
-                        </div>
+                    <div className="text-center mt-5">
+                        <select name="machines" required className="custom-select w-50" value={selectedMachine}
+                                onChange={(event) => { this.selectMachine(event) }}>
+                        <option value="">Select Your Machine</option>
+                        {
+                            machines.map(machine => (
+                                <option key={machine.id}value={machine.id}>
+                                    {machine.year} {machine.make} {machine.model} {machine.trim}
+                                </option>))
+                        }
+                        </select>
+                    </div>
                     );
         };
+
+        const makeMachineCard = () => {
+            if(selectedMachine.id){
+                return (
+                        <div className="d-flex justify-content-center">
+                            <div className="machine-card border border-dark rounded animated fadeIn w-50 mt-5 text-center" id={selectedMachine.id}>
+                            <h3 className="text-center profile-header">{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</h3>
+                            <div className="ml-1">Oil Type: {selectedMachine.oilType}</div>
+                            <div className="ml-1">Oil Quantity: {selectedMachine.oilQuantity} Quarts</div>
+                            <div className="ml-1">Tire Size: {selectedMachine.tireSize}</div>
+                            <div className="ml-1">Tire Pressure: {selectedMachine.tirePressure}</div>
+                            <div className="ml-1">Service Interval: {selectedMachine.serviceInterval}</div>
+                            </div>
+                        </div>
+                  );
+            }
+            return<div></div>
+        }
         return(
             
             <div className="myGarage mx-auto">
                 <h1 className="text-center">My Garage</h1>
-                {makeDropdown()}
+                <div className="w-75 mx-auto">
+                    {makeDropdown()}
+                    {makeMachineCard()}
+                </div>
             </div>
         )
     }

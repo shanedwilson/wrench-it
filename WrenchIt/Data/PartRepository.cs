@@ -51,6 +51,24 @@ namespace WrenchIt.Data
             }
         }
 
+        public IEnumerable<Part> GetAllPartsByMachineId(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machineParts = db.Query<Part>(@"
+                    select *
+                    from parts p
+                    join machineParts mp
+                    on p.id = mp.partId
+                    where mp.machineId = @id
+                    and mp.isactive = 1",
+                    new { id }).ToList();
+
+                return machineParts;
+            }
+
+        }
+
         public Part GetSinglePart(int id)
         {
             using (var db = new SqlConnection(_connectionString))

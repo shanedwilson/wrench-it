@@ -44,6 +44,14 @@ namespace WrenchIt.Controllers
             return Ok(parts);
         }
 
+        [HttpGet("machineparts/{id}")]
+        public ActionResult GetAllPartsByMachineId(int id)
+        {
+            var parts = _repository.GetAllPartsByMachineId(id);
+
+            return Ok(parts);
+        }
+
         [HttpGet("{id}")]
         public ActionResult GetSinglePart(int id)
         {

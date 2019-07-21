@@ -29,6 +29,7 @@ import {
 
     state = {
         machineTypes: [],
+        partTypes: [],
         newMachine: defaultMachine,
         selectedMachineType: 0,
     }

@@ -13,18 +13,18 @@ namespace WrenchIt.Models
 
     public enum PartTypeName
     {
-        oil,
-        oilFilter,
-        sparkPlug,
-        airFilter,
-        cabinFilter,
-        brakePads,
-        battery,
-        belt,
-        wiperLeft,
-        wiperRight,
-        headlightBulb,
-        turnLightBulb,
-        tailLightBulb,
+        Oil,
+        OilFilter,
+        SparkPlug,
+        AirFilter,
+        CabinFilter,
+        BrakePads,
+        Battery,
+        Belt,
+        WiperLeft,
+        WiperRight,
+        HeadlightBulb,
+        TurnLightBulb,
+        TailLightBulb,
     }
 }

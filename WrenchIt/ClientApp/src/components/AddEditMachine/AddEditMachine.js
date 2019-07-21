@@ -330,7 +330,7 @@ import {
                                     </div>
                                 </div>
                              </form>
-          </div>
+                        </div>
                         <ModalFooter className="modal-footer">
                         <button onClick={this.toggleEvent} className="bttn-pill bttn-md bttn-danger mb-3">
                             Go Back

@@ -1,17 +1,28 @@
 import React from 'react';
 import machineRequests from '../../../helpers/data/machineRequests';
+import partRequests from '../../../helpers/data/partRequests';
+
 
 class Service extends React.Component{
     serviceMounted = false;
 
     state = {
         selectedMachine: {},
+        machineParts: [],
     }
+
+    getPartsByMachine = (id) => {
+        partRequests.getPartsByMachineId(id)
+            .then((machineParts) => {
+                this.setState({ machineParts });
+            });
+      }
 
     getSingleMachineById = (id) => {
         machineRequests.getSingleMachine(id)
         .then((machine) => {
-            this.setState({ selectedMachine: machine.data })
+            this.setState({ selectedMachine: machine.data });
+            this.getPartsByMachine(machine.data.id);
         })
     }
 

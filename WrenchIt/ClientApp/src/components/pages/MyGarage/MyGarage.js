@@ -102,6 +102,12 @@ class MyGarage extends React.Component{
         this.setState({ showParts: !showParts });
     }
 
+    goToService = () => {
+        const id = this.state.selectedMachineId
+        this.props.history.push(`/service/${id}`);
+
+    }
+
     selectPart = (e) => {
         const { machineParts }= this.state;
         const partId = e.target.value * 1;
@@ -207,7 +213,10 @@ class MyGarage extends React.Component{
                                     <i className="machine-delete-btn fas fa-trash fa-1x"></i>
                                 </button>
                                 <button id='machine-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.showPartsDiv} title="See/Hide Parts">
-                                <i className="fas fa-cogs"></i>
+                                    <i className="fas fa-cogs"></i>
+                                </button>
+                                <button id='machine-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.goToService} title="Add A Service Record">
+                                <i className="fas fa-tools"></i>
                                 </button>
                             </div>
 

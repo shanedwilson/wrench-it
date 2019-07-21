@@ -201,6 +201,10 @@ class MyGarage extends React.Component{
                 return (
                     <MachineCard
                         selectedMachine = {selectedMachine}
+                        editMachine = {this.editMachine}
+                        deleteMachine = {this.deleteMachine}
+                        showPartsDiv = {this.showPartsDiv}
+                        goToService = {this.goToService}
                     />
                   );
             }

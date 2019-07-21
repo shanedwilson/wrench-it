@@ -146,15 +146,18 @@ class MyGarage extends React.Component{
     const populatePartsDropdown = (index) => {
         const ptIndex = index + 1;
         let object = {};
+        let objectArray = [];
         machineParts.forEach(mp => {
             if(mp.typeId === ptIndex){
-                object = mp;
+                objectArray.push(mp);
             }
         })
         return(
-            <option key={index} value={object.id}>
-                {object.brand} {object.partNumber}
+            objectArray.map(o => (
+                <option key={o.id} value={o.id}>
+                {o.brand} {o.partNumber}
             </option>  
+            ))
         )
     }
 

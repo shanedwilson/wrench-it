@@ -6,10 +6,11 @@ import {
     ModalFooter,
   } from 'reactstrap';
 import serviceRequests from '../../helpers/data/serviceRequests';
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 
 import './AddEditService.scss';
+import "react-datepicker/dist/react-datepicker.css";
 
 const defaultService = {
     machineId: 0,

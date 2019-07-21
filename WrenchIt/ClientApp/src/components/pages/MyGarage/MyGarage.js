@@ -13,6 +13,8 @@ class MyGarage extends React.Component{
         machines: [],
         partTypes: [],
         machineParts: [],
+        oil: [],
+        oilFilters: [],
         selectedMachineId: 0,
         selectedPartType: 0,
         selectedMachine: {},
@@ -51,13 +53,33 @@ class MyGarage extends React.Component{
           });
       }
 
-      getPartsByMachine = (id) => {
-          console.log('get parts!');
-          partRequests.getPartsByMachineId(id)
+    getPartsByMachine = (id) => {
+        partRequests.getPartsByMachineId(id)
             .then((machineParts) => {
                 this.setState({ machineParts });
+                this.filterParts(machineParts);
+
             });
       }
+
+    filterParts = (machineParts) => {
+        // const machineParts = [...this.state.machineParts]
+        const oil = machineParts.filter(mp => mp.typeId === 1);
+        const oilFilters = machineParts.filter(mp => mp.typeId === 2);
+        const sparkPlugs = machineParts.filter(mp => mp.typeId === 3);
+        const airFilters = machineParts.filter(mp => mp.typeId === 4);
+        const cabinFilters = machineParts.filter(mp => mp.type === 5);
+        const brakePads = machineParts.filter(mp => mp.type === 6);
+        const batteries = machineParts.filter(mp => mp.type === 7);
+        const belts = machineParts.filter(mp => mp.type === 8);
+        const leftWipers = machineParts.filter(mp => mp.type === 9);
+        const rightWipers = machineParts.filter(mp => mp.type === 10);
+        const headlights = machineParts.filter(mp => mp.type === 11);
+        const turnlights = machineParts.filter(mp => mp.type === 12);
+        const tailLights = machineParts.filter(mp => mp.type === 13);
+
+        this.setState({ oil, oilFilters, sparkPlugs })
+    }
 
 
     selectMachine = (e) => {
@@ -98,6 +120,8 @@ class MyGarage extends React.Component{
 
         const partTypes = [...this.state.partTypes];
 
+        const machineParts = [...this.state.machineParts];
+
         const { currentUser } = this.props;
 
         const { selectedMachine, modal, isEditing, selectedPartType } = this.state;
@@ -119,26 +143,36 @@ class MyGarage extends React.Component{
                     );
         };
 
-        const makePartsDropdowns = (partType) => {
-                return (
-                    <div className="parts text-center mt-5">
-                        {
-                            partTypes.map(partType => (
-                                <select name={partType} required className="custom-select w-50" value={selectedPartType}
+    const populatePartsDropdown = (index) => {
+        const ptIndex = index + 1;
+        let object = {};
+        machineParts.forEach(mp => {
+            if(mp.typeId === ptIndex){
+                object = mp;
+            }
+        })
+        return(
+            <option key={index} value={object.id}>
+                {object.brand} {object.partNumber}
+            </option>  
+        )
+    }
+
+        const makePartsDropdowns = () => {
+            return (
+                <div className="parts text-center mt-5">
+                    {
+                        partTypes.map((partType, index) => (
+                            <select name={partType} required className="custom-select w-50 mb-3" value={selectedPartType}
                                     onChange={(event) => { this.selectMachine(event) }}>
-                            <option value="">Select A {partType}</option>
-                            {
-                                machines.map(machine => (
-                                    <option key={machine.id}value={machine.id}>
-                                        {machine.year} {machine.make} {machine.model} {machine.trim}
-                                    </option>))
-                            }
-                                </select>
-                            ))
-                        }
-                    </div>
-                );  
-            };         
+                                <option value="">Select {partType}</option>
+                                {populatePartsDropdown(index)}
+                            </select>
+                        ))
+                    }
+                </div>
+            );  
+        };         
 
         const makeMachineCard = () => {
             if(selectedMachine.id){

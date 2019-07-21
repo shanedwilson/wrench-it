@@ -14,13 +14,25 @@ class MyGarage extends React.Component{
         machines: [],
         partTypes: [],
         machineParts: [],
-        oil: [],
-        oilFilters: [],
+        oil: 0,
+        oilFilter: 0,
+        sparkPlug: 0,
+        airFilter: 0,
+        cabinFilter: 0,
+        brakePads: 0,
+        battery: 0,
+        belt: 0,
+        wiperLeft: 0,
+        wiperRight: 0,
+        headLight: 0,
+        turnLight: 0,
+        tailLight: 0,
         selectedMachineId: 0,
         selectedPartType: 0,
         selectedMachine: {},
         isEditing: false,
         modal: false,
+        showParts: false,
     }
 
     toggleMachineModal = () => {
@@ -85,6 +97,61 @@ class MyGarage extends React.Component{
         });
     }
 
+    showPartsDiv = () => {
+        const { showParts } = this.state;
+        this.setState({ showParts: !showParts });
+    }
+
+    selectPart = (e) => {
+        const { machineParts }= this.state;
+        const partId = e.target.value * 1;
+        const filteredParts = machineParts.filter(part => part.id === partId);
+        const partType = filteredParts[0].typeId;
+        switch (partType) {
+            case 1:
+                this.setState({ oil: partId });
+                break;
+            case 2:
+                this.setState({ oilFilter: partId });
+                break;
+            case 3:
+                this.setState({ sparkPlug: partId });
+                break;
+            case 4:
+                this.setState({ airFilter: partId });
+                break;
+            case 5:
+                this.setState({ cabinFilter: partId });
+                break;
+            case 6:
+                this.setState({ brakePads: partId });
+                break;
+            case 7:
+                this.setState({ battery: partId });
+                break;
+            case 8:
+                this.setState({ belt: partId });
+                break;
+            case 9:
+                this.setState({ wiperLeft: partId });
+                break;
+            case 10:
+                this.setState({ wiperRight: partId })
+                break;
+            case 11:
+                this.setState({ headLight: partId });
+                break;
+            case 12:
+                this.setState({ turnLight: partId });
+                break;
+            case 13:
+                this.setState({ tailLight: partId });
+                break;
+            default:
+
+       }
+    }
+
     componentDidMount(){
         const { currentUser } = this.props;
         this.myGarageMounted = !!currentUser.id;
@@ -103,17 +170,17 @@ class MyGarage extends React.Component{
 
         const { currentUser } = this.props;
 
-        const { selectedMachine, modal, isEditing, selectedPartType } = this.state;
+        const { selectedMachine, modal, isEditing, selectedPartType, selectedMachineId, showParts } = this.state;
 
         const makeDropdown = () => {
             return (
                     <div className="text-center mt-5">
-                        <select name="machines" required className="custom-select w-50" value={selectedMachine}
+                        <select name="machines" required className="custom-select w-50" value={selectedMachineId}
                                 onChange={(event) => { this.selectMachine(event) }}>
                         <option value="">Select Your Machine</option>
                         {
-                            machines.map(machine => (
-                                <option key={machine.id}value={machine.id}>
+                            machines.map((machine, i) => (
+                                <option key={i} value={machine.id}>
                                     {machine.year} {machine.make} {machine.model} {machine.trim}
                                 </option>))
                         }
@@ -137,7 +204,10 @@ class MyGarage extends React.Component{
                                     <i className="far fa-edit fa-1x"/>
                                 </button>
                                 <button id='machine-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.deleteMachine} title="Delete Machine">
-                                    <i className="profile-delete-btn fas fa-trash fa-1x"></i>
+                                    <i className="machine-delete-btn fas fa-trash fa-1x"></i>
+                                </button>
+                                <button id='machine-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.showPartsDiv} title="See/Hide Parts">
+                                <i className="fas fa-cogs"></i>
                                 </button>
                             </div>
 
@@ -147,6 +217,19 @@ class MyGarage extends React.Component{
             return<div></div>
         }
 
+        const makePartsDiv = () => {
+            if(showParts) {
+                return (
+                    <MachinePartsDropdown
+                        partTypes = {partTypes}
+                        machineParts = {machineParts}
+                        selectedPartType = {selectedPartType}
+                        selectPart = {this.selectPart}
+                    />
+                )
+            }
+        }
+
         return(
             
             <div className="myGarage mx-auto">
@@ -154,11 +237,7 @@ class MyGarage extends React.Component{
                 <div className="w-75 mx-auto">
                     {makeDropdown()}
                     {makeMachineCard()}
-                    <MachinePartsDropdown
-                        partTypes = {partTypes}
-                        machineParts = {machineParts}
-                        selectedPartType = {selectedPartType}
-                    />
+                    {makePartsDiv()}
                 </div>
                 <AddEditMachine
                     toggleMachineModal = {this.toggleMachineModal}

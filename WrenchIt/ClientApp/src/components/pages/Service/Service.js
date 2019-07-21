@@ -50,6 +50,8 @@ class Service extends React.Component{
     render(){
         const { selectedMachine, isService, isEditing, modal } = this.state;
 
+        const { currentUser } = this.props;
+
         return(
             <div>
                 <MachineCard
@@ -62,6 +64,7 @@ class Service extends React.Component{
                     modal = {modal}
                     selectedMachine ={selectedMachine}
                     toggleServiceModal = {this.toggleServiceModal}
+                    currentUser = {currentUser}
                 />
             </div>
         )

@@ -40,7 +40,7 @@ class MachinePartsDropdown extends React.Component {
                         partTypes.map((partType, index) => (
                             <select name={partType} required className="custom-select w-25 mb-3 mr-2"
                                     onChange={(event) => { this.selectPartEvent(event) }}>
-                                <option value="">Select {partType}</option>
+                                <option value="0">Select {partType}</option>
                                 {populatePartsDropdown(index)}
                             </select>
                         ))

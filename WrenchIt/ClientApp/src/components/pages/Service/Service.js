@@ -37,10 +37,17 @@ class Service extends React.Component{
     }
 
     getAllParts = () => {
+        const parts = [...this.state.parts];
+        const partTypes = [...this.state.partTypes];
         partRequests.getAllParts()
         .then((parts) => {
             this.setState({ parts });
-        })
+        });
+        parts.map(p => (
+            partTypes.map((pt, i) => pt.typeId === i +1 (
+                p.typeName = pt
+            ))
+        ))
     }
 
     getAllPartTypes = () => {
@@ -123,6 +130,7 @@ class Service extends React.Component{
     removePart = (id) => {
         console.log(`clicked: ${id}`)
         const selectedParts = [this.state.selectedParts];
+
     }
 
     componentDidMount(){
@@ -146,21 +154,16 @@ class Service extends React.Component{
 
         const { currentUser } = this.props;
 
-        // const createSelectedPartsDiv= () => {
-        //     if(this.selectedParts.length > 0){
-        //         return(
-        //             <div> Selected Parts: </div>
-        //         )
-        //     }
-        //     return(<div></div>)
-        // }
-
         return(
-            <div>
-                <MachineCard
-                    selectedMachine = {selectedMachine}
-                    isService = {isService}
+            <div className="w-75 mx-auto">
+                <AddEditService
+                    isEditing = {isEditing}
+                    modal = {modal}
+                    selectedMachine ={selectedMachine}
                     toggleServiceModal = {this.toggleServiceModal}
+                    currentUser = {currentUser}
+                    selectedParts = {this.selectedParts}
+                    removePart = {this.removePart}
                 />
                 <h3 className="text-center mt-5">Select Parts For Service</h3>
                 <MachinePartsDropdown
@@ -174,16 +177,6 @@ class Service extends React.Component{
                         <i className="fas fa-tools fa-2x"></i>
                     </button>
                 </div>
-                {/* <div>{createSelectedPartsDiv()}</div> */}
-                <AddEditService
-                    isEditing = {isEditing}
-                    modal = {modal}
-                    selectedMachine ={selectedMachine}
-                    toggleServiceModal = {this.toggleServiceModal}
-                    currentUser = {currentUser}
-                    selectedParts = {this.selectedParts}
-                    removePart = {this.removePart}
-                />
             </div>
         )
     }

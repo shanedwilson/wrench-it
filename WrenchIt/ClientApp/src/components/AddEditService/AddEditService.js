@@ -28,7 +28,6 @@ class AddEditService extends React.Component{
 
     static propTypes = {
         isEditing: PropTypes.bool,
-        modal: PropTypes.bool,
         selectedMachine: PropTypes.object,
         toggleServiceModal: PropTypes.func,
         currentUser: PropTypes.object,
@@ -140,11 +139,11 @@ class AddEditService extends React.Component{
         const makeHeader = () => {
             if (isEditing) {
               return (
-                <div>Edit Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
+                <div className="text-center">Edit Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
               );
             }
             return (
-              <div>Add Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
+              <div className="text-center">Add Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
             );
           };
 
@@ -159,9 +158,8 @@ class AddEditService extends React.Component{
           }
 
         return(
-            <Modal isOpen={modal} className="modal-lg">
-            <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
-            <ModalBody className="text-center modal-body" id="machine-modal">
+            <div className="col">
+            <h1 class-name="service-header">{makeHeader()}</h1>
                 <div className="">
                     <div className="reg-container d-flex animated fadeIn">
                         <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
@@ -271,15 +269,8 @@ class AddEditService extends React.Component{
                             </div>
                         </form>
                     </div>    
-                    <ModalFooter className="modal-footer">
-                        <button onClick={this.toggleEvent} className="bttn-pill bttn-md bttn-danger mb-3">
-                            Go Back
-                        </button>
-
-                    </ModalFooter>
                 </div>   
-            </ModalBody>
-        </Modal>
+        </div>
         )
     }
 }

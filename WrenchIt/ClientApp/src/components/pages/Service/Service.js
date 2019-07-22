@@ -13,6 +13,8 @@ class Service extends React.Component{
         selectedMachine: {},
         partTypes: [],
         machineParts: [],
+        parts: [],
+        selectedParts: [],
         isService: true,
         modal: false,
         isEditing: false,
@@ -31,6 +33,13 @@ class Service extends React.Component{
         turnLight: 0,
         tailLight: 0,
         selectedMachineId: 0,
+    }
+
+    getAllParts = () => {
+        partRequests.getAllParts()
+        .then((parts) => {
+            this.setState({ parts });
+        })
     }
 
     getAllPartTypes = () => {
@@ -105,7 +114,6 @@ class Service extends React.Component{
        }
     }
 
-
     toggleServiceModal = () => {
         const { modal } = this.state;
         this.setState({ modal: !modal });
@@ -119,6 +127,7 @@ class Service extends React.Component{
         if (this.serviceMounted) {
             this.getSingleMachineById(machineId * 1);
             this.getAllPartTypes();
+            this.getAllParts();
         }
     }
 
@@ -129,7 +138,18 @@ class Service extends React.Component{
 
         const machineParts = [...this.state.machineParts];
 
+        const selectedParts = [...this.state.selectedParts];
+
         const { currentUser } = this.props;
+
+        const createSelectedPartsDiv= () => {
+            if(selectedParts.length > 0){
+                return(
+                    <div></div>
+                )
+            }
+            return(<div></div>)
+        }
 
         return(
             <div>
@@ -150,6 +170,7 @@ class Service extends React.Component{
                         <i className="fas fa-tools fa-2x"></i>
                     </button>
                 </div>
+                <div>{createSelectedPartsDiv()}</div>
                 <AddEditService
                     isEditing = {isEditing}
                     modal = {modal}

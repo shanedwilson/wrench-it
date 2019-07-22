@@ -8,13 +8,14 @@ import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdow
 
 class Service extends React.Component{
     serviceMounted = false;
+    selectedParts = [];
+
 
     state = {
         selectedMachine: {},
         partTypes: [],
         machineParts: [],
         parts: [],
-        selectedParts: [],
         isService: true,
         modal: false,
         isEditing: false,
@@ -110,8 +111,8 @@ class Service extends React.Component{
                 this.setState({ tailLight: partId });
                 break;
             default:
-
        }
+       this.selectedParts.push(filteredParts[0]);
     }
 
     toggleServiceModal = () => {
@@ -138,14 +139,12 @@ class Service extends React.Component{
 
         const machineParts = [...this.state.machineParts];
 
-        const selectedParts = [...this.state.selectedParts];
-
         const { currentUser } = this.props;
 
         const createSelectedPartsDiv= () => {
-            if(selectedParts.length > 0){
+            if(this.selectedParts.length > 0){
                 return(
-                    <div></div>
+                    <div> Selected Parts: </div>
                 )
             }
             return(<div></div>)

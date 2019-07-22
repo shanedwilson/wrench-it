@@ -16,6 +16,8 @@ class MachinePartsDropdown extends React.Component {
     render(){
         const {machineParts, partTypes, selectedPartType} = this.props;
 
+        // const createInitialPartsOption = ()
+
         const populatePartsDropdown = (index) => {
             const ptIndex = index + 1;
             let parts = [];

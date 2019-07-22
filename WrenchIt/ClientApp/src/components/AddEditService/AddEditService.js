@@ -1,10 +1,4 @@
 import React from 'react';
-import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-  } from 'reactstrap';
 import serviceRequests from '../../helpers/data/serviceRequests';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
@@ -47,7 +41,7 @@ class AddEditService extends React.Component{
     }
 
     removePartEvent = (e) => {
-        const partId = e.target.id;
+        const partId = e.target.id * 1;
         this.props.removePart(partId);
     }
 
@@ -128,7 +122,7 @@ class AddEditService extends React.Component{
     }
 
     render(){
-        const { isEditing, modal, selectedMachine } = this.props;
+        const { isEditing, selectedMachine } = this.props;
 
         const {serviceDate, checked} = this.state;
 
@@ -164,7 +158,7 @@ class AddEditService extends React.Component{
                     <div className="reg-container d-flex animated fadeIn">
                         <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
                             <h3 className="reg-title mx-auto">Please Enter Your Service Info:</h3>
-                            <div className="form col-11 mt-2">
+                            <div className="form col-11 mt-2 mx-auto">
                                 <div className="col-auto form-lines p-0">
                                     <div className="input-group mb-2">
                                         <div className="input-group-prepend w-10">
@@ -258,8 +252,8 @@ class AddEditService extends React.Component{
                                     />
                                 </div>
                                 <div className="text-center">
-                                    <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit">
-                                        <i className="fas fa-plus-circle" />
+                                    <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
+                                        <i className="fas fa-tools fa-2x"></i>
                                     </button>
                                 </div>                                
                             </div>

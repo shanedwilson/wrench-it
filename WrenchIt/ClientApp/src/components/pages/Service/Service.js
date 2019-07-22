@@ -2,7 +2,6 @@ import React from 'react';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
 import partRequests from '../../../helpers/data/partRequests';
-import MachineCard from '../../MachineCard/MachineCard';
 import AddEditService from'../../AddEditService/AddEditService';
 import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown'
 
@@ -14,6 +13,7 @@ class Service extends React.Component{
     state = {
         selectedMachine: {},
         partTypes: [],
+        selectedParts: [],
         machineParts: [],
         parts: [],
         isService: true,
@@ -128,9 +128,13 @@ class Service extends React.Component{
     }
 
     removePart = (id) => {
-        console.log(`clicked: ${id}`)
-        const selectedParts = [this.state.selectedParts];
-
+        this.selectedParts.forEach((sp, i) =>{
+            const index = this.selectedParts.findIndex(sp => sp.id === id);
+            if(index > -1){
+                this.selectedParts.splice(index, 1);
+                this.setState({ selectedParts: this.selectedParts });
+            };
+        });
     }
 
     componentDidMount(){
@@ -172,11 +176,6 @@ class Service extends React.Component{
                     selectedPartType = {selectedPartType}
                     selectPart = {this.selectPart}
                 />
-                <div className="text-center">
-                    <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.toggleServiceModal} title="Create A Service Record">
-                        <i className="fas fa-tools fa-2x"></i>
-                    </button>
-                </div>
             </div>
         )
     }

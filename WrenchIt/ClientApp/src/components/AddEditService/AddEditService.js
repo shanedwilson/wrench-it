@@ -38,10 +38,16 @@ class AddEditService extends React.Component{
     state = {
         newService: defaultService,
         serviceDate: new Date(),
+        checked: true,
     }
 
     toggleEvent = () => {
         this.props.toggleServiceModal();
+    }
+
+    handleCheckbox = () => {
+        const { checked } = this.state;
+        this.setState({ checked: !checked })
     }
 
     formFieldStringState = (name, e) => {
@@ -54,7 +60,7 @@ class AddEditService extends React.Component{
     formFieldNumberState = (name, e) => {
         e.preventDefault();
         const tempService = { ...this.state.newService };
-        tempService[name] = e.target.value;
+        tempService[name] = e.target.value * 1;
         this.setState({ newService: tempService });
     }
   
@@ -66,18 +72,21 @@ class AddEditService extends React.Component{
     
     mileageChange = e => this.formFieldNumberState('mileage', e);
 
+    notesChange = e => this.formFieldStringState('notes', e);
+
     handleServiceDateChange = (date) => {
         this.setState({ serviceDate: new Date(date) });
       }
 
     formSubmit = (e) => {
         e.preventDefault();
-        const { isEditing, selectedService } = this.props;
-        const serviceDate = {...this.state};
-        const myService = { ...this.state.newSevice };
+        const { isEditing, selectedService, selectedMachine } = this.props;
+        const {checked, serviceDate} = this.state;
+        const myService = { ...this.state.newService };
         myService.serviceDate = serviceDate;
+        myService.machineId = selectedMachine.id;
+        myService.tireRotation = checked;
         if (isEditing === false) {
-            myService.ownerId = this.props.currentUser.id;
           this.setState({ newService: defaultService });
           serviceRequests.createService(myService)
             .then(() => {
@@ -113,7 +122,7 @@ class AddEditService extends React.Component{
     render(){
         const { isEditing, modal, selectedMachine } = this.props;
 
-        const {serviceDate} = this.state;
+        const {serviceDate, checked} = this.state;
 
         const newService = {...this.state};
 
@@ -199,6 +208,26 @@ class AddEditService extends React.Component{
                                         required
                                         />
                                     </div>
+                                </div>
+                                <div className="col-auto form-lines p-0">
+                                    <div className="input-group mb-2">
+                                        <div className="input-group-prepend">
+                                        <div className="input-group-text">Notes</div>
+                                        </div>
+                                        <input
+                                        type="text"
+                                        className="form-control"
+                                        id="notes"
+                                        placeholder=""
+                                        value={newService.notes}
+                                        onChange={this.notesChange}
+                                        required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-check">
+                                    <input type="checkbox" onChange={this.handleCheckbox} checked={checked} className="form-check-input" id="tireRotation"/>
+                                    <label className="form-check-label">Tire Rotation?</label>
                                 </div>
                                 <div id="serviceDate">
                                     <label>Service Date</label>

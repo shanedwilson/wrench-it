@@ -120,6 +120,11 @@ class Service extends React.Component{
         this.setState({ modal: !modal });
     }
 
+    removePart = (id) => {
+        console.log(`clicked: ${id}`)
+        const selectedParts = [this.state.selectedParts];
+    }
+
     componentDidMount(){
         const { currentUser } = this.props;
         this.serviceMounted = !!currentUser.id;
@@ -141,14 +146,14 @@ class Service extends React.Component{
 
         const { currentUser } = this.props;
 
-        const createSelectedPartsDiv= () => {
-            if(this.selectedParts.length > 0){
-                return(
-                    <div> Selected Parts: </div>
-                )
-            }
-            return(<div></div>)
-        }
+        // const createSelectedPartsDiv= () => {
+        //     if(this.selectedParts.length > 0){
+        //         return(
+        //             <div> Selected Parts: </div>
+        //         )
+        //     }
+        //     return(<div></div>)
+        // }
 
         return(
             <div>
@@ -169,7 +174,7 @@ class Service extends React.Component{
                         <i className="fas fa-tools fa-2x"></i>
                     </button>
                 </div>
-                <div>{createSelectedPartsDiv()}</div>
+                {/* <div>{createSelectedPartsDiv()}</div> */}
                 <AddEditService
                     isEditing = {isEditing}
                     modal = {modal}
@@ -177,6 +182,7 @@ class Service extends React.Component{
                     toggleServiceModal = {this.toggleServiceModal}
                     currentUser = {currentUser}
                     selectedParts = {this.selectedParts}
+                    removePart = {this.removePart}
                 />
             </div>
         )

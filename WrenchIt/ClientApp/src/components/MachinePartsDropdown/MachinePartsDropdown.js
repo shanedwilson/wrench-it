@@ -27,8 +27,8 @@ class MachinePartsDropdown extends React.Component {
             return(
                 parts.map(p => (
                     <option key={p.id} value={p.id}>
-                    {p.brand} {p.partNumber}
-                </option>  
+                        {p.brand} {p.partNumber}
+                    </option>  
                 ))
             )
         }

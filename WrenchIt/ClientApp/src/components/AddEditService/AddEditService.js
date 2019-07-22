@@ -33,16 +33,23 @@ class AddEditService extends React.Component{
         toggleServiceModal: PropTypes.func,
         currentUser: PropTypes.object,
         selectedService: PropTypes.object,
+        selectedParts: PropTypes.array,
     }
 
     state = {
         newService: defaultService,
         serviceDate: new Date(),
         checked: true,
+        selectedParts: [],
     }
 
     toggleEvent = () => {
         this.props.toggleServiceModal();
+    }
+
+    removePartEvent = (e) => {
+        const partId = e.target.id;
+        this.props.removePart(partId);
     }
 
     handleCheckbox = () => {
@@ -110,13 +117,15 @@ class AddEditService extends React.Component{
     }
         
     componentWillReceiveProps(props) {
-        const { isEditing, selectedService } = props;
+        const { isEditing, selectedService, selectedParts } = props;
         if (isEditing) {
             this.setState({
             newService: selectedService,
             serviceDate: new Date(props.selectedService.serviceDate),
+            selectedParts: selectedParts,
             });
         }
+        this.setState({ selectedParts });
     }
 
     render(){
@@ -124,7 +133,9 @@ class AddEditService extends React.Component{
 
         const {serviceDate, checked} = this.state;
 
-        const newService = {...this.state};
+        const newService = {...this.state.newService};
+
+        const selectedParts = [...this.state.selectedParts]
 
         const makeHeader = () => {
             if (isEditing) {
@@ -136,6 +147,17 @@ class AddEditService extends React.Component{
               <div>Add Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
             );
           };
+
+          const makeSelectedParts = () => {
+            return(
+                selectedParts.map(p => (
+                    <div  className="mr-2" onClick={this.removePartEvent} id={p.id}>
+                        {p.brand} {p.partNumber}
+                    </div>  
+                ))
+            )
+          }
+
         return(
             <Modal isOpen={modal} className="modal-lg">
             <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
@@ -242,6 +264,10 @@ class AddEditService extends React.Component{
                                         <i className="fas fa-plus-circle" />
                                     </button>
                                 </div>                                
+                            </div>
+                            <div className="text-center mx-auto">
+                                <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
+                                {makeSelectedParts()}
                             </div>
                         </form>
                     </div>    

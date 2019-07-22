@@ -165,7 +165,7 @@ class Service extends React.Component{
                     selectPart = {this.selectPart}
                 />
                 <div className="text-center">
-                    <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.toggleServiceModalEvent} title="Create A Service Record">
+                    <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.toggleServiceModal} title="Create A Service Record">
                         <i className="fas fa-tools fa-2x"></i>
                     </button>
                 </div>
@@ -176,6 +176,7 @@ class Service extends React.Component{
                     selectedMachine ={selectedMachine}
                     toggleServiceModal = {this.toggleServiceModal}
                     currentUser = {currentUser}
+                    selectedParts = {this.selectedParts}
                 />
             </div>
         )

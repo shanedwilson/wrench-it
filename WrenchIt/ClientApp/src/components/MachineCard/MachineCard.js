@@ -39,11 +39,7 @@ class MachineCard extends React.Component{
         const makeButtons = () => {
             if(isService) {
                 return(
-                    <div>
-                        <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.toggleServiceModalEvent} title="Create A Service Record">
-                            <i className="fas fa-tools"></i>
-                        </button>
-                    </div>
+                    <div></div>
                 )
             }
             return(

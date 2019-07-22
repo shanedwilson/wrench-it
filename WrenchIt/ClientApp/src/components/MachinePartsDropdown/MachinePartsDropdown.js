@@ -35,7 +35,7 @@ class MachinePartsDropdown extends React.Component {
     
         const makePartsDropdowns = () => {
             return (
-                <div className="parts text-center mt-5 w-60">
+                <div className="parts text-center mt-2 w-60">
                     {
                         partTypes.map((partType, index) => (
                             <select name={partType} required className="custom-select w-25 mb-3 mr-2" value={selectedPartType}

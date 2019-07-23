@@ -21,7 +21,7 @@ const defaultService = {
 
   const defaultServicePart = {
       serviceId: 0,
-      partId: 0,
+      machinPartId: 0,
       installDate: new Date(),
   }
 
@@ -95,17 +95,17 @@ class AddEditService extends React.Component{
         if (isEditing === false) {
             this.setState({ newService: defaultService });
             serviceRequests.createService(myService)
-                .then(() => {
-                // const serviceId = service.data.id;
-                // selectedParts.forEach(sp => {
-                //     myServicePart.partId = sp.id;
-                //     myServicePart.serviceId = serviceId;
-                //     servicePartRequests.createServicePart(myServicePart)
-                //     .then(() => {
-                //         this.setState({ newServicePart: defaultServicePart });
-                //     })
-                // }
-                // )
+                .then((service) => {
+                const serviceId = service.data.id;
+                selectedParts.forEach(sp => {
+                    myServicePart.machinePartId = sp.id;
+                    myServicePart.serviceId = serviceId;
+                    servicePartRequests.createServicePart(myServicePart)
+                    .then(() => {
+                        this.setState({ newServicePart: defaultServicePart });
+                    })
+                }
+                )
                 });
         } 
         else {

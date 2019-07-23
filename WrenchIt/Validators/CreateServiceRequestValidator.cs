@@ -12,9 +12,7 @@ namespace WrenchIt.Validators
         {
             return (string.IsNullOrEmpty(createRequest.MachineId.ToString())
                 || string.IsNullOrEmpty(createRequest.Mileage.ToString())
-                || string.IsNullOrEmpty(createRequest.TireRotation.ToString())
                 || string.IsNullOrEmpty(createRequest.ServiceDate.ToString())
-                || string.IsNullOrEmpty(createRequest.Notes)
                 );
         }
     }

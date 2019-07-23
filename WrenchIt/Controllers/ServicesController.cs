@@ -31,10 +31,11 @@ namespace WrenchIt.Controllers
                 return BadRequest(new { error = "Please Enter All Fields." });
             }
 
-            var newService = _repository.AddService(createRequest.MachineId, createRequest.Mileage,
+            var newService = _repository.AddService(createRequest.MachineId, createRequest.Oil, 
+                                createRequest.OilQuantity, createRequest.TirePressure, createRequest.Mileage,
                 createRequest.TireRotation, createRequest.ServiceDate, createRequest.Notes);
 
-            return Created($"api/services/{newService.Id}", newService);
+            return Created($"api/services/{newService.Id}",newService);
         }
 
         [HttpGet]

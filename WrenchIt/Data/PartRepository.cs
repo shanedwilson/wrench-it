@@ -12,10 +12,13 @@ namespace WrenchIt.Data
     public class PartRepository
     {
         readonly string _connectionString;
+        readonly PartTypeRepository _partTypeRepository;
 
-        public PartRepository(IOptions<DbConfiguration> dbConfig)
+
+        public PartRepository(IOptions<DbConfiguration> dbConfig, PartTypeRepository partTypeRepository)
         {
             _connectionString = dbConfig.Value.ConnectionString;
+            _partTypeRepository = partTypeRepository;
         }
 
         public Part AddPart(int typeId, string brand, string partNumber)
@@ -37,8 +40,10 @@ namespace WrenchIt.Data
             }
         }
 
-        public IEnumerable<Part> GetAllParts()
+        public IEnumerable<Object> GetAllParts()
         {
+            var partTypeNames = _partTypeRepository.GetAllPartTypes();
+
             using (var db = new SqlConnection(_connectionString))
             {
                 var parts = db.Query<Part>(@"
@@ -47,12 +52,25 @@ namespace WrenchIt.Data
                     where isactive = 1"
                     ).ToList();
 
+                for (int i = 0; i < partTypeNames.Count; i++)
+                {
+                        parts.ForEach(p =>
+                        {
+                            if (p.TypeId == i + 1)
+                            {
+                                p.NameType = partTypeNames[i];
+                            };
+                        });
+                };
+
                 return parts;
             }
         }
 
         public IEnumerable<Part> GetAllPartsByMachineId(int id)
         {
+            var partTypeNames = _partTypeRepository.GetAllPartTypes();
+
             using (var db = new SqlConnection(_connectionString))
             {
                 var machineParts = db.Query<Part>(@"
@@ -63,6 +81,17 @@ namespace WrenchIt.Data
                     where mp.machineId = @id
                     and mp.isactive = 1",
                     new { id }).ToList();
+
+                for (int i = 0; i < partTypeNames.Count; i++)
+                {
+                    machineParts.ForEach(p =>
+                    {
+                        if (p.TypeId == i + 1)
+                        {
+                            p.NameType = partTypeNames[i];
+                        };
+                    });
+                };
 
                 return machineParts;
             }

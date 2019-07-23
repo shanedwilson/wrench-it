@@ -4,54 +4,55 @@ import PropTypes from 'prop-types';
 class MachinePartsDropdown extends React.Component {
     static propTypes = {
         partTypes: PropTypes.array,
-        machineParts: PropTypes.array,
-        selectedPartType: PropTypes.number,
+        dropdownParts: PropTypes.array,
+        selectedPartType: PropTypes.string,
         selectPart: PropTypes.func,
+        selectPartType: PropTypes.func,
     }
 
     selectPartEvent = (e) => {
         this.props.selectPart(e);
     }
 
-    render(){
-        const {machineParts, partTypes, selectedPartType} = this.props;
+    selectPartTypeEvent = (e) => {
+        this.props.selectPartType(e);
+    }
 
-        const populatePartsDropdown = (index) => {
-            const ptIndex = index + 1;
-            let parts = [];
-            machineParts.forEach(mp => {
-                if(mp.typeId === ptIndex){
-                    parts.push(mp);
-                }
-            })
-            return(
-                parts.map(p => (
-                    <option key={p.id} value={p.id}>
-                    {p.brand} {p.partNumber}
-                </option>  
-                ))
-            )
+    render(){
+        const { partTypes, selectedPartType, selectedPart, dropdownParts } = this.props;
+
+        const makePartsDropDown = () => {
+            if(dropdownParts.length > 0) {
+                return (
+                    <select  name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2"
+                        onChange={(event) => { this.selectPartEvent(event) }}>
+                        <option value="">Select Part</option>
+                        {
+                            dropdownParts.map((part, index) => (
+                            <option key={index} value={part.id} id={part.id}>{part.brand} {part.partNumber}</option>))
+                         }
+                    </select> 
+                )
+            }
+            return(<div></div>)
         }
     
-        const makePartsDropdowns = () => {
+        const makePartTypeDropdown = () => {
             return (
-                <div className="parts text-center mt-5 w-60">
-                    {
-                        partTypes.map((partType, index) => (
-                            <select name={partType} required className="custom-select w-25 mb-3 mr-2" value={selectedPartType}
-                                    onChange={(event) => { this.selectPartEvent(event) }}>
-                                <option value="">Select {partType}</option>
-                                {populatePartsDropdown(index)}
-                            </select>
-                        ))
-                    }
-                </div>
+                    partTypes.map((partType, index) => (
+                        <option key={index} value={partType} id={index}>{partType}</option>
+                    ))
             );  
         };  
 
         return(
-            <div>
-            {makePartsDropdowns()}
+            <div className="text-center">
+                <select  name="part-type-dropdown" value={selectedPartType} className="custom-select w-25 mb-3 mr-2"
+                        onChange={(event) => { this.selectPartTypeEvent(event) }}>
+                    <option value="">Select Part Type</option>
+                    {makePartTypeDropdown()}
+                </select>
+                {makePartsDropDown()}
             </div>
         )
     }

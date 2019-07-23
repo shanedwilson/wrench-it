@@ -230,6 +230,11 @@ class MyGarage extends React.Component{
                             dropdownParts = {dropdownParts}
                             selectPartType = {this.selectPartType}
                         />
+                        <div className="text-center">
+                            <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Parts">
+                                <i className="fas fa-plus-circle" />
+                            </button>
+                        </div>
                     </div>
                 )
             }

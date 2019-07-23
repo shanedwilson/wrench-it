@@ -22,18 +22,18 @@ class Service extends React.Component{
         selectedPartType: 0,
         Oil: 0,
         OilFilter: 0,
-        sparkPlug: 0,
-        airFilter: 0,
-        cabinFilter: 0,
-        brakePads: 0,
-        battery: 0,
-        belt: 0,
-        wiperLeft: 0,
-        wiperRight: 0,
-        headLight: 0,
-        turnLight: 0,
-        tailLight: 0,
-        selectedMachineId: 0,
+        SparkPlug: 0,
+        AirFilter: 0,
+        CabinFilter: 0,
+        BrakePads: 0,
+        Battery: 0,
+        Belt: 0,
+        WiperLeft: 0,
+        WiperRight: 0,
+        HeadLight: 0,
+        TurnLight: 0,
+        TailLight: 0,
+        SelectedMachineId: 0,
     }
 
     getAllParts = () => {
@@ -86,37 +86,37 @@ class Service extends React.Component{
                 this.setState({ OilFilter: partId });
                 break;
             case 3:
-                this.setState({ sparkPlug: partId });
+                this.setState({ SparkPlug: partId });
                 break;
             case 4:
-                this.setState({ airFilter: partId });
+                this.setState({ AirFilter: partId });
                 break;
             case 5:
-                this.setState({ cabinFilter: partId });
+                this.setState({ CabinFilter: partId });
                 break;
             case 6:
-                this.setState({ brakePads: partId });
+                this.setState({ BrakePads: partId });
                 break;
             case 7:
-                this.setState({ battery: partId });
+                this.setState({ Battery: partId });
                 break;
             case 8:
-                this.setState({ belt: partId });
+                this.setState({ Belt: partId });
                 break;
             case 9:
-                this.setState({ wiperLeft: partId });
+                this.setState({ WiperLeft: partId });
                 break;
             case 10:
                 this.setState({ wiperRight: partId })
                 break;
             case 11:
-                this.setState({ headLight: partId });
+                this.setState({ HeadLight: partId });
                 break;
             case 12:
-                this.setState({ turnLight: partId });
+                this.setState({ TurnLight: partId });
                 break;
             case 13:
-                this.setState({ tailLight: partId });
+                this.setState({ TailLight: partId });
                 break;
             default:
        }

@@ -5,7 +5,7 @@ class MachinePartsDropdown extends React.Component {
     static propTypes = {
         partTypes: PropTypes.array,
         machineParts: PropTypes.array,
-        selectedPartType: PropTypes.number,
+        selectedPartType: PropTypes.string,
         selectPart: PropTypes.func,
     }
 
@@ -13,8 +13,12 @@ class MachinePartsDropdown extends React.Component {
         this.props.selectPart(e);
     }
 
+    selectPartTypeEvent = (e) => {
+        this.props.selectPartType(e);
+    }
+
     render(){
-        const {machineParts, partTypes } = this.props;
+        const {machineParts, partTypes, selectedPartType } = this.props;
 
         const populatePartsDropdown = (index) => {
             const ptIndex = index + 1;
@@ -33,25 +37,21 @@ class MachinePartsDropdown extends React.Component {
             )
         }
     
-        const makePartsDropdowns = () => {
+        const makePartTypeDropdown = () => {
             return (
-                <div className="parts text-center mt-2 w-60">
-                    {
-                        partTypes.map((partType, index) => (
-                            <select key={index} name={partType} value={this.props[partType]} required className="custom-select w-25 mb-3 mr-2"
-                                    onChange={(event) => { this.selectPartEvent(event) }}>
-                                <option value="">Select {partType}</option>
-                                {populatePartsDropdown(index)}
-                            </select>
-                        ))
-                    }
-                </div>
+                    partTypes.map((partType, index) => (
+                        <option key={index} value={partType} id={index}>Select {partType}</option>
+                    ))
             );  
         };  
 
         return(
             <div>
-            {makePartsDropdowns()}
+                <select  name="part-type-dropdown" value={selectedPartType} required className="custom-select w-25 mb-3 mr-2"
+                        onChange={(event) => { this.selectPartTypeEvent(event) }}>
+                    <option value="">Select Part Type</option>
+                    {makePartTypeDropdown()}
+                </select>            
             </div>
         )
     }

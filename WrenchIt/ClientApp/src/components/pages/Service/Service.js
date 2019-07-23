@@ -14,10 +14,11 @@ class Service extends React.Component{
         selectedParts: [],
         machineParts: [],
         parts: [],
+        dropdownParts: [],
         isService: true,
         modal: false,
         isEditing: false,
-        selectedPartType: 0,
+        selectedPartType: "",
         Oil: 0,
         OilFilter: 0,
         SparkPlug: 0,
@@ -68,6 +69,20 @@ class Service extends React.Component{
             this.setState({ selectedMachine: machine.data });
             this.getPartsByMachine(machine.data.id);
         })
+    }
+
+    selectPartType = (e) => {
+        const selectedPartType = e.currentTarget.value;
+        const partType = e.currentTarget.id * 1;
+        const { machineParts }= this.state;
+        let dropdownParts = [];
+        machineParts.forEach(mp => {
+            if(mp.typeId === partType + 1){
+                dropdownParts.push(mp);
+            }
+        });
+        this.setState({ selectedPartType });
+        this.setState({ dropdownParts });
     }
 
     selectPart = (e) => {
@@ -172,8 +187,11 @@ class Service extends React.Component{
                     currentUser = {currentUser}
                     selectedParts = {selectedParts}
                     removePart = {this.removePart}
+                    partTypes = {partTypes}
+                    selectPartType = {this.selectPartType}
+                    selectedPartType = {selectedPartType}
                 />
-                <h3 className="text-center mt-5">Select Parts For Service</h3>
+                {/* <h3 className="text-center mt-5">Select Parts For Service</h3>
                 <MachinePartsDropdown
                     partTypes = {partTypes}
                     machineParts = {machineParts}
@@ -181,7 +199,7 @@ class Service extends React.Component{
                     selectPart = {this.selectPart}
                     Oil ={Oil}
                     OilFilter={OilFilter}
-                />
+                /> */}
             </div>
         )
     }

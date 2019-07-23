@@ -1,6 +1,7 @@
 import React from 'react';
 import serviceRequests from '../../helpers/data/serviceRequests';
 import machinePartRequests from '../../helpers/data/machinePartRequests';
+import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown'
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 
@@ -140,7 +141,7 @@ class AddEditService extends React.Component{
     }
 
     render(){
-        const { isEditing, selectedMachine, selectedParts } = this.props;
+        const { isEditing, selectedMachine, selectedParts, partTypes, selectPartType, selectedPartType } = this.props;
 
         const {serviceDate, checked } = this.state;
 
@@ -267,6 +268,15 @@ class AddEditService extends React.Component{
                                     onChange={this.handleServiceDateChange}
                                     />
                                 </div>
+                                <h3 className="text-center mt-5">Select Parts For Service</h3>
+                                <MachinePartsDropdown
+                                    partTypes = {partTypes}
+                                    // machineParts = {machineParts}
+                                    selectedPartType = {selectedPartType}
+                                    selectPartType = {selectPartType}
+                                    // Oil ={Oil}
+                                    // OilFilter={OilFilter}
+                                />
                                 <div className="text-center">
                                     <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
                                         <i className="fas fa-tools fa-2x"></i>

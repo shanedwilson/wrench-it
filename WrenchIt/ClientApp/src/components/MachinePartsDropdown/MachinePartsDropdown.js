@@ -21,11 +21,11 @@ class MachinePartsDropdown extends React.Component {
     render(){
         const { partTypes, selectedPartType, selectedPart, dropdownParts } = this.props;
 
-        const makePartsDropDown = (index) => {
+        const makePartsDropDown = () => {
             if(dropdownParts.length > 0) {
                 return (
                     <select  name="parts-dropdown" value={selectedPart} required className="custom-select w-25 mb-3 mr-2"
-                        onChange={(event) => { this.selectParEvent(event) }}>
+                        onChange={(event) => { this.selectPartEvent(event) }}>
                         <option value="">Select Part</option>
                         {
                             dropdownParts.map((part, index) => (
@@ -40,7 +40,7 @@ class MachinePartsDropdown extends React.Component {
         const makePartTypeDropdown = () => {
             return (
                     partTypes.map((partType, index) => (
-                        <option key={index} value={partType} id={index}>Select {partType}</option>
+                        <option key={index} value={partType} id={index}>{partType}</option>
                     ))
             );  
         };  

@@ -35,6 +35,7 @@ class AddEditService extends React.Component{
         currentUser: PropTypes.object,
         selectedService: PropTypes.object,
         selectedParts: PropTypes.array,
+        selectPart: PropTypes.func,
     }
 
     state = {
@@ -141,7 +142,17 @@ class AddEditService extends React.Component{
     }
 
     render(){
-        const { isEditing, selectedMachine, selectedParts, partTypes, selectPartType, selectedPartType, selectedPart, dropdownParts } = this.props;
+        const { 
+                isEditing,
+                selectedMachine,
+                selectedParts,
+                partTypes,
+                selectPartType,
+                selectedPartType,
+                selectedPart,
+                dropdownParts,
+                selectPart,
+            } = this.props;
 
         const {serviceDate, checked } = this.state;
 
@@ -275,7 +286,7 @@ class AddEditService extends React.Component{
                                     selectedPartType = {selectedPartType}
                                     selectPartType = {selectPartType}
                                     dropdownParts ={dropdownParts}
-                                    // OilFilter={OilFilter}
+                                    selectPart={selectPart}
                                 />
                                 <div className="text-center">
                                     <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">

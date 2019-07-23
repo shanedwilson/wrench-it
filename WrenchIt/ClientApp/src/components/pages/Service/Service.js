@@ -19,20 +19,8 @@ class Service extends React.Component{
         modal: false,
         isEditing: false,
         selectedPartType: "",
-        Oil: 0,
-        OilFilter: 0,
-        SparkPlug: 0,
-        AirFilter: 0,
-        CabinFilter: 0,
-        BrakePads: 0,
-        Battery: 0,
-        Belt: 0,
-        WiperLeft: 0,
-        WiperRight: 0,
-        HeadLight: 0,
-        TurnLight: 0,
-        TailLight: 0,
         SelectedMachineId: 0,
+        selectedPart: 0,
     }
 
     getAllParts = () => {
@@ -72,17 +60,23 @@ class Service extends React.Component{
     }
 
     selectPartType = (e) => {
+        const partTypes = [...this.state.partTypes];
         const selectedPartType = e.currentTarget.value;
-        const partType = e.currentTarget.id * 1;
+        let partType = 0;
         const { machineParts }= this.state;
         let dropdownParts = [];
+        
+        partTypes.forEach((pt, i) => {
+            if(selectedPartType === pt){
+                partType = i + 1;
+            }
+        })
         machineParts.forEach(mp => {
-            if(mp.typeId === partType + 1){
+            if(mp.typeId === partType){
                 dropdownParts.push(mp);
             }
         });
-        this.setState({ selectedPartType });
-        this.setState({ dropdownParts });
+        this.setState({ dropdownParts, selectedPartType });
     }
 
     selectPart = (e) => {
@@ -90,51 +84,8 @@ class Service extends React.Component{
         const selectedParts = [...this.state.selectedParts]
         const partId = e.target.value * 1;
         const filteredParts = machineParts.filter(part => part.id === partId);
-        const partType = filteredParts[0].typeId;
-        switch (partType) {
-            case 1:
-                this.setState({ Oil: partId });
-                break;
-            case 2:
-                this.setState({ OilFilter: partId });
-                break;
-            case 3:
-                this.setState({ SparkPlug: partId });
-                break;
-            case 4:
-                this.setState({ AirFilter: partId });
-                break;
-            case 5:
-                this.setState({ CabinFilter: partId });
-                break;
-            case 6:
-                this.setState({ BrakePads: partId });
-                break;
-            case 7:
-                this.setState({ Battery: partId });
-                break;
-            case 8:
-                this.setState({ Belt: partId });
-                break;
-            case 9:
-                this.setState({ WiperLeft: partId });
-                break;
-            case 10:
-                this.setState({ wiperRight: partId })
-                break;
-            case 11:
-                this.setState({ HeadLight: partId });
-                break;
-            case 12:
-                this.setState({ TurnLight: partId });
-                break;
-            case 13:
-                this.setState({ TailLight: partId });
-                break;
-            default:
-       }
-       selectedParts.push(filteredParts[0]);
-       this.setState({ selectedParts });
+        selectedParts.push(filteredParts[0]);
+        this.setState({ selectedParts, selectedPart: 0, selectedPartType: "", dropdownParts: [] });
     }
 
     toggleServiceModal = () => {
@@ -148,10 +99,7 @@ class Service extends React.Component{
             const index = selectedParts.findIndex(sp => sp.id === id);
             if(index > -1){
                 selectedParts.splice(index, 1);
-                let stuff = { selectedParts };
-                stuff[`${sp.nameType}`] = 0;
-
-                this.setState(stuff);
+                this.setState({ selectedParts })
             };
         });
     }
@@ -169,11 +117,9 @@ class Service extends React.Component{
     }
 
     render(){
-        const { selectedMachine, isEditing, modal, selectedPartType, OilFilter, Oil, selectedParts } = this.state;
+        const { selectedMachine, isEditing, modal, selectedPartType, selectedParts, selectedPart } = this.state;
 
         const partTypes = [...this.state.partTypes];
-
-        const machineParts = [...this.state.machineParts];
 
         const dropdownParts = [...this.state.dropdownParts];
 
@@ -193,16 +139,9 @@ class Service extends React.Component{
                     selectPartType = {this.selectPartType}
                     selectedPartType = {selectedPartType}
                     dropdownParts = {dropdownParts}
-                />
-                {/* <h3 className="text-center mt-5">Select Parts For Service</h3>
-                <MachinePartsDropdown
-                    partTypes = {partTypes}
-                    machineParts = {machineParts}
-                    selectedPartType = {selectedPartType}
                     selectPart = {this.selectPart}
-                    Oil ={Oil}
-                    OilFilter={OilFilter}
-                /> */}
+                    selectedPart = {selectedPart}
+                />
             </div>
         )
     }

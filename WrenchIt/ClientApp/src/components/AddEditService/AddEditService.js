@@ -1,6 +1,6 @@
 import React from 'react';
 import serviceRequests from '../../helpers/data/serviceRequests';
-import machinePartRequests from '../../helpers/data/machinePartRequests';
+import servicePartRequests from '../../helpers/data/servicePartRequests';
 import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown'
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
@@ -31,7 +31,6 @@ class AddEditService extends React.Component{
     static propTypes = {
         isEditing: PropTypes.bool,
         selectedMachine: PropTypes.object,
-        toggleServiceModal: PropTypes.func,
         currentUser: PropTypes.object,
         selectedService: PropTypes.object,
         selectedParts: PropTypes.array,
@@ -44,10 +43,6 @@ class AddEditService extends React.Component{
         installDate: new Date(),
         checked: true,
         newServicePart: defaultServicePart,
-    }
-
-    toggleEvent = () => {
-        this.props.toggleServiceModal();
     }
 
     removePartEvent = (e) => {
@@ -100,25 +95,22 @@ class AddEditService extends React.Component{
         if (isEditing === false) {
             this.setState({ newService: defaultService });
             serviceRequests.createService(myService)
-                .then((service) => {
-                const serviceId = service.date.id;
-                selectedParts.map(sp => {
-                    myServicePart.partId = sp.id;
-                    myServicePart.serviceId = serviceId;
-                    machinePartRequests.createServicePart(myServicePart)
-                    .then(() => {
-                        this.setState({ newServicePart: defaultServicePart });
-                    })
-                }
-
-                )
-                this.toggleEvent();
+                .then(() => {
+                // const serviceId = service.data.id;
+                // selectedParts.forEach(sp => {
+                //     myServicePart.partId = sp.id;
+                //     myServicePart.serviceId = serviceId;
+                //     servicePartRequests.createServicePart(myServicePart)
+                //     .then(() => {
+                //         this.setState({ newServicePart: defaultServicePart });
+                //     })
+                // }
+                // )
                 });
         } 
         else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {
-                this.toggleEvent();
             });
         }
     };
@@ -172,7 +164,7 @@ class AddEditService extends React.Component{
           const makeSelectedParts = () => {
             return(
                 selectedParts.map((p,index) => (
-                    <div  key={index} className="mr-2" onClick={this.removePartEvent} id={p.id}>
+                    <div  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
                         {p.brand} {p.partNumber}
                     </div>  
                 ))
@@ -288,15 +280,15 @@ class AddEditService extends React.Component{
                                     dropdownParts ={dropdownParts}
                                     selectPart={selectPart}
                                 />
+                                <div className="text-center mx-auto">
+                                    <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
+                                    {makeSelectedParts()}
+                                </div>
                                 <div className="text-center">
                                     <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
                                         <i className="fas fa-tools fa-2x"></i>
                                     </button>
                                 </div>                                
-                            </div>
-                            <div className="text-center mx-auto">
-                                <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
-                                {makeSelectedParts()}
                             </div>
                         </form>
                     </div>    

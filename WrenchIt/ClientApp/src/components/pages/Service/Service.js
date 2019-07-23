@@ -88,11 +88,6 @@ class Service extends React.Component{
         this.setState({ selectedParts, selectedPart: 0, selectedPartType: "", dropdownParts: [] });
     }
 
-    toggleServiceModal = () => {
-        const { modal } = this.state;
-        this.setState({ modal: !modal });
-    }
-
     removePart = (id) => {
         const {selectedParts} = this.state;
         selectedParts.forEach((sp, i) =>{
@@ -131,7 +126,6 @@ class Service extends React.Component{
                     isEditing = {isEditing}
                     modal = {modal}
                     selectedMachine ={selectedMachine}
-                    toggleServiceModal = {this.toggleServiceModal}
                     currentUser = {currentUser}
                     selectedParts = {selectedParts}
                     removePart = {this.removePart}

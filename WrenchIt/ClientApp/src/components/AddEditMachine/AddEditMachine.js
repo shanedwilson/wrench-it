@@ -94,21 +94,21 @@ import {
         e.preventDefault();
         const { isEditing, getSingleMachine, selectedMachine } = this.props;
         const myMachine = { ...this.state.newMachine };
-        if (isEditing === false) {
+        // if (isEditing === false) {
             myMachine.ownerId = this.props.currentUser.id;
           this.setState({ newMachine: defaultMachine });
           machineRequests.createMachine(myMachine)
             .then(() => {
               this.toggleEvent();
-            });
-        } 
-        else {
-          machineRequests.updateMachine(myMachine.id, myMachine)
-            .then(() => {
-                getSingleMachine(selectedMachine.id);
-                this.toggleEvent();
-            });
-        }
+            // });
+        } )
+        // else {
+        //   machineRequests.updateMachine(myMachine.id, myMachine)
+        //     .then(() => {
+        //         getSingleMachine(selectedMachine.id);
+        //         this.toggleEvent();
+        //     });
+        // }
     };
 
     componentDidMount() {

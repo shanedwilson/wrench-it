@@ -1,5 +1,6 @@
 import React from 'react';
 import serviceRequests from '../../helpers/data/serviceRequests';
+import machinePartRequests from '../../helpers/data/machinePartRequests';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 
@@ -17,6 +18,12 @@ const defaultService = {
     notes: '',
   };
 
+  const defaultServicePart = {
+      serviceId: 0,
+      partId: 0,
+      installDate: new Date(),
+  }
+
 class AddEditService extends React.Component{
     modalMounted = false;
 
@@ -32,8 +39,9 @@ class AddEditService extends React.Component{
     state = {
         newService: defaultService,
         serviceDate: new Date(),
+        installDate: new Date(),
         checked: true,
-        // selectedParts: [],
+        newServicePart: defaultServicePart,
     }
 
     toggleEvent = () => {
@@ -80,18 +88,30 @@ class AddEditService extends React.Component{
 
     formSubmit = (e) => {
         e.preventDefault();
-        const { isEditing, selectedService, selectedMachine } = this.props;
+        const { isEditing, selectedMachine, selectedParts } = this.props;
         const {checked, serviceDate} = this.state;
         const myService = { ...this.state.newService };
+        let myServicePart = {...this.state.newServicePart}
         myService.serviceDate = serviceDate;
         myService.machineId = selectedMachine.id;
         myService.tireRotation = checked;
         if (isEditing === false) {
-          this.setState({ newService: defaultService });
-          serviceRequests.createService(myService)
-            .then(() => {
-              this.toggleEvent();
-            });
+            this.setState({ newService: defaultService });
+            serviceRequests.createService(myService)
+                .then((service) => {
+                const serviceId = service.date.id;
+                selectedParts.map(sp => {
+                    myServicePart.partId = sp.id;
+                    myServicePart.serviceId = serviceId;
+                    machinePartRequests.createServicePart(myServicePart)
+                    .then(() => {
+                        this.setState({ newServicePart: defaultServicePart });
+                    })
+                }
+
+                )
+                this.toggleEvent();
+                });
         } 
         else {
           serviceRequests.updateService(myService.id, myService)
@@ -110,15 +130,13 @@ class AddEditService extends React.Component{
     }
         
     componentWillReceiveProps(props) {
-        const { isEditing, selectedService, selectedParts } = props;
+        const { isEditing, selectedService } = props;
         if (isEditing) {
             this.setState({
             newService: selectedService,
             serviceDate: new Date(props.selectedService.serviceDate),
-            // selectedParts: selectedParts,
             });
         }
-        // this.setState({ selectedParts });
     }
 
     render(){

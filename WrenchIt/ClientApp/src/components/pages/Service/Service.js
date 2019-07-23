@@ -7,8 +7,6 @@ import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdow
 
 class Service extends React.Component{
     serviceMounted = false;
-    // selectedParts = [];
-
 
     state = {
         selectedMachine: {},

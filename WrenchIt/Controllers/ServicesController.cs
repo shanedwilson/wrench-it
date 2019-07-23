@@ -35,7 +35,7 @@ namespace WrenchIt.Controllers
                                 createRequest.OilQuantity, createRequest.TirePressure, createRequest.Mileage,
                 createRequest.TireRotation, createRequest.ServiceDate, createRequest.Notes);
 
-            return Created($"api/services/{newService.Id}", newService);
+            return Created($"api/services/{newService.Id}",newService);
         }
 
         [HttpGet]

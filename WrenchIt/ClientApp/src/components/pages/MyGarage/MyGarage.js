@@ -15,25 +15,13 @@ class MyGarage extends React.Component{
         machines: [],
         partTypes: [],
         machineParts: [],
-        oil: 0,
-        oilFilter: 0,
-        sparkPlug: 0,
-        airFilter: 0,
-        cabinFilter: 0,
-        brakePads: 0,
-        battery: 0,
-        belt: 0,
-        wiperLeft: 0,
-        wiperRight: 0,
-        headLight: 0,
-        turnLight: 0,
-        tailLight: 0,
         selectedMachineId: 0,
         selectedPartType: 0,
         selectedMachine: {},
         isEditing: false,
         modal: false,
         showParts: false,
+        dropdownParts: [],
     }
 
     toggleMachineModal = () => {
@@ -106,7 +94,26 @@ class MyGarage extends React.Component{
     goToService = () => {
         const id = this.state.selectedMachineId
         this.props.history.push(`/service/${id}`);
+    }
 
+    selectPartType = (e) => {
+        const partTypes = [...this.state.partTypes];
+        const selectedPartType = e.currentTarget.value;
+        let partType = 0;
+        const { machineParts }= this.state;
+        let dropdownParts = [];
+        
+        partTypes.forEach((pt, i) => {
+            if(selectedPartType === pt){
+                partType = i + 1;
+            }
+        })
+        machineParts.forEach(mp => {
+            if(mp.typeId === partType){
+                dropdownParts.push(mp);
+            }
+        });
+        this.setState({ dropdownParts, selectedPartType });
     }
 
     selectPart = (e) => {
@@ -177,7 +184,7 @@ class MyGarage extends React.Component{
 
         const { currentUser } = this.props;
 
-        const { selectedMachine, modal, isEditing, selectedPartType, selectedMachineId, showParts } = this.state;
+        const { selectedMachine, modal, isEditing, selectedPartType, selectedMachineId, showParts, dropdownParts } = this.state;
 
         const makeDropdown = () => {
             return (
@@ -214,12 +221,16 @@ class MyGarage extends React.Component{
         const makePartsDiv = () => {
             if(showParts) {
                 return (
-                    <MachinePartsDropdown
-                        partTypes = {partTypes}
-                        machineParts = {machineParts}
-                        selectedPartType = {selectedPartType}
-                        selectPart = {this.selectPart}
-                    />
+                    <div className="mt-5">
+                        <MachinePartsDropdown
+                            partTypes = {partTypes}
+                            machineParts = {machineParts}
+                            selectedPartType = {selectedPartType}
+                            selectPart = {this.selectPart}
+                            dropdownParts = {dropdownParts}
+                            selectPartType = {this.selectPartType}
+                        />
+                    </div>
                 )
             }
         }

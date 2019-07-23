@@ -3,7 +3,6 @@ import machineRequests from '../../../helpers/data/machineRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
 import partRequests from '../../../helpers/data/partRequests';
 import AddEditService from'../../AddEditService/AddEditService';
-import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown'
 
 class Service extends React.Component{
     serviceMounted = false;

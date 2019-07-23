@@ -7,7 +7,7 @@ import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdow
 
 class Service extends React.Component{
     serviceMounted = false;
-    selectedParts = [];
+    // selectedParts = [];
 
 
     state = {
@@ -20,8 +20,8 @@ class Service extends React.Component{
         modal: false,
         isEditing: false,
         selectedPartType: 0,
-        oil: 0,
-        oilFilter: 0,
+        Oil: 0,
+        OilFilter: 0,
         sparkPlug: 0,
         airFilter: 0,
         cabinFilter: 0,
@@ -74,15 +74,16 @@ class Service extends React.Component{
 
     selectPart = (e) => {
         const { machineParts }= this.state;
+        const selectedParts = [...this.state.selectedParts]
         const partId = e.target.value * 1;
         const filteredParts = machineParts.filter(part => part.id === partId);
         const partType = filteredParts[0].typeId;
         switch (partType) {
             case 1:
-                this.setState({ oil: partId });
+                this.setState({ Oil: partId });
                 break;
             case 2:
-                this.setState({ oilFilter: partId });
+                this.setState({ OilFilter: partId });
                 break;
             case 3:
                 this.setState({ sparkPlug: partId });
@@ -119,7 +120,8 @@ class Service extends React.Component{
                 break;
             default:
        }
-       this.selectedParts.push(filteredParts[0]);
+       selectedParts.push(filteredParts[0]);
+       this.setState({ selectedParts });
     }
 
     toggleServiceModal = () => {
@@ -128,11 +130,15 @@ class Service extends React.Component{
     }
 
     removePart = (id) => {
-        this.selectedParts.forEach((sp, i) =>{
-            const index = this.selectedParts.findIndex(sp => sp.id === id);
+        const {selectedParts} = this.state;
+        selectedParts.forEach((sp, i) =>{
+            const index = selectedParts.findIndex(sp => sp.id === id);
             if(index > -1){
-                this.selectedParts.splice(index, 1);
-                this.setState({ selectedParts: this.selectedParts });
+                selectedParts.splice(index, 1);
+                let stuff = { selectedParts };
+                stuff[`${sp.nameType}`] = 0;
+
+                this.setState(stuff);
             };
         });
     }
@@ -150,7 +156,7 @@ class Service extends React.Component{
     }
 
     render(){
-        const { selectedMachine, isService, isEditing, modal, selectedPartType } = this.state;
+        const { selectedMachine, isEditing, modal, selectedPartType, OilFilter, Oil, selectedParts } = this.state;
 
         const partTypes = [...this.state.partTypes];
 
@@ -166,7 +172,7 @@ class Service extends React.Component{
                     selectedMachine ={selectedMachine}
                     toggleServiceModal = {this.toggleServiceModal}
                     currentUser = {currentUser}
-                    selectedParts = {this.selectedParts}
+                    selectedParts = {selectedParts}
                     removePart = {this.removePart}
                 />
                 <h3 className="text-center mt-5">Select Parts For Service</h3>
@@ -175,6 +181,8 @@ class Service extends React.Component{
                     machineParts = {machineParts}
                     selectedPartType = {selectedPartType}
                     selectPart = {this.selectPart}
+                    Oil ={Oil}
+                    OilFilter={OilFilter}
                 />
             </div>
         )

@@ -43,7 +43,6 @@ namespace WrenchIt.Data
         public IEnumerable<Object> GetAllParts()
         {
             var partTypeNames = _partTypeRepository.GetAllPartTypes();
-            var typeName = "";
 
             using (var db = new SqlConnection(_connectionString))
             {
@@ -70,6 +69,8 @@ namespace WrenchIt.Data
 
         public IEnumerable<Part> GetAllPartsByMachineId(int id)
         {
+            var partTypeNames = _partTypeRepository.GetAllPartTypes();
+
             using (var db = new SqlConnection(_connectionString))
             {
                 var machineParts = db.Query<Part>(@"
@@ -80,6 +81,17 @@ namespace WrenchIt.Data
                     where mp.machineId = @id
                     and mp.isactive = 1",
                     new { id }).ToList();
+
+                for (int i = 0; i < partTypeNames.Count; i++)
+                {
+                    machineParts.ForEach(p =>
+                    {
+                        if (p.TypeId == i + 1)
+                        {
+                            p.NameType = partTypeNames[i];
+                        };
+                    });
+                };
 
                 return machineParts;
             }

@@ -33,7 +33,7 @@ class AddEditService extends React.Component{
         newService: defaultService,
         serviceDate: new Date(),
         checked: true,
-        selectedParts: [],
+        // selectedParts: [],
     }
 
     toggleEvent = () => {
@@ -115,36 +115,34 @@ class AddEditService extends React.Component{
             this.setState({
             newService: selectedService,
             serviceDate: new Date(props.selectedService.serviceDate),
-            selectedParts: selectedParts,
+            // selectedParts: selectedParts,
             });
         }
-        this.setState({ selectedParts });
+        // this.setState({ selectedParts });
     }
 
     render(){
-        const { isEditing, selectedMachine } = this.props;
+        const { isEditing, selectedMachine, selectedParts } = this.props;
 
-        const {serviceDate, checked} = this.state;
+        const {serviceDate, checked } = this.state;
 
         const newService = {...this.state.newService};
-
-        const selectedParts = [...this.state.selectedParts]
 
         const makeHeader = () => {
             if (isEditing) {
               return (
-                <div className="text-center">Edit Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
+                <div className="text-center">Edit Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
               );
             }
             return (
-              <div className="text-center">Add Sercice For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
+              <div className="text-center">Add Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
             );
           };
 
           const makeSelectedParts = () => {
             return(
-                selectedParts.map(p => (
-                    <div  className="mr-2" onClick={this.removePartEvent} id={p.id}>
+                selectedParts.map((p,index) => (
+                    <div  key={index} className="mr-2" onClick={this.removePartEvent} id={p.id}>
                         {p.brand} {p.partNumber}
                     </div>  
                 ))
@@ -239,11 +237,11 @@ class AddEditService extends React.Component{
                                         />
                                     </div>
                                 </div>
-                                <div className="form-check">
+                                <div className="form-check text-center">
                                     <input type="checkbox" onChange={this.handleCheckbox} checked={checked} className="form-check-input" id="tireRotation"/>
                                     <label className="form-check-label">Tire Rotation?</label>
                                 </div>
-                                <div id="serviceDate">
+                                <div id="serviceDate" className="text-center">
                                     <label>Service Date</label>
                                     <DatePicker
                                     className="ml-3"

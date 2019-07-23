@@ -141,7 +141,7 @@ class AddEditService extends React.Component{
     }
 
     render(){
-        const { isEditing, selectedMachine, selectedParts, partTypes, selectPartType, selectedPartType } = this.props;
+        const { isEditing, selectedMachine, selectedParts, partTypes, selectPartType, selectedPartType, selectedPart, dropdownParts } = this.props;
 
         const {serviceDate, checked } = this.state;
 
@@ -271,10 +271,10 @@ class AddEditService extends React.Component{
                                 <h3 className="text-center mt-5">Select Parts For Service</h3>
                                 <MachinePartsDropdown
                                     partTypes = {partTypes}
-                                    // machineParts = {machineParts}
+                                    selectedPart = {selectedPart}
                                     selectedPartType = {selectedPartType}
                                     selectPartType = {selectPartType}
-                                    // Oil ={Oil}
+                                    dropdownParts ={dropdownParts}
                                     // OilFilter={OilFilter}
                                 />
                                 <div className="text-center">

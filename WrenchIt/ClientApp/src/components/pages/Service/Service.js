@@ -175,6 +175,8 @@ class Service extends React.Component{
 
         const machineParts = [...this.state.machineParts];
 
+        const dropdownParts = [...this.state.dropdownParts];
+
         const { currentUser } = this.props;
 
         return(
@@ -190,6 +192,7 @@ class Service extends React.Component{
                     partTypes = {partTypes}
                     selectPartType = {this.selectPartType}
                     selectedPartType = {selectedPartType}
+                    dropdownParts = {dropdownParts}
                 />
                 {/* <h3 className="text-center mt-5">Select Parts For Service</h3>
                 <MachinePartsDropdown

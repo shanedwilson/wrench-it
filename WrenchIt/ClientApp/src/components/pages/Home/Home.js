@@ -7,6 +7,7 @@ import './Home.scss';
 class Home extends React.Component{
     state = {
         modal: false,
+        isEditingMachine: false,
     }
 
     static propTypes = {
@@ -25,7 +26,7 @@ class Home extends React.Component{
     }
 
     render(){
-        const { modal } = this.state;
+        const { modal,isEditingMachine } = this.state;
 
         const { currentUser } = this.props;
 
@@ -61,6 +62,7 @@ class Home extends React.Component{
                     toggleMachineModal = {this.toggleMachineModal}
                     modal = {modal}
                     currentUser = {currentUser}
+                    isEditing = {isEditingMachine}
                 />
             </div>
         )

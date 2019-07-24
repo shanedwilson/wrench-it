@@ -15,4 +15,7 @@ const getAllMachineParts = () => new Promise((resolve, reject) => {
 
   const createMachinePart = machinePartObject => axios.post(`${apiUrl}`, (machinePartObject));
 
-  export default { getAllMachineParts, createMachinePart };
+  const deleteMachinePart = partId => axios.delete(`${apiUrl}/${partId}`);
+
+  export default { getAllMachineParts, createMachinePart, deleteMachinePart };
+  

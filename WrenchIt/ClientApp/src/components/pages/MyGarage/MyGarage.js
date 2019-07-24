@@ -2,7 +2,9 @@ import React from 'react';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown';
 import MachineCard from '../../MachineCard/MachineCard';
+import AddEditPart from '../../AddEditPart/AddEditPart';
 import machineRequests from '../../../helpers/data/machineRequests';
+import machinePartRequests from '../../../helpers/data/machinePartRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
 import partRequests from '../../../helpers/data/partRequests';
 
@@ -15,25 +17,17 @@ class MyGarage extends React.Component{
         machines: [],
         partTypes: [],
         machineParts: [],
-        oil: 0,
-        oilFilter: 0,
-        sparkPlug: 0,
-        airFilter: 0,
-        cabinFilter: 0,
-        brakePads: 0,
-        battery: 0,
-        belt: 0,
-        wiperLeft: 0,
-        wiperRight: 0,
-        headLight: 0,
-        turnLight: 0,
-        tailLight: 0,
         selectedMachineId: 0,
-        selectedPartType: 0,
+        selectedPartType: 1000,
+        selectedPartId: 0,
         selectedMachine: {},
+        selectedPartToEdit: {},
         isEditing: false,
+        isEditingPart: false,
         modal: false,
         showParts: false,
+        dropdownParts: [],
+        addPart: false,
     }
 
     toggleMachineModal = () => {
@@ -106,57 +100,51 @@ class MyGarage extends React.Component{
     goToService = () => {
         const id = this.state.selectedMachineId
         this.props.history.push(`/service/${id}`);
+    }
 
+    selectPartType = (e) => {
+        const selectedPartType = e.currentTarget.value * 1;
+        const { machineParts }= this.state;
+        let dropdownParts = [];
+        
+        machineParts.forEach(mp => {
+            if(mp.typeId === selectedPartType + 1){
+                dropdownParts.push(mp);
+            }
+        });
+        this.setState({ dropdownParts, selectedPartType });
     }
 
     selectPart = (e) => {
-        const { machineParts }= this.state;
-        const partId = e.target.value * 1;
-        const filteredParts = machineParts.filter(part => part.id === partId);
-        const partType = filteredParts[0].typeId;
-        switch (partType) {
-            case 1:
-                this.setState({ oil: partId });
-                break;
-            case 2:
-                this.setState({ oilFilter: partId });
-                break;
-            case 3:
-                this.setState({ sparkPlug: partId });
-                break;
-            case 4:
-                this.setState({ airFilter: partId });
-                break;
-            case 5:
-                this.setState({ cabinFilter: partId });
-                break;
-            case 6:
-                this.setState({ brakePads: partId });
-                break;
-            case 7:
-                this.setState({ battery: partId });
-                break;
-            case 8:
-                this.setState({ belt: partId });
-                break;
-            case 9:
-                this.setState({ wiperLeft: partId });
-                break;
-            case 10:
-                this.setState({ wiperRight: partId })
-                break;
-            case 11:
-                this.setState({ headLight: partId });
-                break;
-            case 12:
-                this.setState({ turnLight: partId });
-                break;
-            case 13:
-                this.setState({ tailLight: partId });
-                break;
-            default:
+        const partId = e.currentTarget.value * 1;
+        partRequests.getSinglePart(partId)
+            .then((part)=> {
+                this.setState({
+                    selectedPartToEdit: part.data, 
+                    addPart: true,
+                    isEditingPart: true,
+                    selectedPartType: 1000,
+                    selectedPartId: 0,
+                    dropdownParts: [],
+                });
+            })
+    }
 
-       }
+    deletePart = () => {
+        const {selectedPartToEdit, addPart, selectedMachine, machineParts} = this.state;
+        const partId = selectedPartToEdit.id;
+        const machinePart = machineParts.filter(part => part.id === partId);
+        const machinePartId = machinePart[0].machinePartId;
+        machinePartRequests.deleteMachinePart(machinePartId)
+        .then(() => {
+            this.setState({ addPart: !addPart });
+            this.getPartsByMachine(selectedMachine.id);
+        })
+    }
+
+    showAddParts = () => {
+        const { addPart } = this.state;
+        this.setState({ addPart: !addPart })
     }
 
     componentDidMount(){
@@ -177,7 +165,19 @@ class MyGarage extends React.Component{
 
         const { currentUser } = this.props;
 
-        const { selectedMachine, modal, isEditing, selectedPartType, selectedMachineId, showParts } = this.state;
+        const {
+                selectedMachine,
+                selectedPartToEdit,
+                selectedPartId,
+                modal,
+                isEditing,
+                selectedPartType,
+                selectedMachineId,
+                showParts,
+                dropdownParts,
+                addPart,
+                isEditingPart,
+            } = this.state;
 
         const makeDropdown = () => {
             return (
@@ -214,12 +214,22 @@ class MyGarage extends React.Component{
         const makePartsDiv = () => {
             if(showParts) {
                 return (
-                    <MachinePartsDropdown
-                        partTypes = {partTypes}
-                        machineParts = {machineParts}
-                        selectedPartType = {selectedPartType}
-                        selectPart = {this.selectPart}
-                    />
+                    <div className="mt-5">
+                        <MachinePartsDropdown
+                            partTypes = {partTypes}
+                            machineParts = {machineParts}
+                            selectedPartType = {selectedPartType}
+                            selectPart = {this.selectPart}
+                            dropdownParts = {dropdownParts}
+                            selectPartType = {this.selectPartType}
+                            selectedPart = {selectedPartId}
+                        />
+                        <div className="text-center">
+                            <button className="bttn-pill user-add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
+                                <i className="fas fa-wrench fa-2x"></i>
+                            </button>
+                        </div>
+                    </div>
                 )
             }
         }
@@ -240,6 +250,17 @@ class MyGarage extends React.Component{
                     currentUser = {currentUser}
                     selectedMachine = {selectedMachine}
                     getSingleMachine = {this.getSingleMachine}
+                />
+                <AddEditPart
+                    partTypes={partTypes}
+                    selectedMachineId={selectedMachineId}
+                    isEditingPart={isEditingPart}
+                    currentUser={currentUser}
+                    getPartsByMachine = {this.getPartsByMachine}
+                    addPart={addPart}
+                    showAddParts= {this.showAddParts}
+                    selectedPartToEdit = {selectedPartToEdit}
+                    deletePart = {this.deletePart}
                 />
             </div>
         )

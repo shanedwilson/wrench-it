@@ -74,7 +74,7 @@ namespace WrenchIt.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var machineParts = db.Query<Part>(@"
-                    select p.*
+                    select p.*, mp.id as machinePartId
                     from machineParts mp
                     join parts p
                     on p.id = mp.partId

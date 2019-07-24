@@ -101,7 +101,7 @@ class AddEditPart extends React.Component {
     }
 
     render(){
-        const { partTypes, addPart, isEditingPart } = this.props;
+        const { partTypes, addPart, isEditingPart, deletePart } = this.props;
 
         const { selectedAddPartType } = this.state;
 
@@ -181,6 +181,9 @@ class AddEditPart extends React.Component {
                                         <div className="text-center">
                                             <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Part">
                                                 <i className="fas fa-car fa-2x"></i>
+                                            </button>
+                                            <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={deletePart} title="Delete Part">
+                                                <i className="part-delete-btn fas fa-trash fa-1x"></i>
                                             </button>
                                         </div>
                                     </div>

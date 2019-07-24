@@ -4,6 +4,7 @@ import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdow
 import MachineCard from '../../MachineCard/MachineCard';
 import AddEditPart from '../../AddEditPart/AddEditPart';
 import machineRequests from '../../../helpers/data/machineRequests';
+import machinePartRequests from '../../../helpers/data/machinePartRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
 import partRequests from '../../../helpers/data/partRequests';
 
@@ -129,6 +130,18 @@ class MyGarage extends React.Component{
             })
     }
 
+    deletePart = () => {
+        const {selectedPartToEdit, addPart, selectedMachine, machineParts} = this.state;
+        const partId = selectedPartToEdit.id;
+        const machinePart = machineParts.filter(part => part.id === partId);
+        const machinePartId = machinePart[0].machinePartId;
+        machinePartRequests.deleteMachinePart(machinePartId)
+        .then(() => {
+            this.setState({ addPart: !addPart });
+            this.getPartsByMachine(selectedMachine.id);
+        })
+    }
+
     showAddParts = () => {
         const { addPart } = this.state;
         this.setState({ addPart: !addPart })
@@ -247,6 +260,7 @@ class MyGarage extends React.Component{
                     addPart={addPart}
                     showAddParts= {this.showAddParts}
                     selectedPartToEdit = {selectedPartToEdit}
+                    deletePart = {this.deletePart}
                 />
             </div>
         )

@@ -207,22 +207,6 @@ class MyGarage extends React.Component{
             }
         }
 
-        const makeAddEditParts = () => {
-            if(addPart) {
-                return(
-                    <div className="mt-5">
-                        <AddEditPart
-                            partTypes={partTypes}
-                            selectedMachineId={selectedMachineId}
-                            isEditingPart={isEditingPart}
-                            currentUser={currentUser}
-                            getPartsByMachine = {this.getPartsByMachine}
-                        />
-                    </div>
-                )
-            }
-        }
-
         return(
             
             <div className="myGarage mx-auto">
@@ -240,7 +224,15 @@ class MyGarage extends React.Component{
                     selectedMachine = {selectedMachine}
                     getSingleMachine = {this.getSingleMachine}
                 />
-                {makeAddEditParts()}
+                <AddEditPart
+                    partTypes={partTypes}
+                    selectedMachineId={selectedMachineId}
+                    isEditingPart={isEditingPart}
+                    currentUser={currentUser}
+                    getPartsByMachine = {this.getPartsByMachine}
+                    addPart={addPart}
+                    showAddParts= {this.showAddParts}
+                />
             </div>
         )
     }

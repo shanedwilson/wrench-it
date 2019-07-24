@@ -1,5 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+  } from 'reactstrap';
 import partRequests from '../../helpers/data/partRequests';
 import machinePartRequests from '../../helpers/data/machinePartRequests';
 
@@ -27,6 +33,13 @@ class AddEditPart extends React.Component {
         partTypes: PropTypes.array,
         selectedMachineId: PropTypes.number,
         isEditingPart: PropTypes.bool,
+        showParts: PropTypes.bool,
+        getPartsByMachine: PropTypes.func,
+        showAddParts: PropTypes.func,
+    }
+
+    toggleEvent = () => {
+        this.props.showAddParts();
     }
 
     selectAddPartType = (e) => {
@@ -86,9 +99,20 @@ class AddEditPart extends React.Component {
     }
 
     render(){
-        const { selectedPartType, partTypes } = this.props;
+        const { selectedPartType, partTypes, addPart, isEditingPart } = this.props;
 
         const newPart = {...this.state.newPart};
+
+        const makeHeader = () => {
+            if (isEditingPart) {
+              return (
+                <div>Edit Your Part</div>
+              );
+            }
+            return (
+              <div>Add A Part</div>
+            );
+          };
 
         const makePartTypeDropdown = () => {
             let counter = 0;
@@ -108,55 +132,60 @@ class AddEditPart extends React.Component {
             );
         };
         return(
-            <div className="mb-3">
-                <div className="reg-container d-flex animated fadeIn">
-                    <form className="row form-container border border-dark rounded mx-auto" onSubmit={this.formSubmit}>
-                        <h5 className="reg-title mx-auto">Please Enter The Parts Info:</h5>
-                        <div className="form col-11 mt-2 mx-auto">
-                            <div className="col-auto form-lines p-0">
-                                {makePartTypeDropdown()}
-                            </div>
-                            <div className="col-auto form-lines p-0">
-                                <div className="input-group mb-2">
-                                    <div className="input-group-prepend w-10">
-                                    <div className="input-group-text">Brand</div>
+            <Modal isOpen={addPart} className="modal-lg">
+                <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
+                    <ModalBody className="text-center modal-body" id="part-modal">
+                        <div className="mb-3">
+                            <div className="reg-container d-flex animated fadeIn">
+                                <form className="row form-container border border-dark rounded mx-auto" onSubmit={this.formSubmit}>
+                                    <h5 className="reg-title mx-auto">Please Enter The Parts Info:</h5>
+                                    <div className="form col-11 mt-2 mx-auto">
+                                        <div className="col-auto form-lines p-0">
+                                            {makePartTypeDropdown()}
+                                        </div>
+                                        <div className="col-auto form-lines p-0">
+                                            <div className="input-group mb-2">
+                                                <div className="input-group-prepend w-10">
+                                                <div className="input-group-text">Brand</div>
+                                                </div>
+                                                <input
+                                                type="text"
+                                                className="form-control"
+                                                id="brand"
+                                                placeholder="Fram"
+                                                value={newPart.brand}
+                                                onChange={this.brandChange}
+                                                required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="col-auto form-lines p-0">
+                                            <div className="input-group mb-2">
+                                                <div className="input-group-prepend w-10">
+                                                <div className="input-group-text">Part Number</div>
+                                                </div>
+                                                <input
+                                                type="text"
+                                                className="form-control"
+                                                id="partNumber"
+                                                placeholder="xxx123"
+                                                value={newPart.partNumber}
+                                                onChange={this.partNumberChange}
+                                                required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="text-center">
+                                            <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
+                                                <i className="fas fa-car fa-2x"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    id="brand"
-                                    placeholder="Fram"
-                                    value={newPart.brand}
-                                    onChange={this.brandChange}
-                                    required
-                                    />
-                                </div>
-                            </div>
-                            <div className="col-auto form-lines p-0">
-                                <div className="input-group mb-2">
-                                    <div className="input-group-prepend w-10">
-                                    <div className="input-group-text">Part Number</div>
-                                    </div>
-                                    <input
-                                    type="text"
-                                    className="form-control"
-                                    id="partNumber"
-                                    placeholder="xxx123"
-                                    value={newPart.partNumber}
-                                    onChange={this.partNumberChange}
-                                    required
-                                    />
-                                </div>
-                            </div>
-                            <div className="text-center">
-                                <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
-                                    <i className="fas fa-car fa-2x"></i>
-                                </button>
+                                </form>
                             </div>
                         </div>
-                    </form>
-                </div>
-        </div>       
+                    </ModalBody>
+            </Modal>            
         )
     }
 }

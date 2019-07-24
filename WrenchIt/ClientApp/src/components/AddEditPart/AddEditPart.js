@@ -60,7 +60,7 @@ class AddEditPart extends React.Component {
 
     formSubmit = (e) => {
         e.preventDefault();
-        const { getSinglePart, selectedPart, selectedMachineId, isEditingPart, currentUser, getPartsByMachine } = this.props;
+        const { selectedMachineId, isEditingPart, currentUser, getPartsByMachine } = this.props;
         const { selectedAddPartType } = this.state;
         const myPart = { ...this.state.newPart };
         const myMachinePart = {...this.state.newMachinePart};
@@ -81,25 +81,29 @@ class AddEditPart extends React.Component {
             });
         }
         else {
-          partRequests.updatePart(myPart.id, myPart)
-            .then(() => {
-                getSinglePart(selectedPart.id);
-                this.toggleEvent();
+                partRequests.updatePart(myPart.id, myPart)
+                    .then((part) => {
+                        getPartsByMachine(selectedMachineId)
+                        this.toggleEvent();
             });
         }
     };
 
     componentWillReceiveProps(props) {
-        const { isEditingPart, selectedPart } = props;
+        const { isEditingPart, selectedPartToEdit } = props;
         if (isEditingPart) {
+            const selectedAddPartType = selectedPartToEdit.typeId - 1;
             this.setState({
-            newPart: selectedPart,
+            newPart: selectedPartToEdit,
+            selectedAddPartType: selectedAddPartType,
             });
         }
     }
 
     render(){
-        const { selectedPartType, partTypes, addPart, isEditingPart } = this.props;
+        const { partTypes, addPart, isEditingPart } = this.props;
+
+        const { selectedAddPartType } = this.state;
 
         const newPart = {...this.state.newPart};
 
@@ -115,17 +119,16 @@ class AddEditPart extends React.Component {
           };
 
         const makePartTypeDropdown = () => {
-            let counter = 0;
             return (
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
                     <div className="partType-label input-group-text">Part Type:</div>
                     </div>
-                    <select name="part" required className="custom-select" value={selectedPartType}
+                    <select name="part" required className="custom-select" value={selectedAddPartType}
                             onChange={(event) => { this.selectAddPartType(event) }}>
                     <option value="">Select Part Type</option>
                         {
-                        partTypes.map(partType => (<option key={counter++}value={counter}>{partType}</option>))
+                        partTypes.map((partType, i) => (<option key={i}value={i}>{partType}</option>))
                         }
                     </select>
                 </div>
@@ -176,7 +179,7 @@ class AddEditPart extends React.Component {
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
+                                            <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Part">
                                                 <i className="fas fa-car fa-2x"></i>
                                             </button>
                                         </div>

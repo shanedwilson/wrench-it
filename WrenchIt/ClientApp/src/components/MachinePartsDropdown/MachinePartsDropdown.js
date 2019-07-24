@@ -29,8 +29,8 @@ class MachinePartsDropdown extends React.Component {
                         onChange={(event) => { this.selectPartEvent(event) }}>
                         <option value="">Select Part</option>
                         {
-                            dropdownParts.map((part, index) => (
-                            <option key={index} value={part.id} id={part.id}>{part.brand} {part.partNumber}</option>))
+                            dropdownParts.map((part) => (
+                            <option key={part.id} value={part.id} id={part.id}>{part.brand} {part.partNumber}</option>))
                          }
                     </select> 
                 )

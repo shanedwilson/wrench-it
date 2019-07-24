@@ -74,13 +74,13 @@ namespace WrenchIt.Data
             using (var db = new SqlConnection(_connectionString))
             {
                 var machineParts = db.Query<Part>(@"
-                    select *
-                    from parts p
-                    join machineParts mp
+                    select p.*
+                    from machineParts mp
+                    join parts p
                     on p.id = mp.partId
                     where mp.machineId = @id
                     and mp.isactive = 1",
-                    new { id }).ToList();
+                    new { Id = id }).ToList();
 
                 for (int i = 0; i < partTypeNames.Count; i++)
                 {
@@ -106,7 +106,7 @@ namespace WrenchIt.Data
                     select *
                     from parts
                     where id = @id",
-                    new { id });
+                    new { Id =id });
 
                 return part;
             }

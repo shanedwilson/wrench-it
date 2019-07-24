@@ -18,8 +18,9 @@ class MyGarage extends React.Component{
         machineParts: [],
         selectedMachineId: 0,
         selectedPartType: 1000,
+        selectedPartId: 0,
         selectedMachine: {},
-        selectedPart: {},
+        selectedPartToEdit: {},
         isEditing: false,
         isEditingPart: false,
         modal: false,
@@ -114,14 +115,18 @@ class MyGarage extends React.Component{
     }
 
     selectPart = (e) => {
-        const machineParts = [...this.state.machineParts];
-        const partId = e.target.value * 1;
-        const selectedPart = machineParts.filter(part => part.id === partId);
-        this.setState({
-                        selectedPart: selectedPart[0], 
-                        addPart: true,
-                        isEditingPart: true,
-                    });
+        const partId = e.currentTarget.value * 1;
+        partRequests.getSinglePart(partId)
+            .then((part)=> {
+                this.setState({
+                    selectedPartToEdit: part.data, 
+                    addPart: true,
+                    isEditingPart: true,
+                    selectedPartType: 1000,
+                    selectedPartId: 0,
+                    dropdownParts: [],
+                });
+            })
     }
 
     showAddParts = () => {
@@ -149,6 +154,8 @@ class MyGarage extends React.Component{
 
         const {
                 selectedMachine,
+                selectedPartToEdit,
+                selectedPartId,
                 modal,
                 isEditing,
                 selectedPartType,
@@ -202,6 +209,7 @@ class MyGarage extends React.Component{
                             selectPart = {this.selectPart}
                             dropdownParts = {dropdownParts}
                             selectPartType = {this.selectPartType}
+                            selectedPart = {selectedPartId}
                         />
                         <div className="text-center">
                             <button className="bttn-pill user-add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
@@ -238,6 +246,7 @@ class MyGarage extends React.Component{
                     getPartsByMachine = {this.getPartsByMachine}
                     addPart={addPart}
                     showAddParts= {this.showAddParts}
+                    selectedPartToEdit = {selectedPartToEdit}
                 />
             </div>
         )

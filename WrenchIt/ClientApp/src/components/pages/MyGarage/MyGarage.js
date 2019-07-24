@@ -19,6 +19,7 @@ class MyGarage extends React.Component{
         selectedMachineId: 0,
         selectedPartType: 1000,
         selectedMachine: {},
+        selectedPart: {},
         isEditing: false,
         isEditingPart: false,
         modal: false,
@@ -113,9 +114,14 @@ class MyGarage extends React.Component{
     }
 
     selectPart = (e) => {
-        const { machineParts }= this.state;
+        const machineParts = [...this.state.machineParts];
         const partId = e.target.value * 1;
-        const filteredParts = machineParts.filter(part => part.id === partId);
+        const selectedPart = machineParts.filter(part => part.id === partId);
+        this.setState({
+                        selectedPart: selectedPart[0], 
+                        addPart: true,
+                        isEditingPart: true,
+                    });
     }
 
     showAddParts = () => {

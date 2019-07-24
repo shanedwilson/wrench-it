@@ -24,4 +24,6 @@ const getPartsByMachineId = (id) => new Promise((resolve, reject) => {
       });
   });
 
-  export default { getPartsByMachineId, getAllParts };
+  const createPart = partObject => axios.post(`${apiUrl}`, (partObject));
+
+  export default { getPartsByMachineId, getAllParts, createPart };

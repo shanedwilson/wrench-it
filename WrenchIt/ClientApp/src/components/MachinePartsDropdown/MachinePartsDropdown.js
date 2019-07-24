@@ -5,7 +5,8 @@ class MachinePartsDropdown extends React.Component {
     static propTypes = {
         partTypes: PropTypes.array,
         dropdownParts: PropTypes.array,
-        selectedPartType: PropTypes.string,
+        selectedPartType: PropTypes.number,
+        selectedPart: PropTypes.number,
         selectPart: PropTypes.func,
         selectPartType: PropTypes.func,
     }
@@ -40,7 +41,7 @@ class MachinePartsDropdown extends React.Component {
         const makePartTypeDropdown = () => {
             return (
                     partTypes.map((partType, index) => (
-                        <option key={index} value={partType} id={index}>{partType}</option>
+                        <option key={index} value={index}>{partType}</option>
                     ))
             );  
         };  

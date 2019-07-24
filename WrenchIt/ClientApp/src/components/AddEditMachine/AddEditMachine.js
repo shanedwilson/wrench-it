@@ -152,19 +152,19 @@ import {
         const makeMachineTypeDropdown = () => {
             let counter = 0;
             return (
-                    <div className="input-group mb-2">
-                      <div className="input-group-prepend">
-                      <div className="machineType-label input-group-text">Machine Type:</div>
-                      </div>
-                        <select name="machine" required className="custom-select" value={selectedMachineType}
-                                onChange={(event) => { this.selectMachineType(event); this.typeIdChange(event); }}>
-                        <option value="">Select Machine Type</option>
-                          {
-                            machineTypes.map(machineType => (<option key={counter++}value={counter}>{machineType}</option>))
-                          }
-                        </select>
+                <div className="input-group mb-2">
+                    <div className="input-group-prepend">
+                    <div className="machineType-label input-group-text">Machine Type:</div>
                     </div>
-                    );
+                    <select name="machine" required className="custom-select" value={selectedMachineType}
+                            onChange={(event) => { this.selectMachineType(event); this.typeIdChange(event); }}>
+                    <option value="">Select Machine Type</option>
+                        {
+                        machineTypes.map(machineType => (<option key={counter++}value={counter}>{machineType}</option>))
+                        }
+                    </select>
+                </div>
+            );
         };
 
         return(
@@ -175,7 +175,7 @@ import {
                         <div className="reg-container d-flex animated fadeIn">
                             <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
                                 <h3 className="reg-title mx-auto">Please Enter Your Machine's Info:</h3>
-                                <div className="form col-11 mt-2">
+                                <div className="form col-11 mt-2 mx-auto">
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend w-10">
@@ -324,9 +324,9 @@ import {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                    <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit">
-                                        <i className="fas fa-plus-circle" />
-                                    </button>
+                                        <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
+                                            <i class="fas fa-car fa-2x"></i>
+                                        </button>
                                     </div>
                                 </div>
                              </form>

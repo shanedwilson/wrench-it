@@ -17,7 +17,7 @@ class Service extends React.Component{
         isService: true,
         modal: false,
         isEditing: false,
-        selectedPartType: "",
+        selectedPartType: 1000,
         SelectedMachineId: 0,
         selectedPart: 0,
     }
@@ -59,23 +59,15 @@ class Service extends React.Component{
     }
 
     selectPartType = (e) => {
-        const partTypes = [...this.state.partTypes];
-        const selectedPartType = e.currentTarget.value;
-        let partType = 0;
+        const selectedPartType = e.currentTarget.value * 1;
         const { machineParts }= this.state;
         let dropdownParts = [];
-        
-        partTypes.forEach((pt, i) => {
-            if(selectedPartType === pt){
-                partType = i + 1;
-            }
-        })
         machineParts.forEach(mp => {
-            if(mp.typeId === partType){
+            if(mp.typeId === selectedPartType + 1){
                 dropdownParts.push(mp);
             }
         });
-        this.setState({ dropdownParts, selectedPartType });
+        this.setState({ dropdownParts, selectedPartType: selectedPartType });
     }
 
     selectPart = (e) => {
@@ -84,7 +76,7 @@ class Service extends React.Component{
         const partId = e.target.value * 1;
         const filteredParts = machineParts.filter(part => part.id === partId);
         selectedParts.push(filteredParts[0]);
-        this.setState({ selectedParts, selectedPart: 0, selectedPartType: "", dropdownParts: [] });
+        this.setState({ selectedParts, selectedPart: 0, selectedPartType:1000, dropdownParts: [] });
     }
 
     removePart = (id) => {

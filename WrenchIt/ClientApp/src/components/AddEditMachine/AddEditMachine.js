@@ -325,7 +325,7 @@ import {
                                     </div>
                                     <div className="text-center">
                                         <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
-                                            <i class="fas fa-car fa-2x"></i>
+                                            <i className="fas fa-car fa-2x"></i>
                                         </button>
                                     </div>
                                 </div>

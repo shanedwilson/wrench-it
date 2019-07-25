@@ -278,6 +278,7 @@ class MyGarage extends React.Component{
                     selectedMachine={selectedMachine}
                     addEditServiceModal={addEditServiceModal}
                     partTypes = {partTypes}
+                    machineParts = {machineParts}
                 />
             </div>
         )

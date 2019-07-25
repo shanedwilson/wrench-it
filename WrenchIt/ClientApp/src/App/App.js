@@ -14,7 +14,8 @@ import Home from '../components/pages/Home/Home'
 import MyGarage from '../components/pages/MyGarage/MyGarage';
 import Links from '../components/pages/Links/Links';
 import Alerts from '../components/pages/Alerts/Alerts';
-import Service from '../components/pages/Service/Service'
+import Service from '../components/pages/Service/Service';
+import ServiceHistory from '../components/pages/ServiceHistory/ServiceHistory';
 import authRequests from '../helpers/data/authRequests';
 import userRequests from '../helpers/data/userRequests';
 import connection from '../helpers/data/connection';
@@ -115,7 +116,7 @@ export default class App extends Component {
                   <PrivateRoute path="/links" component={Links} authed={authed}/>
                   <PrivateRoute path="/alerts" component={Alerts} authed={authed}/>
                   <PrivateRoute exact path="/service/:id" authed={authed} component={props => <Service {...props} currentUser={currentUser}/>}/>
-                  {/* <PrivateRoute path="/likedProperties" authed={this.state.authed} component={props => <LikedProperties {...props} currentUser={currentUser}/>}/> */}
+                  <PrivateRoute exact path="/service/history/:id" authed={authed} component={props => <ServiceHistory {...props} currentUser={currentUser}/>}/>
                   {/* <PrivateRoute exact path="/rentingHistory" authed={this.state.authed} component={props => <RentingHistory {...props} currentUser={currentUser}/>}/> */}
                   {/* <PrivateRoute exact path="/viewRentals" authed={this.state.authed} component={props => <OwnerRentals {...props} currentUser={currentUser}/>}/> */}
                   {/* <PrivateRoute exact path="/ownerProperties/:id" authed={this.state.authed} component={props => <OwnerProperties {...props} currentUser={currentUser}/>}/> */}

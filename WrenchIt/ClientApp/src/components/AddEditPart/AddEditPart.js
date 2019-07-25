@@ -38,13 +38,13 @@ class AddEditPart extends React.Component {
         showAddParts: PropTypes.func,
     }
 
-    toggleEvent = () => {
-        this.props.showAddParts();
-    }
-
     selectAddPartType = (e) => {
         const selectedAddPartType = e.target.value * 1;
         this.setState({ selectedAddPartType });
+    }
+
+    toggleEvent = () => {
+        this.props.showAddParts();
     }
 
     formFieldStringState = (name, e) => {

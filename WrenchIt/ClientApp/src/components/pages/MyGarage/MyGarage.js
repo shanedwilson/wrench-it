@@ -102,6 +102,11 @@ class MyGarage extends React.Component{
         this.props.history.push(`/service/${id}`);
     }
 
+    goToServiceHistory = () => {
+        const id = this.state.selectedMachineId
+        this.props.history.push(`/service/history/${id}`);
+    }
+
     selectPartType = (e) => {
         const selectedPartType = e.currentTarget.value * 1;
         const { machineParts }= this.state;
@@ -205,6 +210,7 @@ class MyGarage extends React.Component{
                         deleteMachine = {this.deleteMachine}
                         showPartsDiv = {this.showPartsDiv}
                         goToService = {this.goToService}
+                        goToServiceHistory = {this.goToServiceHistory}
                     />
                   );
             }

@@ -29,6 +29,10 @@ class MachineCard extends React.Component{
         this.props.goToService();
     }
 
+    goToServiceHistoryEvent = () => {
+        this.props.goToServiceHistory();
+    }
+
     toggleServiceModalEvent =() => {
         this.props.toggleServiceModal();
     }
@@ -55,6 +59,9 @@ class MachineCard extends React.Component{
                     </button>
                     <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.goToServiceEvent} title="Add A Service Record">
                         <i className="fas fa-tools"></i>
+                    </button>
+                    <button id='service-history' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.goToServiceHistoryEvent} title="See Service History">
+                        <i className="fas fa-file-medical-alt"></i>
                     </button>
                 </div>
             )

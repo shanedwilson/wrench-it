@@ -150,17 +150,6 @@ class AddEditService extends React.Component{
 
         const newService = {...this.state.newService};
 
-        const makeHeader = () => {
-            if (isEditing) {
-              return (
-                <div className="text-center">Edit Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
-              );
-            }
-            return (
-              <div className="text-center">Add Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
-            );
-          };
-
           const makeSelectedParts = () => {
             return(
                 selectedParts.map((p,index) => (
@@ -173,7 +162,7 @@ class AddEditService extends React.Component{
 
         return(
             <div className="col">
-            <h1 class-name="service-header">{makeHeader()}</h1>
+            {/* <h1 class-name="service-header">{makeHeader()}</h1> */}
                 <div className="">
                     <div className="reg-container d-flex animated fadeIn">
                         <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>

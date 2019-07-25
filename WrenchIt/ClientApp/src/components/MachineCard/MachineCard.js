@@ -9,7 +9,7 @@ class MachineCard extends React.Component{
         editMachine: PropTypes.func,
         deleteMachine: PropTypes.func,
         showPartsDiv: PropTypes.func,
-        goToService: PropTypes.func,
+        showService: PropTypes.func,
         toggleServiceModal: PropTypes.func,
     }
 
@@ -25,8 +25,8 @@ class MachineCard extends React.Component{
         this.props.showPartsDiv();
     }
 
-    goToServiceEvent = () => {
-        this.props.goToService();
+    showAddEditServiceEvent = () => {
+        this.props.showAddEditService();
     }
 
     goToServiceHistoryEvent = () => {
@@ -57,7 +57,7 @@ class MachineCard extends React.Component{
                     <button id='show-parts' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.showPartsDivEvent} title="See/Hide Parts">
                         <i className="fas fa-cogs"></i>
                     </button>
-                    <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.goToServiceEvent} title="Add A Service Record">
+                    <button id='goto-service' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.showAddEditServiceEvent} title="Add A Service Record">
                         <i className="fas fa-tools"></i>
                     </button>
                     <button id='service-history' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.goToServiceHistoryEvent} title="See Service History">

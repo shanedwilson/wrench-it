@@ -3,6 +3,7 @@ import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown';
 import MachineCard from '../../MachineCard/MachineCard';
 import AddEditPart from '../../AddEditPart/AddEditPart';
+import Service from '../../Service/Service'
 import machineRequests from '../../../helpers/data/machineRequests';
 import machinePartRequests from '../../../helpers/data/machinePartRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
@@ -28,6 +29,7 @@ class MyGarage extends React.Component{
         showParts: false,
         dropdownParts: [],
         addPart: false,
+        addEditServiceModal: false,
     }
 
     toggleMachineModal = () => {
@@ -37,6 +39,11 @@ class MyGarage extends React.Component{
         if(!modal){
             this.getSingleMachine(selectedMachineId);
         }
+    }
+
+    showAddEditService = () => {
+        const {addEditServiceModal} = this.state;
+        this.setState({addEditServiceModal: !addEditServiceModal})
     }
 
     getAllMachinesById = (id) => {
@@ -95,11 +102,6 @@ class MyGarage extends React.Component{
     showPartsDiv = () => {
         const { showParts } = this.state;
         this.setState({ showParts: !showParts });
-    }
-
-    goToService = () => {
-        const id = this.state.selectedMachineId
-        this.props.history.push(`/service/${id}`);
     }
 
     goToServiceHistory = () => {
@@ -182,6 +184,7 @@ class MyGarage extends React.Component{
                 dropdownParts,
                 addPart,
                 isEditingPart,
+                addEditServiceModal,
             } = this.state;
 
         const makeDropdown = () => {
@@ -209,7 +212,7 @@ class MyGarage extends React.Component{
                         editMachine = {this.editMachine}
                         deleteMachine = {this.deleteMachine}
                         showPartsDiv = {this.showPartsDiv}
-                        goToService = {this.goToService}
+                        showAddEditService = {this.showAddEditService}
                         goToServiceHistory = {this.goToServiceHistory}
                     />
                   );
@@ -267,6 +270,13 @@ class MyGarage extends React.Component{
                     showAddParts= {this.showAddParts}
                     selectedPartToEdit = {selectedPartToEdit}
                     deletePart = {this.deletePart}
+                />
+                <Service
+                    selectedMachineId={selectedMachineId}
+                    currentUser={currentUser}
+                    showAddEditService={this.showAddEditService}
+                    selectedMachine={selectedMachine}
+                    addEditServiceModal={addEditServiceModal}
                 />
             </div>
         )

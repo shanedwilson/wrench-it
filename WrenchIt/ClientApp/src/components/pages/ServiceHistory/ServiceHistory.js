@@ -10,6 +10,11 @@ class ServiceHistory extends React.Component {
         selectedMachine: {},
     }
 
+    toggleServiceModal = (e) => {
+        const partId = e.currentTarget.id * 1;
+        this.props.history.push(`/service/detail/${partId}`);
+    }
+
     componentDidMount() {
         const { currentUser } = this.props;
         const machineId = this.props.match.params.id
@@ -45,7 +50,7 @@ class ServiceHistory extends React.Component {
         const createMachineServices = () => {
             return(
                 machineServices.map(ms => (
-                    <tr id={ms.id} className="renting-item" onClick={this.toggleModalEvent}>
+                    <tr id={ms.id} key={ms.id} className="renting-item" onClick={this.toggleServiceModal}>
                         <td className="service-date">{formatMDYDate(ms.serviceDate)}</td>
                         <td className="service-notes">{ms.notes}</td>
                     </tr>
@@ -55,10 +60,10 @@ class ServiceHistory extends React.Component {
         }
 
         return(
-            <div>
-                <div className="w-60 mt-5">
-                    <h1 className="text-center">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
-                    <table className="table table-hover w-60 ">
+            <div className="table-div mx-auto">
+                <div className="mt-5">
+                    <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
+                    <table className="table table-hover text-center">
                         <thead>
                             <tr>
                                 <th scope="col">Service Date</th>
@@ -66,7 +71,6 @@ class ServiceHistory extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <h1>FUCK</h1>
                             {createMachineServices()}
                         </tbody>
                     </table>

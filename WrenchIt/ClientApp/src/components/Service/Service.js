@@ -15,8 +15,8 @@ class Service extends React.Component{
     serviceMounted = false;
 
     state = {
-        selectedMachine: {},
-        partTypes: [],
+        // selectedMachine: {},
+        // partTypes: [],
         selectedParts: [],
         machineParts: [],
         parts: [],
@@ -33,19 +33,19 @@ class Service extends React.Component{
         this.props.showAddEditService();
     }
 
-    getAllParts = () => {
-        const parts = [...this.state.parts];
-        const partTypes = [...this.state.partTypes];
-        partRequests.getAllParts()
-        .then((parts) => {
-            this.setState({ parts });
-        });
-        parts.map(p => (
-            partTypes.map((pt, i) => pt.typeId === i +1 (
-                p.typeName = pt
-            ))
-        ))
-    }
+    // getAllParts = () => {
+    //     const parts = [...this.state.parts];
+    //     const partTypes = [...this.state.partTypes];
+    //     partRequests.getAllParts()
+    //     .then((parts) => {
+    //         this.setState({ parts });
+    //     });
+    //     parts.map(p => (
+    //         partTypes.map((pt, i) => pt.typeId === i +1 (
+    //             p.typeName = pt
+    //         ))
+    //     ))
+    // }
 
     getAllPartTypes = () => {
         partTypeRequests.getAllPartTypes()
@@ -108,26 +108,24 @@ class Service extends React.Component{
         });
     }
 
-    componentDidMount(){
-        const { currentUser, selectedMachineId } = this.props;
-        this.serviceMounted = !!selectedMachineId;
-        const machineId = this.props.selectedMachineId;
+    // componentWillReceiveProps(){
+    //     const { selectedMachineId } = this.props;
+    //     this.serviceMounted = !!selectedMachineId;
 
-        if (this.serviceMounted) {
-            // this.getSingleMachineById(machineId * 1);
-            this.getAllPartTypes();
-            this.getAllParts();
-        }
-    }
+    //     if (this.serviceMounted) {
+    //         this.getAllPartTypes();
+    //         this.getAllParts();
+    //     }
+    // }
 
     render(){
         const { isEditing, selectedPartType, selectedParts, selectedPart } = this.state;
 
-        const partTypes = [...this.state.partTypes];
+        // const partTypes = [...this.state.partTypes];
 
         const dropdownParts = [...this.state.dropdownParts];
 
-        const { currentUser, addEditServiceModal, selectedMachine } = this.props;
+        const { currentUser, addEditServiceModal, selectedMachine, partTypes } = this.props;
 
         const makeHeader = () => {
             if (isEditing) {

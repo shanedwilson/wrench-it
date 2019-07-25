@@ -162,11 +162,9 @@ class AddEditService extends React.Component{
 
         return(
             <div className="col">
-            {/* <h1 class-name="service-header">{makeHeader()}</h1> */}
                 <div className="">
                     <div className="reg-container d-flex animated fadeIn">
                         <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
-                            <h3 className="reg-title mx-auto">Please Enter Your Service Info:</h3>
                             <div className="form col-11 mt-2 mx-auto">
                                 <div className="col-auto form-lines p-0">
                                     <div className="input-group mb-2">

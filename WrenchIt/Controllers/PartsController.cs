@@ -52,6 +52,14 @@ namespace WrenchIt.Controllers
             return Ok(parts);
         }
 
+        [HttpGet("serviceparts/{id}")]
+        public ActionResult GetAllPartsByServiceId(int id)
+        {
+            var parts = _repository.GetAllPartsByServiceId(id);
+
+            return Ok(parts);
+        }
+
         [HttpGet("{id}")]
         public ActionResult GetSinglePart(int id)
         {

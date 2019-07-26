@@ -17,6 +17,7 @@ const defaultUser = {
   };
 
 class AddEditUser extends React.Component{
+    addEditUserMounted = false;
 
     state = {
         newUser: defaultUser,
@@ -51,15 +52,32 @@ class AddEditUser extends React.Component{
     formSubmit = (e) => {
       e.preventDefault();
       const myUser = { ...this.state.newUser };
-      myUser.isActive = true;
-      myUser.isOwner = false;
+      const {isEditingUser, currentUser} = this.props;
       myUser.firebaseId = authRequests.getCurrentUid();
-      this.setState({ newUser: defaultUser });
-      userRequests.createUser(myUser)
-        .then(() => {
+      if(!isEditingUser){
+        userRequests.createUser(myUser)
+        .then((currentUser) => {
           this.props.getUser();
+          this.setState({ newUser: defaultUser });
         });
+      }
+      const userId = currentUser.id;
+      userRequests.updateUser(userId, myUser)
+        .then((user) => {
+          this.setState({ currentUser: defaultUser })
+          this.props.editProfile();
+          this.props.getUser();
+        })
     };
+
+    componentDidMount() {
+      const { currentUser, isEditingUser } = this.props;
+      this.addEditUserMounted = !!currentUser.id;
+
+      if (this.addEditUserMounted && isEditingUser) {
+          this.setState({ newUser: currentUser })
+      }
+  }
 
     render(){
         const newUser ={ ...this.state.newUser }

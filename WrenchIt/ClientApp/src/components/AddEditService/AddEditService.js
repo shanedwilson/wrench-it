@@ -21,7 +21,7 @@ const defaultService = {
 
   const defaultServicePart = {
       serviceId: 0,
-      machinPartId: 0,
+      partId: 0,
       installDate: new Date(),
   }
 
@@ -43,6 +43,10 @@ class AddEditService extends React.Component{
         installDate: new Date(),
         checked: true,
         newServicePart: defaultServicePart,
+    }
+
+    deleteServiceEvent = () => {
+        this.props.deleteService()
     }
 
     removePartEvent = (e) => {
@@ -82,13 +86,12 @@ class AddEditService extends React.Component{
     handleServiceDateChange = (date) => {
         this.setState({ serviceDate: new Date(date) });
       }
-
+      
     formSubmit = (e) => {
         e.preventDefault();
-        const { isEditing, selectedMachine, selectedParts } = this.props;
+        const { isEditing, selectedMachine } = this.props;
         const {checked, serviceDate} = this.state;
         const myService = { ...this.state.newService };
-        let myServicePart = {...this.state.newServicePart}
         myService.serviceDate = serviceDate;
         myService.machineId = selectedMachine.id;
         myService.tireRotation = checked;
@@ -96,19 +99,23 @@ class AddEditService extends React.Component{
             this.setState({ newService: defaultService });
             serviceRequests.createService(myService)
                 .then((service) => {
-                const serviceId = service.data.id;
-                selectedParts.forEach(sp => {
-                    myServicePart.machinePartId = sp.id;
-                    myServicePart.serviceId = serviceId;
-                    servicePartRequests.createServicePart(myServicePart)
-                    .then(() => {
-                        this.setState({ newServicePart: defaultServicePart });
-                    })
-                }
-                )
-                });
-        } 
-        else {
+                    const serviceId = service.data.id;
+                    const {selectedParts} = this.props;
+                    let myServicePart = {...this.state.newServicePart};
+            
+                    selectedParts.forEach(part => {
+                        myServicePart.partId = part.id;
+                        myServicePart.serviceId = serviceId;
+                        myServicePart.installDate = service.data.serviceDate;
+
+                        servicePartRequests.createServicePart(myServicePart)
+                        .then(() => {
+                            this.setState({ newServicePart: defaultServicePart });
+                        })
+                    }) 
+                })
+                 this.props.routeToServiceHistory();
+        } else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {
             });
@@ -119,7 +126,6 @@ class AddEditService extends React.Component{
         const { currentUser } = this.props;
         this.modalMounted = !!currentUser.id;
         if (this.modalMounted) {
-            console.log('');
         }
     }
         
@@ -144,153 +150,195 @@ class AddEditService extends React.Component{
                 selectedPart,
                 dropdownParts,
                 selectPart,
+                selectedService,
+                isDetail,
             } = this.props;
 
         const {serviceDate, checked } = this.state;
 
         const newService = {...this.state.newService};
 
-        const makeHeader = () => {
-            if (isEditing) {
-              return (
-                <div className="text-center">Edit Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
-              );
-            }
-            return (
-              <div className="text-center">Add Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
-            );
+        const formatMDYDate = (date) => {
+            const inputDate = new Date(date);
+            const month = inputDate.getMonth() + 1;
+            const day = inputDate.getDate();
+            const year = inputDate.getFullYear();
+            const formattedDate = `${month}/${day}/${year}`;
+            return formattedDate;
           };
 
-          const makeSelectedParts = () => {
-            return(
+        const makeSelectedParts = () => {
+            if(isDetail){
+                return(
                 selectedParts.map((p,index) => (
-                    <div  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
+                    <div  key={index} className="mr-2 selected-parts" id={p.id}>
                         {p.brand} {p.partNumber}
                     </div>  
+                ))                      
+                )
+            }
+            return(
+                selectedParts.map((p,index) => (
+                    <span  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
+                        {p.brand} {p.partNumber}
+                    </span>  
                 ))
             )
+        }
+
+        const makeButtons = () => {
+            if (isDetail) {
+                return (
+                    <div>
+                        <button id='service-edit' type="button" className="bttn-pill edit-btn ml-2" onClick={this.editServiceEvent} title="Edit Service">
+                            <i className="far fa-edit fa-1x"/>
+                        </button>
+                        <button id='service-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.deleteServiceEvent} title="Delete Service">
+                            <i className="machine-delete-btn fas fa-trash fa-1x"></i>
+                        </button>
+                    </div>                
+                )
+            }
+        }
+
+          const makeServiceCard = () => {
+              if(isDetail){
+                  return(
+                    <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
+                        <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
+                        <div className="ml-1">Oil Type: {selectedService.oil}</div>
+                        <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
+                        <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
+                        <div className="ml-1">Mileage: {selectedService.mileage}</div>
+                        <div className="ml-1">Notes: {selectedService.notes}</div>
+                        <div>Selected Parts: {makeSelectedParts()}</div>
+                        {makeButtons()}
+                    </div>
+                  )
+              }
+              return(
+                <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
+                <div className="form col-11 mt-2 mx-auto">
+                    <div className="col-auto form-lines p-0">
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend w-10">
+                            <div className="input-group-text">Oil</div>
+                            </div>
+                            <input
+                            type="text"
+                            className="form-control"
+                            id="oil"
+                            placeholder={selectedMachine.oilType}
+                            value={newService.oil}
+                            onChange={this.oilChange}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="col-auto form-lines p-0">
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                            <div className="input-group-text">Oil Quantity</div>
+                            </div>
+                            <input
+                            type="text"
+                            className="form-control"
+                            id="oilQuantity"
+                            placeholder={selectedMachine.oilQuantity}
+                            value={newService.oilQuantity}
+                            onChange={this.oilQuantityChange}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="col-auto form-lines p-0">
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                            <div className="input-group-text">Tire Pressure</div>
+                            </div>
+                            <input
+                            type="text"
+                            className="form-control"
+                            id="tirePressure"
+                            placeholder={selectedMachine.tirePressure}
+                            value={newService.tirePressure}
+                            onChange={this.tirePressureChange}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="col-auto form-lines p-0">
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                            <div className="input-group-text">Current Mileage</div>
+                            </div>
+                            <input
+                            type="text"
+                            className="form-control"
+                            id="serviceInterval"
+                            placeholder="50000"
+                            value={newService.mileage}
+                            onChange={this.mileageChange}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="col-auto form-lines p-0">
+                        <div className="input-group mb-2">
+                            <div className="input-group-prepend">
+                            <div className="input-group-text">Notes</div>
+                            </div>
+                            <input
+                            type="text"
+                            className="form-control"
+                            id="notes"
+                            placeholder=""
+                            value={newService.notes}
+                            onChange={this.notesChange}
+                            required
+                            />
+                        </div>
+                    </div>
+                    <div className="form-check text-center">
+                        <input type="checkbox" onChange={this.handleCheckbox} checked={checked} className="form-check-input" id="tireRotation"/>
+                        <label className="form-check-label">Tire Rotation?</label>
+                    </div>
+                    <div id="serviceDate" className="text-center">
+                        <label>Service Date</label>
+                        <DatePicker
+                        className="ml-3"
+                        selected={serviceDate}
+                        onChange={this.handleServiceDateChange}
+                        />
+                    </div>
+                    <h3 className="text-center mt-5">Select Parts For Service</h3>
+                    <MachinePartsDropdown
+                        partTypes = {partTypes}
+                        selectedPart = {selectedPart}
+                        selectedPartType = {selectedPartType}
+                        selectPartType = {selectPartType}
+                        dropdownParts ={dropdownParts}
+                        selectPart={selectPart}
+                    />
+                    <div className="text-center mx-auto">
+                        <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
+                        {makeSelectedParts()}
+                    </div>
+                    <div className="text-center">
+                        <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
+                            <i className="fas fa-tools fa-2x"></i>
+                        </button>
+                    </div>                                
+                </div>
+            </form>
+              )
           }
 
         return(
             <div className="col">
-            <h1 class-name="service-header">{makeHeader()}</h1>
                 <div className="">
-                    <div className="reg-container d-flex animated fadeIn">
-                        <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
-                            <h3 className="reg-title mx-auto">Please Enter Your Service Info:</h3>
-                            <div className="form col-11 mt-2 mx-auto">
-                                <div className="col-auto form-lines p-0">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend w-10">
-                                        <div className="input-group-text">Oil</div>
-                                        </div>
-                                        <input
-                                        type="text"
-                                        className="form-control"
-                                        id="oil"
-                                        placeholder={selectedMachine.oilType}
-                                        value={newService.oil}
-                                        onChange={this.oilChange}
-                                        required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-auto form-lines p-0">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                        <div className="input-group-text">Oil Quantity</div>
-                                        </div>
-                                        <input
-                                        type="text"
-                                        className="form-control"
-                                        id="oilQuantity"
-                                        placeholder={selectedMachine.oilQuantity}
-                                        value={newService.oilQuantity}
-                                        onChange={this.oilQuantityChange}
-                                        required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-auto form-lines p-0">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                        <div className="input-group-text">Tire Pressure</div>
-                                        </div>
-                                        <input
-                                        type="text"
-                                        className="form-control"
-                                        id="tirePressure"
-                                        placeholder={selectedMachine.tirePressure}
-                                        value={newService.tirePressure}
-                                        onChange={this.tirePressureChange}
-                                        required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-auto form-lines p-0">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                        <div className="input-group-text">Current Mileage</div>
-                                        </div>
-                                        <input
-                                        type="text"
-                                        className="form-control"
-                                        id="serviceInterval"
-                                        placeholder="50000"
-                                        value={newService.mileage}
-                                        onChange={this.mileageChange}
-                                        required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-auto form-lines p-0">
-                                    <div className="input-group mb-2">
-                                        <div className="input-group-prepend">
-                                        <div className="input-group-text">Notes</div>
-                                        </div>
-                                        <input
-                                        type="text"
-                                        className="form-control"
-                                        id="notes"
-                                        placeholder=""
-                                        value={newService.notes}
-                                        onChange={this.notesChange}
-                                        required
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-check text-center">
-                                    <input type="checkbox" onChange={this.handleCheckbox} checked={checked} className="form-check-input" id="tireRotation"/>
-                                    <label className="form-check-label">Tire Rotation?</label>
-                                </div>
-                                <div id="serviceDate" className="text-center">
-                                    <label>Service Date</label>
-                                    <DatePicker
-                                    className="ml-3"
-                                    selected={serviceDate}
-                                    onChange={this.handleServiceDateChange}
-                                    />
-                                </div>
-                                <h3 className="text-center mt-5">Select Parts For Service</h3>
-                                <MachinePartsDropdown
-                                    partTypes = {partTypes}
-                                    selectedPart = {selectedPart}
-                                    selectedPartType = {selectedPartType}
-                                    selectPartType = {selectPartType}
-                                    dropdownParts ={dropdownParts}
-                                    selectPart={selectPart}
-                                />
-                                <div className="text-center mx-auto">
-                                    <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
-                                    {makeSelectedParts()}
-                                </div>
-                                <div className="text-center">
-                                    <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
-                                        <i className="fas fa-tools fa-2x"></i>
-                                    </button>
-                                </div>                                
-                            </div>
-                        </form>
+                    <div className="service-container d-flex animated fadeIn">
+                        {makeServiceCard()}
                     </div>    
                 </div>   
         </div>

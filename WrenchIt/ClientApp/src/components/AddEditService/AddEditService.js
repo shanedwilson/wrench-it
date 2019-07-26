@@ -45,10 +45,6 @@ class AddEditService extends React.Component{
         newServicePart: defaultServicePart,
     }
 
-    editServiceEvent = () => {
-        this.props.editService();
-    }
-
     deleteServiceEvent = () => {
         this.props.deleteService()
     }
@@ -206,7 +202,7 @@ class AddEditService extends React.Component{
         }
 
           const makeServiceCard = () => {
-              if(isDetail){
+              if(isDetail && !isEditing){
                   return(
                     <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
                         <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>

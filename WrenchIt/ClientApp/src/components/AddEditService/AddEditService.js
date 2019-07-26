@@ -45,6 +45,10 @@ class AddEditService extends React.Component{
         newServicePart: defaultServicePart,
     }
 
+    editServiceEvent = () => {
+        this.props.editService();
+    }
+
     deleteServiceEvent = () => {
         this.props.deleteService()
     }

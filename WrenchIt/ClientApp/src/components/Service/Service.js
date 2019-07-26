@@ -16,7 +16,7 @@ class Service extends React.Component{
         // parts: [],
         dropdownParts: [],
         isService: true,
-        isEditing: false,
+        // isEditing: false,
         selectedPartType: 1000,
         SelectedMachineId: 0,
         selectedPart: 0,
@@ -89,13 +89,22 @@ class Service extends React.Component{
     }
 
     render(){
-        const { isEditing, selectedPartType, selectedParts, selectedPart } = this.state;
-
-        // const selectedService = {...this.state.selectedService};
+        const { selectedPartType, selectedParts, selectedPart } = this.state;
 
         const dropdownParts = [...this.state.dropdownParts];
 
-        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService, routeToServiceHistory, deleteService } = this.props;
+        const {
+            currentUser,
+            addEditServiceModal,
+            selectedMachine,
+            partTypes,
+            isDetail,
+            selectedService,
+            routeToServiceHistory,
+            deleteService,
+            editService,
+            isEditing,
+        } = this.props;
 
         const makeHeader = () => {
             if (isEditing) {
@@ -133,6 +142,7 @@ class Service extends React.Component{
                             selectedService = {selectedService}
                             routeToServiceHistory = {routeToServiceHistory}
                             deleteService={deleteService}
+                            editService={editService}
                         />
                     </ModalBody>
                 </Modal>

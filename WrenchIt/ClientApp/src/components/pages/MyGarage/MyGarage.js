@@ -250,7 +250,7 @@ class MyGarage extends React.Component{
 
         return(
             
-            <div className="myGarage mx-auto">
+            <div className="myGarage mx-auto animated fadeIn">
                 <h1 className="text-center">My Garage</h1>
                 <div className="w-75 mx-auto">
                     {makeDropdown()}

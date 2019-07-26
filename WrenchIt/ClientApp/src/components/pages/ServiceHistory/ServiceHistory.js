@@ -18,6 +18,7 @@ class ServiceHistory extends React.Component {
         partTypes: [],
         machineParts: [],
         selectedParts: [],
+        isEditing: false,
     }
 
     showAddEditService = (e) => {
@@ -96,6 +97,11 @@ class ServiceHistory extends React.Component {
             })
     }
 
+    editService = () => {
+        const {isEditing} = this.state;
+        this.setState({isEditing: !isEditing});
+    }
+
     componentDidMount() {
         const { currentUser } = this.props;
         const machineId = this.props.match.params.id
@@ -128,6 +134,7 @@ class ServiceHistory extends React.Component {
             isDetail,
             selectedServiceId,
             addEditServiceModal,
+            isEditing,
         } = this.state;
 
         const formatMDYDate = (date) => {
@@ -181,6 +188,8 @@ class ServiceHistory extends React.Component {
                     machineParts = {machineParts}
                     selectedParts={selectedParts}
                     deleteService={this.deleteService}
+                    editService={this.editService}
+                    isEditing={isEditing}
                 />
             </div>
         )

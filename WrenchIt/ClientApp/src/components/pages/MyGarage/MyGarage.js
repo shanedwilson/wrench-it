@@ -240,7 +240,7 @@ class MyGarage extends React.Component{
                         />
                         <div className="text-center">
                             <button className="bttn-pill user-add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
-                                <i className="fas fa-wrench fa-2x"></i>
+                                <i className="fas fa-cog fa-2x"></i>
                             </button>
                         </div>
                     </div>

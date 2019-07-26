@@ -24,6 +24,17 @@ const getPartsByMachineId = (id) => new Promise((resolve, reject) => {
       });
   });
 
+  const getPartsByServiceId = (id) => new Promise((resolve, reject) => {
+    axios.get(`${apiUrl}serviceparts/${id}`)
+      .then((results) => {
+        const partsObject = results.data;
+        resolve(partsObject);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
   const getSinglePart = partId => axios.get(`${apiUrl}/${partId}`);
 
   const deletePart = partId => axios.delete(`${apiUrl}/${partId}`);
@@ -32,4 +43,12 @@ const getPartsByMachineId = (id) => new Promise((resolve, reject) => {
 
   const updatePart = (id, partObject) => axios.put(`${apiUrl}/${id}`, (partObject));
 
-  export default { getPartsByMachineId, getAllParts, createPart, updatePart, getSinglePart, deletePart };
+  export default {
+    getPartsByMachineId,
+    getAllParts,
+    createPart,
+    updatePart,
+    getSinglePart,
+    deletePart,
+    getPartsByServiceId,
+   };

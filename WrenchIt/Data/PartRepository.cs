@@ -98,6 +98,36 @@ namespace WrenchIt.Data
 
         }
 
+        public IEnumerable<Part> GetAllPartsByServiceId(int id)
+        {
+            var partTypeNames = _partTypeRepository.GetAllPartTypes();
+
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var serviceParts = db.Query<Part>(@"
+                    select p.*, sp.serviceid as serviceId
+                    from serviceParts sp
+                    join parts p
+                    on p.id = sp.partId
+                    where sp.serviceId = @id",
+                    new { Id = id }).ToList();
+
+                for (int i = 0; i < partTypeNames.Count; i++)
+                {
+                    serviceParts.ForEach(p =>
+                    {
+                        if (p.TypeId == i + 1)
+                        {
+                            p.NameType = partTypeNames[i];
+                        };
+                    });
+                };
+
+                return serviceParts;
+            }
+
+        }
+
         public Part GetSinglePart(int id)
         {
             using (var db = new SqlConnection(_connectionString))

@@ -98,16 +98,17 @@ class AddEditService extends React.Component{
                 .then((service) => {
                 const serviceId = service.data.id;
                 selectedParts.forEach(sp => {
-                    myServicePart.machinePartId = sp.id;
+                    myServicePart.partId = sp.id;
                     myServicePart.serviceId = serviceId;
                     servicePartRequests.createServicePart(myServicePart)
                     .then(() => {
                         this.setState({ newServicePart: defaultServicePart });
+                        this.props.routeToServiceHistory();
                     })
                 }
                 )
                 });
-        } 
+            } 
         else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {
@@ -165,12 +166,12 @@ class AddEditService extends React.Component{
           const makeServiceCard = () => {
               if(isDetail){
                   return(
-                    <div className="service-card border border-dark rounded animated fadeIn w-50 mt-5 text-center" id={selectedService.id}>
+                    <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
                     <h3 className="text-center profile-header">{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</h3>
                     <div className="ml-1">Oil Type: {selectedService.oil}</div>
                     <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
                     <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
-                    <div className="ml-1">Mileage: {selectedService.serviceInterval}</div>
+                    <div className="ml-1">Mileage: {selectedService.mileage}</div>
                     <div className="ml-1">Notes: {selectedService.notes}</div>
                     {/* {makeButtons()} */}
                 </div>

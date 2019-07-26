@@ -39,13 +39,6 @@ class Service extends React.Component{
         })
     }
 
-    // getSingleServiceById = (id) => {
-    //     serviceRequests.getSingleService(id)
-    //     .then((service) => {
-    //         this.setState({ selectedService: service.data });
-    //     })
-    // }
-
     selectPartType = (e) => {
         const selectedPartType = e.currentTarget.value * 1;
         const { machineParts }= this.props;
@@ -83,9 +76,9 @@ class Service extends React.Component{
         this.serviceMounted = !!currentUser.id;
 
         // if (this.serviceMounted && isDetail) {
-        //     this.getSingleServiceById(selectedServiceId)
-        //         .then((selectedService) => {
-        //             this.setState({ selectedService: selectedService.data })
+        //     this.getPartsByServiceId(selectedServiceId)
+        //         .then((selectedParts) => {
+        //             this.setState({ selectedParts })
         //         })
         // }
     }
@@ -97,7 +90,7 @@ class Service extends React.Component{
 
         const dropdownParts = [...this.state.dropdownParts];
 
-        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService } = this.props;
+        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService, routeToServiceHistory } = this.props;
 
         const makeHeader = () => {
             if (isEditing) {
@@ -129,6 +122,7 @@ class Service extends React.Component{
                             selectedPart = {selectedPart}
                             isDetail = {isDetail}
                             selectedService = {selectedService}
+                            routeToServiceHistory = {routeToServiceHistory}
                         />
                     </ModalBody>
                 </Modal>

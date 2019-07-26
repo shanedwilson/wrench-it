@@ -18,15 +18,15 @@ namespace WrenchIt.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public ServicePart AddServicePart(int serviceId, int machinePartId, DateTime installDate)
+        public ServicePart AddServicePart(int serviceId, int partId, DateTime installDate)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newServicePart = db.QueryFirstOrDefault<ServicePart>(@"
-                    insert into serviceparts (serviceId, machinePartId, installDate)
+                    insert into serviceparts (serviceId, partId, installDate)
                     output inserted.*
-                    values (@serviceId, @machinePartId, @installDate)",
-                    new { serviceId, machinePartId, installDate });
+                    values (@serviceId, @partId, @installDate)",
+                    new { serviceId, partId, installDate });
 
                 if (newServicePart != null)
                 {

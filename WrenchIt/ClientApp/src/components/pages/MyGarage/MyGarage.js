@@ -46,6 +46,11 @@ class MyGarage extends React.Component{
         this.setState({addEditServiceModal: !addEditServiceModal})
     }
 
+    routeToServiceHistory = () => {
+        const machineId = this.state.selectedMachineId;
+        this.props.history.push(`/service/history/${machineId}`);
+    }
+
     getAllMachinesById = (id) => {
         machineRequests.getAllMachinesById(id)
           .then((machinesObject) => {
@@ -279,6 +284,7 @@ class MyGarage extends React.Component{
                     addEditServiceModal={addEditServiceModal}
                     partTypes = {partTypes}
                     machineParts = {machineParts}
+                    routeToServiceHistory={this.routeToServiceHistory}
                 />
             </div>
         )

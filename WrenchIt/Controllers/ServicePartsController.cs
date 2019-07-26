@@ -23,7 +23,7 @@ namespace WrenchIt.Controllers
         [HttpPost]
         public ActionResult AddServicePart(ServicePart servicePart)
         {
-            var newServicePart = _repository.AddServicePart(servicePart.ServiceId, servicePart.MachinePartId, servicePart.InstallDate);
+            var newServicePart = _repository.AddServicePart(servicePart.ServiceId, servicePart.PartId, servicePart.InstallDate);
 
             return Created($"api/serviceparts/{newServicePart.Id}", newServicePart);
         }

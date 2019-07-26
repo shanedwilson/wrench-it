@@ -16,6 +16,8 @@ class ServiceHistory extends React.Component {
         addEditServiceModal: false,
         selectedService: {},
         partTypes: [],
+        machineParts: [],
+        selectedParts: [],
     }
 
     showAddEditService = (e) => {
@@ -30,8 +32,9 @@ class ServiceHistory extends React.Component {
                 this.setState({
                     selectedService: selectedService.data,
                     selectedServiceId,
-                })
-            })
+                });
+            });
+        this.getPartsByServiceId(selectedServiceId);
     }
 
     getAllParts = () => {
@@ -62,6 +65,13 @@ class ServiceHistory extends React.Component {
             });
       }
 
+      getPartsByServiceId = (id) => {
+        partRequests.getPartsByServiceId(id)
+        .then((selectedParts) => {
+            this.setState({ selectedParts });
+        })
+    }
+
     componentDidMount() {
         const { currentUser } = this.props;
         const machineId = this.props.match.params.id
@@ -86,6 +96,12 @@ class ServiceHistory extends React.Component {
         const selectedMachine = {...this.state.selectedMachine};
 
         const selectedService = {...this.state.selectedService};
+
+        const partTypes = [...this.state.partTypes];
+
+        const machineParts = [...this.state.machineParts];
+
+        const selectedParts = [...this.state.selectedParts];
 
         const { currentUser } = this.props;
 
@@ -142,6 +158,8 @@ class ServiceHistory extends React.Component {
                     currentUser={currentUser}
                     showAddEditService={this.showAddEditService}
                     selectedService={selectedService}
+                    partTypes = {partTypes}
+                    machineParts = {machineParts}
                 />
             </div>
         )

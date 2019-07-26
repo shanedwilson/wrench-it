@@ -9,7 +9,7 @@ namespace WrenchIt.Models
     {
         public int Id { get; set; }
         public int ServiceId { get; set; }
-        public int MachinePartId { get; set; }
+        public int PartId { get; set; }
         public DateTime InstallDate { get; set; }
     }
 }

@@ -205,15 +205,15 @@ class AddEditService extends React.Component{
               if(isDetail){
                   return(
                     <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
-                    <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
-                    <div className="ml-1">Oil Type: {selectedService.oil}</div>
-                    <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
-                    <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
-                    <div className="ml-1">Mileage: {selectedService.mileage}</div>
-                    <div className="ml-1">Notes: {selectedService.notes}</div>
-                    <div>Selected Parts: {makeSelectedParts()}</div>
-                    {makeButtons()}
-                </div>
+                        <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
+                        <div className="ml-1">Oil Type: {selectedService.oil}</div>
+                        <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
+                        <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
+                        <div className="ml-1">Mileage: {selectedService.mileage}</div>
+                        <div className="ml-1">Notes: {selectedService.notes}</div>
+                        <div>Selected Parts: {makeSelectedParts()}</div>
+                        {makeButtons()}
+                    </div>
                   )
               }
               return(

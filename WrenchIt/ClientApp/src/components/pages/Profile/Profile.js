@@ -2,6 +2,7 @@ import React from 'react';
 import AddEditUser from '../../AddEditUser/AddEditUser';
 
 import './Profile.scss';
+import userRequests from '../../../helpers/data/userRequests';
 
 class Profile extends React.Component{
     profileMounted = false;
@@ -14,6 +15,15 @@ class Profile extends React.Component{
     editProfile = () => {
         const {isEditingUser} = this.state;
         this.setState({ isEditingUser: !isEditingUser })
+    }
+
+    getUser = () => {
+        const currentUser = {...this.state.currentUser};
+        const userId = currentUser.firebaseId;
+        userRequests.getSingleUser(userId)
+            .then((user) => {
+                this.setState({currentUser: user.data})
+            })
     }
 
     componentDidMount() {
@@ -37,6 +47,8 @@ class Profile extends React.Component{
                         <AddEditUser 
                             isEditingUser={isEditingUser}
                             currentUser = {currentUser}
+                            editProfile={this.editProfile}
+                            getUser={this.getUser}
                         />
                     </div>
                 )

@@ -17,6 +17,7 @@ const defaultUser = {
   };
 
 class AddEditUser extends React.Component{
+    addEditUserMounted = false;
 
     state = {
         newUser: defaultUser,
@@ -60,6 +61,15 @@ class AddEditUser extends React.Component{
           this.props.getUser();
         });
     };
+
+    componentDidMount() {
+      const { currentUser, isEditingUser } = this.props;
+      this.addEditUserMounted = !!currentUser.id;
+
+      if (this.addEditUserMounted && isEditingUser) {
+          this.setState({ newUser: currentUser })
+      }
+  }
 
     render(){
         const newUser ={ ...this.state.newUser }

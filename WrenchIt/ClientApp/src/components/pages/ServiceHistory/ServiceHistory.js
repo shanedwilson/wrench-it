@@ -25,6 +25,13 @@ class ServiceHistory extends React.Component {
         this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal });
     }
 
+    getMachineById = (machineId) => {
+        machineRequests.getSingleMachine(machineId)
+        .then((machine) => {
+            this.setState({ selectedMachine: machine.data});
+        });
+    }
+
     getSelectedService = (e) => {
         const selectedServiceId = e.currentTarget.id * 1;
         serviceRequests.getSingleService(selectedServiceId)
@@ -65,11 +72,28 @@ class ServiceHistory extends React.Component {
             });
       }
 
-      getPartsByServiceId = (id) => {
+    getPartsByServiceId = (id) => {
         partRequests.getPartsByServiceId(id)
         .then((selectedParts) => {
             this.setState({ selectedParts });
         })
+    }
+
+    getServicesByMachineId = (machineId) => {
+        serviceRequests.getAllServicesByMachineId(machineId)
+        .then((machineServices) => {
+            this.setState({ machineServices });
+        });
+    }
+
+    deleteService = () => {
+        const machineId = this.props.match.params.id
+        const serviceId = this.state.selectedServiceId;
+        serviceRequests.deleteService(serviceId)
+            .then(() => {
+                this.showAddEditService();
+                this.getServicesByMachineId(machineId);
+            })
     }
 
     componentDidMount() {
@@ -77,16 +101,11 @@ class ServiceHistory extends React.Component {
         const machineId = this.props.match.params.id
         this.serviceMounted = !!currentUser.id;
         if (this.serviceMounted) {
-            serviceRequests.getAllServicesByMachineId(machineId)
-            .then((machineServices) => {
-                this.setState({ machineServices });
-            });
-            machineRequests.getSingleMachine(machineId)
-            .then((machine) => {
-                this.setState({ selectedMachine: machine.data});
-            });
+
             this.getPartsByMachine(machineId);
             this.getAllPartTypes();
+            this.getMachineById(machineId);
+            this.getServicesByMachineId(machineId);
         }
     }
 
@@ -160,6 +179,8 @@ class ServiceHistory extends React.Component {
                     selectedService={selectedService}
                     partTypes = {partTypes}
                     machineParts = {machineParts}
+                    selectedParts={selectedParts}
+                    deleteService={this.deleteService}
                 />
             </div>
         )

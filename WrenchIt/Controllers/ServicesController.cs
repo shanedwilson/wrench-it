@@ -77,7 +77,7 @@ namespace WrenchIt.Controllers
         [HttpDelete("{id}")]
         public ActionResult DeleteService(int id)
         {
-            _repository.DeleteUser(id);
+            _repository.DeleteService(id);
 
             return Ok("Service Record Deleted");
         }

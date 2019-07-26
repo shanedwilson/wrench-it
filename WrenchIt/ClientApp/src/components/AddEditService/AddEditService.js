@@ -21,7 +21,7 @@ const defaultService = {
 
   const defaultServicePart = {
       serviceId: 0,
-      machinPartId: 0,
+      partId: 0,
       installDate: new Date(),
   }
 
@@ -43,6 +43,10 @@ class AddEditService extends React.Component{
         installDate: new Date(),
         checked: true,
         newServicePart: defaultServicePart,
+    }
+
+    deleteServiceEvent = () => {
+        this.props.deleteService()
     }
 
     removePartEvent = (e) => {
@@ -82,13 +86,12 @@ class AddEditService extends React.Component{
     handleServiceDateChange = (date) => {
         this.setState({ serviceDate: new Date(date) });
       }
-
+      
     formSubmit = (e) => {
         e.preventDefault();
-        const { isEditing, selectedMachine, selectedParts } = this.props;
+        const { isEditing, selectedMachine } = this.props;
         const {checked, serviceDate} = this.state;
         const myService = { ...this.state.newService };
-        let myServicePart = {...this.state.newServicePart}
         myService.serviceDate = serviceDate;
         myService.machineId = selectedMachine.id;
         myService.tireRotation = checked;
@@ -96,20 +99,23 @@ class AddEditService extends React.Component{
             this.setState({ newService: defaultService });
             serviceRequests.createService(myService)
                 .then((service) => {
-                const serviceId = service.data.id;
-                selectedParts.forEach(sp => {
-                    myServicePart.partId = sp.id;
-                    myServicePart.serviceId = serviceId;
-                    servicePartRequests.createServicePart(myServicePart)
-                    .then(() => {
-                        this.setState({ newServicePart: defaultServicePart });
-                        this.props.routeToServiceHistory();
-                    })
-                }
-                )
-                });
-            } 
-        else {
+                    const serviceId = service.data.id;
+                    const {selectedParts} = this.props;
+                    let myServicePart = {...this.state.newServicePart};
+            
+                    selectedParts.forEach(part => {
+                        myServicePart.partId = part.id;
+                        myServicePart.serviceId = serviceId;
+                        myServicePart.installDate = service.data.serviceDate;
+
+                        servicePartRequests.createServicePart(myServicePart)
+                        .then(() => {
+                            this.setState({ newServicePart: defaultServicePart });
+                        })
+                    }) 
+                })
+                 this.props.routeToServiceHistory();
+        } else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {
             });
@@ -120,7 +126,6 @@ class AddEditService extends React.Component{
         const { currentUser } = this.props;
         this.modalMounted = !!currentUser.id;
         if (this.modalMounted) {
-            console.log('');
         }
     }
         
@@ -153,27 +158,61 @@ class AddEditService extends React.Component{
 
         const newService = {...this.state.newService};
 
-          const makeSelectedParts = () => {
-            return(
+        const formatMDYDate = (date) => {
+            const inputDate = new Date(date);
+            const month = inputDate.getMonth() + 1;
+            const day = inputDate.getDate();
+            const year = inputDate.getFullYear();
+            const formattedDate = `${month}/${day}/${year}`;
+            return formattedDate;
+          };
+
+        const makeSelectedParts = () => {
+            if(isDetail){
+                return(
                 selectedParts.map((p,index) => (
-                    <div  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
+                    <div  key={index} className="mr-2 selected-parts" id={p.id}>
                         {p.brand} {p.partNumber}
                     </div>  
+                ))                      
+                )
+            }
+            return(
+                selectedParts.map((p,index) => (
+                    <span  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
+                        {p.brand} {p.partNumber}
+                    </span>  
                 ))
             )
-          }
+        }
+
+        const makeButtons = () => {
+            if (isDetail) {
+                return (
+                    <div>
+                        <button id='service-edit' type="button" className="bttn-pill edit-btn ml-2" onClick={this.editServiceEvent} title="Edit Service">
+                            <i className="far fa-edit fa-1x"/>
+                        </button>
+                        <button id='service-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.deleteServiceEvent} title="Delete Service">
+                            <i className="machine-delete-btn fas fa-trash fa-1x"></i>
+                        </button>
+                    </div>                
+                )
+            }
+        }
 
           const makeServiceCard = () => {
               if(isDetail){
                   return(
                     <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
-                    <h3 className="text-center profile-header">{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</h3>
+                    <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
                     <div className="ml-1">Oil Type: {selectedService.oil}</div>
                     <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
                     <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
                     <div className="ml-1">Mileage: {selectedService.mileage}</div>
                     <div className="ml-1">Notes: {selectedService.notes}</div>
-                    {/* {makeButtons()} */}
+                    <div>Selected Parts: {makeSelectedParts()}</div>
+                    {makeButtons()}
                 </div>
                   )
               }

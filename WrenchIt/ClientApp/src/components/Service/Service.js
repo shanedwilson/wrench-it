@@ -1,14 +1,10 @@
 import React from 'react';
 import machineRequests from '../../helpers/data/machineRequests';
-import partTypeRequests from '../../helpers/data/partTypeRequests';
-import partRequests from '../../helpers/data/partRequests';
-import serviceRequests from '../../helpers/data/serviceRequests';
 import AddEditService from'../AddEditService/AddEditService';
 import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
   } from 'reactstrap';
 
 class Service extends React.Component{
@@ -83,6 +79,15 @@ class Service extends React.Component{
         // }
     }
 
+    componentWillReceiveProps(props) {
+        const { isDetail, selectedParts } = props;
+        if (isDetail) {
+            this.setState({
+            selectedParts,
+            });
+        }
+    }
+
     render(){
         const { isEditing, selectedPartType, selectedParts, selectedPart } = this.state;
 
@@ -90,13 +95,17 @@ class Service extends React.Component{
 
         const dropdownParts = [...this.state.dropdownParts];
 
-        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService, routeToServiceHistory } = this.props;
+        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService, routeToServiceHistory, deleteService } = this.props;
 
         const makeHeader = () => {
             if (isEditing) {
               return (
                 <div className="text-center">Edit Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
               );
+            }  else if (isDetail) {
+                return (
+                  <div className="text-center">Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
+                );
             }
             return (
               <div className="text-center">Add Service For Your {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</div>
@@ -123,6 +132,7 @@ class Service extends React.Component{
                             isDetail = {isDetail}
                             selectedService = {selectedService}
                             routeToServiceHistory = {routeToServiceHistory}
+                            deleteService={deleteService}
                         />
                     </ModalBody>
                 </Modal>

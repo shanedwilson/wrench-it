@@ -14,7 +14,6 @@ const getAllServices = () => new Promise((resolve, reject) => {
 });
 
 const getAllServicesByMachineId = (id) => new Promise((resolve, reject) => {
-  console.log(id);
   axios.get(`${apiUrl}/machine/${id}`)
     .then((results) => {
       const servicesObject = results.data;

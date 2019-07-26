@@ -16,5 +16,6 @@ namespace WrenchIt.Models
         public bool TireRotation { get; set; }
         public DateTime ServiceDate { get; set; }
         public string Notes { get; set; }
+        public bool isActive { get; set; }
     }
 }

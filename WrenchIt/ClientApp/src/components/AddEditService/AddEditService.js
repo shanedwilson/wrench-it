@@ -122,6 +122,7 @@ class AddEditService extends React.Component{
         } else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {
+                this.editServiceEvent();
             });
         }
     };

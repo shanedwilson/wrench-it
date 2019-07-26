@@ -101,7 +101,12 @@ class ServiceHistory extends React.Component {
     }
 
     editService = () => {
+        const machineId = this.props.match.params.id
         const {isEditing} = this.state;
+        if(isEditing){
+            this.showAddEditService()
+            this.getServicesByMachineId(machineId)
+        }
         this.setState({isEditing: !isEditing});
     }
 

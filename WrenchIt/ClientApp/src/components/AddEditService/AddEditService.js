@@ -49,6 +49,10 @@ class AddEditService extends React.Component{
         this.props.deleteService()
     }
 
+    editServiceEvent = () => {
+        this.props.editService()
+    }
+
     removePartEvent = (e) => {
         const partId = e.target.id * 1;
         this.props.removePart(partId);

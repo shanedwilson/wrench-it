@@ -22,7 +22,10 @@ class ServiceHistory extends React.Component {
     }
 
     showAddEditService = (e) => {
-        const { isDetail, addEditServiceModal } = this.state;
+        const { isDetail, addEditServiceModal, isEditing } = this.state;
+        if(isEditing){
+            this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal, isEditing: !isEditing });
+        }
         this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal });
     }
 

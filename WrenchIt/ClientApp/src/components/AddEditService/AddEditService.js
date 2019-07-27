@@ -63,6 +63,13 @@ class AddEditService extends React.Component{
         this.setState({ checked: !checked })
     }
 
+    addServicePart = (myServicePart) => {
+        servicePartRequests.createServicePart(myServicePart)
+        .then((servicePart)=> {
+            console.log(servicePart);
+        });
+    }
+
     formFieldStringState = (name, e) => {
         e.preventDefault();
         const tempService = { ...this.state.newService };
@@ -105,20 +112,18 @@ class AddEditService extends React.Component{
                 .then((service) => {
                     const serviceId = service.data.id;
                     const {selectedParts} = this.props;
-                    let myServicePart = {...this.state.newServicePart};
+                    let myServicePart = {};
+                    myServicePart.serviceId = serviceId;
+                    myServicePart.installDate = service.data.serviceDate;
             
                     selectedParts.forEach(part => {
-                        myServicePart.partId = part.id;
-                        myServicePart.serviceId = serviceId;
-                        myServicePart.installDate = service.data.serviceDate;
+                        let partId = part.id;
+                        myServicePart.partId = partId;
 
-                        servicePartRequests.createServicePart(myServicePart)
-                        .then(() => {
-                            this.setState({ newServicePart: defaultServicePart });
-                        })
-                    }) 
-                })
-                 this.props.routeToServiceHistory();
+                        this.addServicePart(myServicePart);
+                    });
+                    this.props.routeToServiceHistory();
+                });
         } else {
           serviceRequests.updateService(myService.id, myService)
             .then(() => {

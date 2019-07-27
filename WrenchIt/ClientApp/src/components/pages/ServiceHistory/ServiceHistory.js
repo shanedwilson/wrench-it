@@ -116,10 +116,10 @@ class ServiceHistory extends React.Component {
         this.serviceMounted = !!currentUser.id;
         if (this.serviceMounted) {
 
+            this.getServicesByMachineId(machineId);
             this.getPartsByMachine(machineId);
             this.getAllPartTypes();
             this.getMachineById(machineId);
-            this.getServicesByMachineId(machineId);
         }
     }
 

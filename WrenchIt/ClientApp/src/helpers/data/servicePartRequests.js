@@ -13,6 +13,16 @@ const getAllServiceParts = () => new Promise((resolve, reject) => {
       });
   });
 
-  const createServicePart = servicePartObject => axios.post(`${apiUrl}`, (servicePartObject));
+  const createServicePart = (servicePartObject) => new Promise((resolve, reject) => {
+    axios.post(apiUrl, servicePartObject)
+      .then((results) => {
+        const servicePartObject = results.data;
+        resolve(servicePartObject);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 
   export default { getAllServiceParts, createServicePart };
+  

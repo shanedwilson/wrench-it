@@ -20,11 +20,12 @@ class Register extends React.Component{
     }
 
     render(){
-         const { getUser } = this.props;
+         const { getUser, currentUser } = this.props;
 
         return(
             <AddEditUser
             getUser = {getUser}
+            currentUser={currentUser}
             />
         )
     }

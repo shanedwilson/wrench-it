@@ -37,17 +37,19 @@ namespace WrenchIt.Data
             }
         }
 
-        //public IEnumerable<MachinePart> GetAllMachineParts()
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var machineParts = db.Query<MachinePart>(@"
-        //            select *
-        //            from machineparts").ToList();
+        public IEnumerable<ServicePart> GetAllServicePartsByServiceId(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var serviceParts = db.Query<ServicePart>(@"
+                    select *
+                    from serviceparts sp
+                    where sp.serviceId = @id",
+                    new { Id = id}).ToList();
 
-        //        return machineParts;
-        //    }
-        //}
+                return serviceParts;
+            }
+        }
 
         //public MachinePart GetSingleMachinePart(int id)
         //{
@@ -84,19 +86,19 @@ namespace WrenchIt.Data
         //    }
         //}
 
-        //public void DeleteMachinePart(int id)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var sql = @"update machineParts
-        //                    set isactive = 0
-        //                    where id = @id";
+        public void DeleteServicePart(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = @"delete 
+                            from serviceParts
+                            where id = @id";
 
-        //        var rowsAffected = db.Execute(sql, new { Id = id });
+                var rowsAffected = db.Execute(sql, new { Id = id });
 
-        //        if (rowsAffected != 1)
-        //            throw new Exception("Could Not Delete MachinePart.");
-        //    }
-        //}
+                if (rowsAffected != 1)
+                    throw new Exception("Could Not Delete Service Part.");
+            }
+        }
     }
 }

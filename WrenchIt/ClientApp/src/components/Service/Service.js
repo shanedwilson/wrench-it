@@ -1,5 +1,6 @@
 import React from 'react';
 import machineRequests from '../../helpers/data/machineRequests';
+import servicePartRequests from '../../helpers/data/servicePartRequests';
 import AddEditService from'../AddEditService/AddEditService';
 import {
     Modal,
@@ -12,11 +13,8 @@ class Service extends React.Component{
 
     state = {
         selectedParts: [],
-        // machineParts: [],
-        // parts: [],
         dropdownParts: [],
         isService: true,
-        // isEditing: false,
         selectedPartType: 1000,
         SelectedMachineId: 0,
         selectedPart: 0,
@@ -57,8 +55,22 @@ class Service extends React.Component{
     }
 
     removePart = (id) => {
+        console.log('CLICKED!!!');
         const {selectedParts} = this.state;
-        selectedParts.forEach((sp, i) =>{
+        const {isEditing, serviceParts} = this.props;
+        if(!isEditing) {
+            selectedParts.forEach((sp, i) =>{
+                const index = selectedParts.findIndex(sp => sp.id === id);
+                if(index > -1){
+                    selectedParts.splice(index, 1);
+                    this.setState({ selectedParts })
+                };
+            });
+        }
+        serviceParts.forEach((sp, i) =>{
+            if (sp.partId === id) {
+                servicePartRequests.deleteServicePart(sp.id);
+            }
             const index = selectedParts.findIndex(sp => sp.id === id);
             if(index > -1){
                 selectedParts.splice(index, 1);

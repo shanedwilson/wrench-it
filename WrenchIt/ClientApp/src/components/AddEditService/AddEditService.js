@@ -181,7 +181,7 @@ class AddEditService extends React.Component{
           };
 
         const makeSelectedParts = () => {
-            if(isDetail){
+            if(isDetail && !isEditing){
                 return(
                 selectedParts.map((p,index) => (
                     <div  key={index} className="mr-2 selected-parts" id={p.id}>

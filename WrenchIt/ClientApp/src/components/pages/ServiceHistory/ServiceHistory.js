@@ -4,6 +4,7 @@ import serviceRequests from '../../../helpers/data/serviceRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partRequests from '../../../helpers/data/partRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
+import servicePartRequests from '../../../helpers/data/servicePartRequests';
 
 import './ServiceHistory.scss';
 
@@ -18,6 +19,7 @@ class ServiceHistory extends React.Component {
         partTypes: [],
         machineParts: [],
         selectedParts: [],
+        serviceParts: [],
         isEditing: false,
     }
 
@@ -76,10 +78,18 @@ class ServiceHistory extends React.Component {
             });
       }
 
+      getServicePartsByServiceId = (id) => {
+          servicePartRequests.getAllServicePartsByServiceId(id)
+          .then((serviceParts) => {
+              this.setState({ serviceParts });
+          })
+      }
+
     getPartsByServiceId = (id) => {
         partRequests.getPartsByServiceId(id)
         .then((selectedParts) => {
             this.setState({ selectedParts });
+            this.getServicePartsByServiceId(id);
         })
     }
 
@@ -115,7 +125,6 @@ class ServiceHistory extends React.Component {
         const machineId = this.props.match.params.id
         this.serviceMounted = !!currentUser.id;
         if (this.serviceMounted) {
-
             this.getServicesByMachineId(machineId);
             this.getPartsByMachine(machineId);
             this.getAllPartTypes();
@@ -135,6 +144,8 @@ class ServiceHistory extends React.Component {
         const machineParts = [...this.state.machineParts];
 
         const selectedParts = [...this.state.selectedParts];
+
+        const serviceParts = [...this.state.serviceParts];
 
         const { currentUser } = this.props;
 
@@ -198,6 +209,7 @@ class ServiceHistory extends React.Component {
                     deleteService={this.deleteService}
                     editService={this.editService}
                     isEditing={isEditing}
+                    serviceParts={serviceParts}
                 />
             </div>
         )

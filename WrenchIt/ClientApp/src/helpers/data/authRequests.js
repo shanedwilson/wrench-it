@@ -3,17 +3,20 @@ import 'firebase/auth';
 import axios from 'axios';
 
 axios.interceptors.request.use(
-  request => getCurrentUserJwt()
-    .then(() => {
-      const token = sessionStorage.getItem('token');
-      if (token != null) {
-        request.headers.Authorization = `Bearer ${token}`;
-      }
-      return request;
-    })
-    .catch(error => console.error(error)),
-  err => Promise.reject(err),
-);
+  request => {
+    if (request.url.indexOf('youtube') === -1) { 
+      return getCurrentUserJwt()
+      .then(() => {
+        const token = sessionStorage.getItem('token');
+        if (token != null) {
+          request.headers.Authorization = `Bearer ${token}`;
+        }
+        return request;
+      })
+      .catch(error => console.error(error))
+    }
+    return  request;
+  }, err => Promise.reject(err));
 
 axios.interceptors.response.use(response => response, errorResponse => Promise.reject(errorResponse));
 

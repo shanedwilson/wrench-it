@@ -63,8 +63,9 @@ class AddEditService extends React.Component{
         this.setState({ checked: !checked })
     }
 
-    addServicePart = (myServicePart) => {
-        servicePartRequests.createServicePart(myServicePart)
+    addServicePart = () => {
+        const newServicePart = {...this.state.newServicePart};
+        servicePartRequests.createServicePart(newServicePart)
         .then((servicePart)=> {
             console.log(servicePart);
         });
@@ -120,7 +121,9 @@ class AddEditService extends React.Component{
                         let partId = part.id;
                         myServicePart.partId = partId;
 
-                        this.addServicePart(myServicePart);
+                        this.setState({ newServicePart: myServicePart })
+
+                        this.addServicePart();
                     });
                     this.props.routeToServiceHistory();
                 });

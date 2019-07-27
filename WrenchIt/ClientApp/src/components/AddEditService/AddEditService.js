@@ -35,6 +35,7 @@ class AddEditService extends React.Component{
         selectedService: PropTypes.object,
         selectedParts: PropTypes.array,
         selectPart: PropTypes.func,
+        serviceParts: PropTypes.array,
     }
 
     state = {
@@ -63,12 +64,25 @@ class AddEditService extends React.Component{
         this.setState({ checked: !checked })
     }
 
+    checkServiceParts = () => {
+        const {serviceParts} = this.props;
+        const newServicePart = {...this.state.newServicePart};
+        return serviceParts.filter(sp => {
+            if(sp.partId === newServicePart.partId && sp.serviceId === newServicePart.serviceId) {
+                return true;
+            } else {
+                return false;
+            }
+        }).length;
+
+    }
+
     addServicePart = () => {
         const newServicePart = {...this.state.newServicePart};
-        servicePartRequests.createServicePart(newServicePart)
-        .then((servicePart)=> {
-            console.log(servicePart);
-        });
+        const partCheck = this.checkServiceParts();
+        if(!partCheck) {
+            servicePartRequests.createServicePart(newServicePart);
+        };
     }
 
     formFieldStringState = (name, e) => {
@@ -129,9 +143,23 @@ class AddEditService extends React.Component{
                 });
         } else {
           serviceRequests.updateService(myService.id, myService)
-            .then(() => {
-                this.editServiceEvent();
+          .then((service) => {
+            const serviceId = service.data.id;
+            const {selectedParts} = this.props;
+            let myServicePart = {};
+            myServicePart.serviceId = serviceId;
+            myServicePart.installDate = service.data.serviceDate;
+    
+            selectedParts.forEach(part => {
+                let partId = part.id;
+                myServicePart.partId = partId;
+
+                this.setState({ newServicePart: myServicePart })
+
+                this.addServicePart();
             });
+            this.editServiceEvent();
+        });
         }
     };
 

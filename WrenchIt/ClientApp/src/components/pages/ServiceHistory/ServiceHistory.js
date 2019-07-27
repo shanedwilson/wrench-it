@@ -210,6 +210,7 @@ class ServiceHistory extends React.Component {
                     editService={this.editService}
                     isEditing={isEditing}
                     serviceParts={serviceParts}
+                    getPartsByServiceId={this.getPartsByServiceId}
                 />
             </div>
         )

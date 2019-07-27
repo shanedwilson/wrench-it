@@ -55,9 +55,8 @@ class Service extends React.Component{
     }
 
     removePart = (id) => {
-        console.log('CLICKED!!!');
         const {selectedParts} = this.state;
-        const {isEditing, serviceParts} = this.props;
+        const {isEditing, serviceParts, selectedServcieId} = this.props;
         if(!isEditing) {
             selectedParts.forEach((sp, i) =>{
                 const index = selectedParts.findIndex(sp => sp.id === id);
@@ -69,26 +68,12 @@ class Service extends React.Component{
         }
         serviceParts.forEach((sp, i) =>{
             if (sp.partId === id) {
-                servicePartRequests.deleteServicePart(sp.id);
+                servicePartRequests.deleteServicePart(sp.id)
+                    .then(() => {
+                        this.props.getPartsByServiceId(sp.serviceId);
+                    })
             }
-            const index = selectedParts.findIndex(sp => sp.id === id);
-            if(index > -1){
-                selectedParts.splice(index, 1);
-                this.setState({ selectedParts })
-            };
         });
-    }
-
-    componentDidMount(){
-        const { currentUser, selectedServiceId, isDetail } = this.props;
-        this.serviceMounted = !!currentUser.id;
-
-        // if (this.serviceMounted && isDetail) {
-        //     this.getPartsByServiceId(selectedServiceId)
-        //         .then((selectedParts) => {
-        //             this.setState({ selectedParts })
-        //         })
-        // }
     }
 
     componentWillReceiveProps(props) {
@@ -116,6 +101,7 @@ class Service extends React.Component{
             deleteService,
             editService,
             isEditing,
+            serviceParts,
         } = this.props;
 
         const makeHeader = () => {
@@ -155,6 +141,7 @@ class Service extends React.Component{
                             routeToServiceHistory = {routeToServiceHistory}
                             deleteService={deleteService}
                             editService={editService}
+                            serviceParts={serviceParts}
                         />
                     </ModalBody>
                 </Modal>

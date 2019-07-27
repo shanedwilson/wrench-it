@@ -25,6 +25,7 @@ class MyGarage extends React.Component{
         selectedPartToEdit: {},
         isEditing: false,
         isEditingPart: false,
+        isEditingService: false,
         modal: false,
         showParts: false,
         dropdownParts: [],
@@ -190,6 +191,7 @@ class MyGarage extends React.Component{
                 addPart,
                 isEditingPart,
                 addEditServiceModal,
+                isEditingService,
             } = this.state;
 
         const makeDropdown = () => {
@@ -250,7 +252,7 @@ class MyGarage extends React.Component{
 
         return(
             
-            <div className="myGarage mx-auto">
+            <div className="myGarage mx-auto animated fadeIn">
                 <h1 className="text-center">My Garage</h1>
                 <div className="w-75 mx-auto">
                     {makeDropdown()}
@@ -285,6 +287,7 @@ class MyGarage extends React.Component{
                     partTypes = {partTypes}
                     machineParts = {machineParts}
                     routeToServiceHistory={this.routeToServiceHistory}
+                    isEditing={isEditingService}
                 />
             </div>
         )

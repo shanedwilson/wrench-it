@@ -4,6 +4,7 @@ import serviceRequests from '../../../helpers/data/serviceRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partRequests from '../../../helpers/data/partRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
+import servicePartRequests from '../../../helpers/data/servicePartRequests';
 
 import './ServiceHistory.scss';
 
@@ -18,10 +19,15 @@ class ServiceHistory extends React.Component {
         partTypes: [],
         machineParts: [],
         selectedParts: [],
+        serviceParts: [],
+        isEditing: false,
     }
 
     showAddEditService = (e) => {
-        const { isDetail, addEditServiceModal } = this.state;
+        const { isDetail, addEditServiceModal, isEditing } = this.state;
+        if(isEditing){
+            this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal, isEditing: !isEditing });
+        }
         this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal });
     }
 
@@ -72,10 +78,18 @@ class ServiceHistory extends React.Component {
             });
       }
 
+      getServicePartsByServiceId = (id) => {
+          servicePartRequests.getAllServicePartsByServiceId(id)
+          .then((serviceParts) => {
+              this.setState({ serviceParts });
+          })
+      }
+
     getPartsByServiceId = (id) => {
         partRequests.getPartsByServiceId(id)
         .then((selectedParts) => {
             this.setState({ selectedParts });
+            this.getServicePartsByServiceId(id);
         })
     }
 
@@ -96,16 +110,25 @@ class ServiceHistory extends React.Component {
             })
     }
 
+    editService = () => {
+        const machineId = this.props.match.params.id
+        const {isEditing} = this.state;
+        if(isEditing){
+            this.showAddEditService()
+            this.getServicesByMachineId(machineId)
+        }
+        this.setState({isEditing: !isEditing});
+    }
+
     componentDidMount() {
         const { currentUser } = this.props;
         const machineId = this.props.match.params.id
         this.serviceMounted = !!currentUser.id;
         if (this.serviceMounted) {
-
+            this.getServicesByMachineId(machineId);
             this.getPartsByMachine(machineId);
             this.getAllPartTypes();
             this.getMachineById(machineId);
-            this.getServicesByMachineId(machineId);
         }
     }
 
@@ -122,12 +145,15 @@ class ServiceHistory extends React.Component {
 
         const selectedParts = [...this.state.selectedParts];
 
+        const serviceParts = [...this.state.serviceParts];
+
         const { currentUser } = this.props;
 
         const {
             isDetail,
             selectedServiceId,
             addEditServiceModal,
+            isEditing,
         } = this.state;
 
         const formatMDYDate = (date) => {
@@ -181,6 +207,10 @@ class ServiceHistory extends React.Component {
                     machineParts = {machineParts}
                     selectedParts={selectedParts}
                     deleteService={this.deleteService}
+                    editService={this.editService}
+                    isEditing={isEditing}
+                    serviceParts={serviceParts}
+                    getPartsByServiceId={this.getPartsByServiceId}
                 />
             </div>
         )

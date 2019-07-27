@@ -35,6 +35,7 @@ class AddEditService extends React.Component{
         selectedService: PropTypes.object,
         selectedParts: PropTypes.array,
         selectPart: PropTypes.func,
+        serviceParts: PropTypes.array,
     }
 
     state = {
@@ -49,6 +50,10 @@ class AddEditService extends React.Component{
         this.props.deleteService()
     }
 
+    editServiceEvent = () => {
+        this.props.editService()
+    }
+
     removePartEvent = (e) => {
         const partId = e.target.id * 1;
         this.props.removePart(partId);
@@ -57,6 +62,27 @@ class AddEditService extends React.Component{
     handleCheckbox = () => {
         const { checked } = this.state;
         this.setState({ checked: !checked })
+    }
+
+    checkServiceParts = () => {
+        const {serviceParts} = this.props;
+        const newServicePart = {...this.state.newServicePart};
+        return serviceParts.filter(sp => {
+            if(sp.partId === newServicePart.partId && sp.serviceId === newServicePart.serviceId) {
+                return true;
+            } else {
+                return false;
+            }
+        }).length;
+
+    }
+
+    addServicePart = () => {
+        const newServicePart = {...this.state.newServicePart};
+        const partCheck = this.checkServiceParts();
+        if(!partCheck) {
+            servicePartRequests.createServicePart(newServicePart);
+        };
     }
 
     formFieldStringState = (name, e) => {
@@ -101,24 +127,39 @@ class AddEditService extends React.Component{
                 .then((service) => {
                     const serviceId = service.data.id;
                     const {selectedParts} = this.props;
-                    let myServicePart = {...this.state.newServicePart};
+                    let myServicePart = {};
+                    myServicePart.serviceId = serviceId;
+                    myServicePart.installDate = service.data.serviceDate;
             
                     selectedParts.forEach(part => {
-                        myServicePart.partId = part.id;
-                        myServicePart.serviceId = serviceId;
-                        myServicePart.installDate = service.data.serviceDate;
+                        let partId = part.id;
+                        myServicePart.partId = partId;
 
-                        servicePartRequests.createServicePart(myServicePart)
-                        .then(() => {
-                            this.setState({ newServicePart: defaultServicePart });
-                        })
-                    }) 
-                })
-                 this.props.routeToServiceHistory();
+                        this.setState({ newServicePart: myServicePart })
+
+                        this.addServicePart();
+                    });
+                    this.props.routeToServiceHistory();
+                });
         } else {
           serviceRequests.updateService(myService.id, myService)
-            .then(() => {
+          .then((service) => {
+            const serviceId = service.data.id;
+            const {selectedParts} = this.props;
+            let myServicePart = {};
+            myServicePart.serviceId = serviceId;
+            myServicePart.installDate = service.data.serviceDate;
+    
+            selectedParts.forEach(part => {
+                let partId = part.id;
+                myServicePart.partId = partId;
+
+                this.setState({ newServicePart: myServicePart })
+
+                this.addServicePart();
             });
+            this.editServiceEvent();
+        });
         }
     };
 
@@ -168,7 +209,7 @@ class AddEditService extends React.Component{
           };
 
         const makeSelectedParts = () => {
-            if(isDetail){
+            if(isDetail && !isEditing){
                 return(
                 selectedParts.map((p,index) => (
                     <div  key={index} className="mr-2 selected-parts" id={p.id}>
@@ -202,7 +243,7 @@ class AddEditService extends React.Component{
         }
 
           const makeServiceCard = () => {
-              if(isDetail){
+              if(isDetail && !isEditing){
                   return(
                     <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
                         <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>

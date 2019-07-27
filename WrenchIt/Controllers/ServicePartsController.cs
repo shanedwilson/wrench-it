@@ -36,13 +36,13 @@ namespace WrenchIt.Controllers
         //    return Ok(machineParts);
         //}
 
-        //[HttpGet("{id}")]
-        //public ActionResult GetSingleMachinePart(int id)
-        //{
-        //    var machinePart = _repository.GetSingleMachinePart(id);
+        [HttpGet("{id}")]
+        public ActionResult GetAllServicePartsByServiceId(int id)
+        {
+            var machinePart = _repository.GetAllServicePartsByServiceId(id);
 
-        //    return Ok(machinePart);
-        //}
+            return Ok(machinePart);
+        }
 
         //[HttpPut("{id}")]
         //public ActionResult UpdateMachinePart(int id, MachinePart machinePartToUpdate)
@@ -56,12 +56,12 @@ namespace WrenchIt.Controllers
         //    return Ok(machinePart);
         //}
 
-        //[HttpDelete("{id}")]
-        //public ActionResult DeleteMachinePart(int id)
-        //{
-        //    _repository.DeleteMachinePart(id);
+        [HttpDelete("{id}")]
+        public ActionResult DeleteServicePart(int id)
+        {
+            _repository.DeleteServicePart(id);
 
-        //    return Ok("MachinePart Deleted");
-        //}
+            return Ok("Service Part Deleted");
+        }
     }
 }

@@ -96,7 +96,7 @@ namespace WrenchIt.Data
                         mileage = @mileage,
                         tireRotation = @tireRotation,
                         servicedate = @servicedate,
-                        notes = notes
+                        notes = @notes
                     where id = @id";
 
                 var rowsAffected = db.Execute(sql, serviceToUpdate);

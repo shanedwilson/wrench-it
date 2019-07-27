@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const apiUrl = '/api/serviceparts';
 
-const getAllServiceParts = () => new Promise((resolve, reject) => {
-    axios.get(apiUrl)
+const getAllServicePartsByServiceId = (servicePartId) => new Promise((resolve, reject) => {
+    axios.get(`${apiUrl}/${servicePartId}`)
       .then((results) => {
         const servicePartsObject = results.data;
         resolve(servicePartsObject);
@@ -13,6 +13,17 @@ const getAllServiceParts = () => new Promise((resolve, reject) => {
       });
   });
 
-  const createServicePart = servicePartObject => axios.post(`${apiUrl}`, (servicePartObject));
+  const createServicePart = (servicePartObject) => new Promise((resolve, reject) => {
+    axios.post(apiUrl, servicePartObject)
+      .then((results) => {
+        const servicePartObject = results.data;
+        resolve(servicePartObject);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 
-  export default { getAllServiceParts, createServicePart };
+  const deleteServicePart = servicePartId => axios.delete(`${apiUrl}/${servicePartId}`);
+
+  export default { getAllServicePartsByServiceId, createServicePart, deleteServicePart };

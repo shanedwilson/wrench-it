@@ -1,5 +1,6 @@
 import React from 'react';
 import machineRequests from '../../helpers/data/machineRequests';
+import servicePartRequests from '../../helpers/data/servicePartRequests';
 import AddEditService from'../AddEditService/AddEditService';
 import {
     Modal,
@@ -12,11 +13,8 @@ class Service extends React.Component{
 
     state = {
         selectedParts: [],
-        // machineParts: [],
-        // parts: [],
         dropdownParts: [],
         isService: true,
-        isEditing: false,
         selectedPartType: 1000,
         SelectedMachineId: 0,
         selectedPart: 0,
@@ -58,25 +56,24 @@ class Service extends React.Component{
 
     removePart = (id) => {
         const {selectedParts} = this.state;
-        selectedParts.forEach((sp, i) =>{
-            const index = selectedParts.findIndex(sp => sp.id === id);
-            if(index > -1){
-                selectedParts.splice(index, 1);
-                this.setState({ selectedParts })
-            };
+        const {isEditing, serviceParts, selectedServcieId} = this.props;
+        if(!isEditing) {
+            selectedParts.forEach((sp, i) =>{
+                const index = selectedParts.findIndex(sp => sp.id === id);
+                if(index > -1){
+                    selectedParts.splice(index, 1);
+                    this.setState({ selectedParts })
+                };
+            });
+        }
+        serviceParts.forEach((sp, i) =>{
+            if (sp.partId === id) {
+                servicePartRequests.deleteServicePart(sp.id)
+                    .then(() => {
+                        this.props.getPartsByServiceId(sp.serviceId);
+                    })
+            }
         });
-    }
-
-    componentDidMount(){
-        const { currentUser, selectedServiceId, isDetail } = this.props;
-        this.serviceMounted = !!currentUser.id;
-
-        // if (this.serviceMounted && isDetail) {
-        //     this.getPartsByServiceId(selectedServiceId)
-        //         .then((selectedParts) => {
-        //             this.setState({ selectedParts })
-        //         })
-        // }
     }
 
     componentWillReceiveProps(props) {
@@ -89,13 +86,23 @@ class Service extends React.Component{
     }
 
     render(){
-        const { isEditing, selectedPartType, selectedParts, selectedPart } = this.state;
-
-        // const selectedService = {...this.state.selectedService};
+        const { selectedPartType, selectedParts, selectedPart } = this.state;
 
         const dropdownParts = [...this.state.dropdownParts];
 
-        const { currentUser, addEditServiceModal, selectedMachine, partTypes, isDetail, selectedService, routeToServiceHistory, deleteService } = this.props;
+        const {
+            currentUser,
+            addEditServiceModal,
+            selectedMachine,
+            partTypes,
+            isDetail,
+            selectedService,
+            routeToServiceHistory,
+            deleteService,
+            editService,
+            isEditing,
+            serviceParts,
+        } = this.props;
 
         const makeHeader = () => {
             if (isEditing) {
@@ -133,6 +140,8 @@ class Service extends React.Component{
                             selectedService = {selectedService}
                             routeToServiceHistory = {routeToServiceHistory}
                             deleteService={deleteService}
+                            editService={editService}
+                            serviceParts={serviceParts}
                         />
                     </ModalBody>
                 </Modal>

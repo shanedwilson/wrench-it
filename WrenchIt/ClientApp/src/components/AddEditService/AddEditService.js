@@ -79,8 +79,13 @@ class AddEditService extends React.Component{
 
     addServicePart = () => {
         const newServicePart = {...this.state.newServicePart};
-        const partCheck = this.checkServiceParts();
-        if(!partCheck) {
+        const {isEditing} = this.props;
+        if(isEditing) {
+            const partCheck = this.checkServiceParts();
+            if(!partCheck) {
+                servicePartRequests.createServicePart(newServicePart);
+            };
+        } else {
             servicePartRequests.createServicePart(newServicePart);
         };
     }

@@ -68,6 +68,24 @@ namespace WrenchIt.Data
 
         }
 
+        public IEnumerable<Service> GetAllServicesByOwnerId(string id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var ownerServices = db.Query<Service>(@"
+                    select s.*
+                    from services s
+                    join machines m
+                    on s.machineId = m.id
+                    where m.ownerId = @id
+                    and m.isactive = 1",
+                    new { Id = id }).ToList();
+
+                return ownerServices;
+            }
+
+        }
+
         public Service GetSingleService(int id)
         {
             using (var db = new SqlConnection(_connectionString))

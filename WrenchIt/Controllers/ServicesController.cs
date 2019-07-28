@@ -54,6 +54,14 @@ namespace WrenchIt.Controllers
             return Ok(machineServices);
         }
 
+        [HttpGet("owner/{id}")]
+        public ActionResult GetAllServicesByOwnerId(string id)
+        {
+            var ownerServices = _repository.GetAllServicesByOwnerId(id);
+
+            return Ok(ownerServices);
+        }
+
         [HttpGet("{id}")]
         public ActionResult GetSingleService(int id)
         {

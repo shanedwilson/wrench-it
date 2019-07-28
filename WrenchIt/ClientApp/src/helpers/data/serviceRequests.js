@@ -24,6 +24,17 @@ const getAllServicesByMachineId = (id) => new Promise((resolve, reject) => {
     });
 });
 
+const getAllServicesByOwnerId = (id) => new Promise((resolve, reject) => {
+  axios.get(`${apiUrl}/owner/${id}`)
+    .then((results) => {
+      const servicesObject = results.data;
+      resolve(servicesObject);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
+
 const getSingleService = serviceId => axios.get(`${apiUrl}/${serviceId}`);
 
 const deleteService = serviceId => axios.delete(`${apiUrl}/${serviceId}`);
@@ -39,4 +50,5 @@ export default {
   updateService,
   getSingleService,
   getAllServicesByMachineId,
+  getAllServicesByOwnerId,
 };

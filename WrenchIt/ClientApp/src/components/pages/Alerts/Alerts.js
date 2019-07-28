@@ -24,7 +24,7 @@ class Alerts extends React.Component{
         const alertServices = [...this.state.alertServices];
         const services = [...this.state.services];
         services.forEach(s => {
-            let dateChecked = this.checkDates(new Date(s.serviceDate));
+            let dateChecked = this.checkDates(new Date(s.ServiceDate));
             if(dateChecked){
                 alertServices.push(s);
             }
@@ -61,7 +61,14 @@ class Alerts extends React.Component{
     render() {
         const alertServices = [...this.state.alertServices];
 
-        const machines = [...this.state.machines];
+        const formatMDYDate = (date) => {
+            const inputDate = new Date(date);
+            const month = inputDate.getMonth() + 1;
+            const day = inputDate.getDate();
+            const year = inputDate.getFullYear();
+            const formattedDate = `${month}/${day}/${year}`;
+            return formattedDate;
+          };
 
         const makeAlerts = () => {
             if (alertServices.length === 0) {
@@ -70,8 +77,8 @@ class Alerts extends React.Component{
                 );
             }
             return (
-                alertServices.map(as => 
-                    <div>Last serviced on {as.serviceDate}.</div>
+                alertServices.map((as,index) => 
+                    <div key={as.Id} id={as.Id}>Your {as.year} {as.make} {as.model} was last serviced on {formatMDYDate(as.ServiceDate)}.</div>
                 )
             )
         };

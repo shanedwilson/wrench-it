@@ -68,12 +68,12 @@ namespace WrenchIt.Data
 
         }
 
-        public IEnumerable<Service> GetAllServicesByOwnerId(string id)
+        public IEnumerable<Object> GetAllServicesByOwnerId(string id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var ownerServices = db.Query<Service>(@"
-                    select s.*
+                var ownerServices = db.Query<Object>(@"
+                    select s.*, m.year, m.make, m.model
                     from services s
                     join machines m
                     on s.machineId = m.id

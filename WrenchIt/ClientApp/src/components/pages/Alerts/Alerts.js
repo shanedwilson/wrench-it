@@ -8,6 +8,28 @@ class Alerts extends React.Component{
     state = {
         machines: [],
         services: [],
+        alertServices: [],
+    }
+
+    checkDates = (serviceDate) => {
+        const x = 3;
+        const currentDate = new Date();
+        const checkedDate = serviceDate.setMonth(serviceDate.getMonth() + x);
+        if(currentDate >= checkedDate){
+            return(true)
+        };
+    };
+
+    makeAlertServices = () => {
+        const alertServices = [...this.state.alertServices];
+        const services = [...this.state.services];
+        services.forEach(s => {
+            let dateChecked = this.checkDates(new Date(s.serviceDate));
+            if(dateChecked){
+                alertServices.push(s);
+            }
+            this.setState({ alertServices });
+        })
     }
 
     getAllServicesByOwnerId = () => {
@@ -16,6 +38,7 @@ class Alerts extends React.Component{
         serviceRequests.getAllServicesByOwnerId(ownerId)
             .then((services) => {
                 this.setState({ services });
+                this.makeAlertServices();
             });
     }
 
@@ -35,9 +58,29 @@ class Alerts extends React.Component{
         }
     }
 
-    render(){
+    render() {
+        const alertServices = [...this.state.alertServices];
+
+        const machines = [...this.state.machines];
+
+        const makeAlerts = () => {
+            if (alertServices.length === 0) {
+                return (
+                    <div>You have no alerts today.</div>
+                );
+            }
+            return (
+                alertServices.map(as => 
+                    <div>Last serviced on {as.serviceDate}.</div>
+                )
+            )
+        };
+
         return(
-            <h1>Alerts</h1>
+            <div>
+                <h1>Alerts</h1>
+                <div>{makeAlerts()}</div>
+            </div>
         )
     }
 }

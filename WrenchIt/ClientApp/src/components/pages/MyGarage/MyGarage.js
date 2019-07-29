@@ -13,6 +13,7 @@ import './MyGarage.scss';
 
 class MyGarage extends React.Component{
     myGarageMounted = false;
+    machineIdProps = false;
 
     state = {
         machines: [],
@@ -163,7 +164,15 @@ class MyGarage extends React.Component{
     componentDidMount(){
         const { currentUser } = this.props;
         this.myGarageMounted = !!currentUser.id;
-        if (this.myGarageMounted) {
+        this.machineIdProps = !!this.props.match.params.id;
+
+        if (this.myGarageMounted && this.machineIdProps) {
+            this.getAllMachinesById(currentUser.id);
+            this.getAllPartTypes();
+            this.getSingleMachine(this.props.match.params.id);
+            this.setState({ selectedMachineId: this.props.match.params.id });
+
+        } else if (this.myGarageMounted) {
             this.getAllMachinesById(currentUser.id);
             this.getAllPartTypes();
         }

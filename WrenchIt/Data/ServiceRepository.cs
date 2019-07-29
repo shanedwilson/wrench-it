@@ -68,6 +68,28 @@ namespace WrenchIt.Data
 
         }
 
+        public IEnumerable<Object> GetAllServicesByOwnerId(string id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var ownerServices = db.Query<Object>(@"
+                    select s.*, m.year, m.make, m.model
+                    from services s
+                    join machines m
+                    on s.machineId = m.id
+                    where m.ownerId = @id
+                    and m.isactive = 1
+                    and s.servicedate = (select max(s.servicedate) 
+                    from services s
+                    where s.machineId = m.id) 
+                    ",
+                    new { Id = id }).ToList();
+
+                return ownerServices;
+            }
+
+        }
+
         public Service GetSingleService(int id)
         {
             using (var db = new SqlConnection(_connectionString))

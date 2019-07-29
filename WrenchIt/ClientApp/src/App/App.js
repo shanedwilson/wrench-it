@@ -110,16 +110,12 @@ export default class App extends Component {
                     component={props => <Register getUser={this.getUser} isRegistered={isRegistered} {...props} currentUser={currentUser}/>}
                       authed={authed}/>
                   <PrivateRoute path="/home" component={props => <Home {...props} currentUser={currentUser}/>} authed={authed}/>
-                  <PrivateRoute path="/mygarage" component={props => <MyGarage {...props} currentUser={currentUser}/>} authed={authed}/>
+                  <PrivateRoute exact path="/mygarage" component={props => <MyGarage {...props} currentUser={currentUser}/>} authed={authed}/>
+                  <PrivateRoute path="/mygarage/:id" component={props => <MyGarage {...props} currentUser={currentUser}/>} authed={authed}/>
                   <PrivateRoute path="/links" component={Links} authed={authed}/>
-                  <PrivateRoute path="/alerts" component={Alerts} authed={authed}/>
+                  <PrivateRoute path="/alerts" component={props => <Alerts {...props} currentUser={currentUser}/>} authed={authed}/>
                   <PrivateRoute path="/profile" authed={authed} component={props => <Profile {...props} currentUser={currentUser}/>}/>
                   <PrivateRoute exact path="/service/history/:id" authed={authed} component={props => <ServiceHistory {...props} currentUser={currentUser}/>}/>
-                  {/* <PrivateRoute exact path="/service/detail/:id" authed={authed} component={props => <Service {...props} currentUser={currentUser}/>}/> */}
-                  {/* <PrivateRoute exact path="/rentingHistory" authed={this.state.authed} component={props => <RentingHistory {...props} currentUser={currentUser}/>}/> */}
-                  {/* <PrivateRoute exact path="/viewRentals" authed={this.state.authed} component={props => <OwnerRentals {...props} currentUser={currentUser}/>}/> */}
-                  {/* <PrivateRoute exact path="/ownerProperties/:id" authed={this.state.authed} component={props => <OwnerProperties {...props} currentUser={currentUser}/>}/> */}
-                  {/* <PrivateRoute exact path="/ownerDashboard" authed={this.state.authed} component={props => <OwnerDashboard {...props} currentUser={currentUser}/>}/> */}
                 </Switch>
           </React.Fragment>
         </BrowserRouter>

@@ -51,41 +51,6 @@ namespace WrenchIt.Data
             }
         }
 
-        //public MachinePart GetSingleMachinePart(int id)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var machinePart = db.QueryFirstOrDefault<MachinePart>(@"
-        //            select *
-        //            from machineParts
-        //            where id = @id",
-        //            new { id });
-
-        //        return machinePart;
-        //    }
-        //}
-
-        //public MachinePart UpdateMachinePart(int id, MachinePart machinePartToUpdate)
-        //{
-        //    using (var db = new SqlConnection(_connectionString))
-        //    {
-        //        var sql = @"
-        //            update machineParts
-        //            set machineId = @machineId,
-        //                partId = @partId,
-        //                isactive = 1
-        //            where id = @id";
-
-        //        var rowsAffected = db.Execute(sql, machinePartToUpdate);
-
-        //        if (rowsAffected >= 1)
-        //        {
-        //            return machinePartToUpdate;
-        //        }
-        //        throw new Exception("Could Not Update Machine Part");
-        //    }
-        //}
-
         public void DeleteServicePart(int id)
         {
             using (var db = new SqlConnection(_connectionString))

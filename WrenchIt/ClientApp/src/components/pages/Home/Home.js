@@ -1,13 +1,20 @@
 import React from 'react';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
+import machineRequests from '../../../helpers/data/machineRequests';
+import serviceRequests from '../../../helpers/data/serviceRequests';
 import PropTypes from 'prop-types';
 
 import './Home.scss';
 
 class Home extends React.Component{
+    homeMounted = false;
+
     state = {
         modal: false,
         isEditingMachine: false,
+        alertService: [],
+        machines: [],
+        services: [],
     }
 
     static propTypes = {
@@ -23,6 +30,63 @@ class Home extends React.Component{
         const { modal } = this.state;
 
         this.setState({ modal: !modal });
+    }
+
+    alertFlash = () => {
+        const alertServices = [this.state.alertServices];
+        const element = document.getElementById("alerts");
+
+        if(alertServices.length > 0){
+            element.classList.add("alert-div");
+        }
+      }
+
+      checkDates = (serviceDate) => {
+        const x = 3;
+        const currentDate = new Date();
+        const checkedDate = serviceDate.setMonth(serviceDate.getMonth() + x);
+        if(currentDate >= checkedDate){
+            return(true)
+        };
+    };
+
+    makeAlertServices = () => {
+        const alertServices  = [this.state.alertServices];
+        const services = [...this.state.services];
+        services.forEach(s => {
+            let dateChecked = this.checkDates(new Date(s.ServiceDate));
+            if(dateChecked){
+                alertServices.push(s);
+            }
+            this.setState({ alertServices });
+            this.alertFlash();
+        })
+    }
+
+    getAllServicesByOwnerId = () => {
+        const { currentUser } = this.props;
+        const ownerId = currentUser.id;
+        serviceRequests.getAllServicesByOwnerId(ownerId)
+            .then((services) => {
+                this.setState({ services });
+                this.makeAlertServices();
+            });
+    }
+
+    getAllMachinesById = (id) => {
+        machineRequests.getAllMachinesById(id)
+          .then((machinesObject) => {
+            this.setState({ machines: machinesObject })
+            this.getAllServicesByOwnerId(id);
+          });
+      }
+
+    componentDidMount(){
+        const { currentUser } = this.props;
+        this.homeMounted = !!currentUser.id;
+        if (this.homeMounted) {
+            this.getAllMachinesById(currentUser.id);
+        }
     }
 
     render(){
@@ -53,7 +117,7 @@ class Home extends React.Component{
                     </div>
                     <div className="card m-3 border-dark animated zoomIn" id='alerts' onClick={this.changeView}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i className="fas fa-6x fa-exclamation-triangle"></i></h4>
+                        <h4 className="card-title"><i id="alert-icon" className="fas fa-6x fa-exclamation-triangle"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">Alerts</h5>
                         </div>
                     </div>

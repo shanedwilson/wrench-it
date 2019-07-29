@@ -2,6 +2,8 @@ import React from 'react';
 import machineRequests from '../../../helpers/data/machineRequests';
 import serviceRequests from '../../../helpers/data/serviceRequests';
 
+import './Alerts.scss';
+
 class Alerts extends React.Component{
     alertMounted = false;
 
@@ -9,6 +11,11 @@ class Alerts extends React.Component{
         machines: [],
         services: [],
         alertServices: [],
+    }
+
+    garageView = (e) => {
+        const machineId = e.target.id
+        this.props.history.push(`/mygarage/${machineId}`);
     }
 
     checkDates = (serviceDate) => {
@@ -61,6 +68,8 @@ class Alerts extends React.Component{
     render() {
         const alertServices = [...this.state.alertServices];
 
+        const { currentUser } = this.props;
+
         const formatMDYDate = (date) => {
             const inputDate = new Date(date);
             const month = inputDate.getMonth() + 1;
@@ -78,15 +87,15 @@ class Alerts extends React.Component{
             }
             return (
                 alertServices.map((as,index) => 
-                    <div key={as.Id} id={as.Id}>Your {as.year} {as.make} {as.model} was last serviced on {formatMDYDate(as.ServiceDate)}.</div>
+                    <div className="mt-5" onClick={this.garageView} key={as.Id} id={as.MachineId}>Your {as.year} {as.make} {as.model} was last serviced on {formatMDYDate(as.ServiceDate)}.</div>
                 )
             )
         };
 
         return(
-            <div>
-                <h1>Alerts</h1>
-                <div>{makeAlerts()}</div>
+            <div className="alerts-container mx-auto">
+                <h1 className="text-center">{currentUser.name}'s Service Alerts</h1>
+                <div className="text-center">{makeAlerts()}</div>
             </div>
         )
     }

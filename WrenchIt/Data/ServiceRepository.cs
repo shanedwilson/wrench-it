@@ -78,7 +78,11 @@ namespace WrenchIt.Data
                     join machines m
                     on s.machineId = m.id
                     where m.ownerId = @id
-                    and m.isactive = 1",
+                    and m.isactive = 1
+                    and s.servicedate = (select max(s.servicedate) 
+                    from services s
+                    where s.machineId = m.id) 
+                    ",
                     new { Id = id }).ToList();
 
                 return ownerServices;

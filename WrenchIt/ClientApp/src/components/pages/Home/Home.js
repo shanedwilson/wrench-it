@@ -12,7 +12,7 @@ class Home extends React.Component{
     state = {
         modal: false,
         isEditingMachine: false,
-        alertService: [],
+        alertServices: [],
         machines: [],
         services: [],
     }
@@ -33,7 +33,7 @@ class Home extends React.Component{
     }
 
     alertFlash = () => {
-        const alertServices = [this.state.alertServices];
+        const {alertServices} = this.state;
         const element = document.getElementById("alerts");
 
         if(alertServices.length > 0){
@@ -44,14 +44,16 @@ class Home extends React.Component{
       checkDates = (serviceDate) => {
         const x = 3;
         const currentDate = new Date();
-        const checkedDate = serviceDate.setMonth(serviceDate.getMonth() + x);
+        const checkedDate = new Date(serviceDate.setMonth(serviceDate.getMonth() + x));
         if(currentDate >= checkedDate){
-            return(true)
-        };
+            return true;
+        } else {
+            return false;
+        }
     };
 
     makeAlertServices = () => {
-        const alertServices  = [this.state.alertServices];
+        let alertServices = [];
         const services = [...this.state.services];
         services.forEach(s => {
             let dateChecked = this.checkDates(new Date(s.ServiceDate));

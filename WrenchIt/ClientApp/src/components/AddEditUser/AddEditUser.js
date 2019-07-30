@@ -76,7 +76,7 @@ class AddEditUser extends React.Component{
       this.addEditUserMounted = !!currentUser.id;
 
       if (this.addEditUserMounted && isEditingUser) {
-          this.setState({ newUser: currentUser })
+          this.setState({ newUser: currentUser, isEditing: true })
       }
   }
 
@@ -88,23 +88,40 @@ class AddEditUser extends React.Component{
         const makeButton = () => {
           if(!isEditing) {
             return (
-              <button className="bttn-pill user-add-btn mx-auto mb-2 mt-3" title="Submit">
+              <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
                 <i className="add-icon fas fa-user-plus" />
               </button>
             )
           }
           return (
-            <button className="bttn-pill user-add-btn mx-auto mb-2 mt-3" title="Submit">
+            <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
               <i className="add-icon fas fa-user-check" />
             </button>
           )
         }
 
+        const makeHeader = () => {
+          if (!isEditing) {
+            return (
+              <header className="modal-header user-form-header">
+                Please Register
+              </header>
+            )
+          }
+          return (
+            <header className="modal-header user-form-header">
+              Edit Profile
+            </header>
+          )
+        }
+
         return(
-            <div className="reg-container d-flex animated fadeIn text-center">
+          <div className="reg-container d-flex animated fadeIn text-center">
             <form className="row user-form form-container border border-dark rounded mx-auto mb-5 w-50 pt-4 pb-4" onSubmit={this.formSubmit}>
-              <h3 className="reg-title mx-auto">Please Register:</h3>
-              <div className="form col-11 mt-2 mx-auto">
+              <div className="w-100">
+                {makeHeader()}
+              </div>
+              <div className="form col-11 mt-4 mx-auto">
                 <div className="col-auto form-lines p-0">
                   <div className="input-group mb-2">
                       <div className="input-group-prepend">

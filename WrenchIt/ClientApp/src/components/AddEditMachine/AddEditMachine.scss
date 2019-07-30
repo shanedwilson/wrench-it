@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+
+.modal-header {
+    background: $color3;
+    color: $color6;
+    border-bottom: 0px;
+}
+
+.close {
+    color: $color6;
+}
+
+.modal-body {
+    background: $color1;
+    padding: 0px;
+}
+
+.add-icon {
+    color: $color2;
+}
+
+.input-group-text {
+    width: 140px;
+    background: $color2;
+    color: $color6;
+  }

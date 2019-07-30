@@ -97,29 +97,29 @@ class Home extends React.Component{
         const { currentUser } = this.props;
 
         return(
-            <div className="home w-75 mx-auto">
+            <div className="home w-50 mx-auto">
                 <div className="d-flex justify-content-center flex-wrap homeWrapper mt-5">
                     <div className="card m-3 border-dark animated zoomIn" id="myGarage" onClick={this.changeView}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i className="fas fa-6x fa-car"></i></h4>
+                        <h4 className="card-title"><i className="home-icon-1 fas fa-6x fa-car"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">My Garage</h5>
                         </div>
                     </div>
                     <div className="card m-3 border-dark animated zoomIn" id='addMacine' onClick={this.toggleMachineModal}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i className="fas fa-plus-circle fa-6x"></i></h4>
+                        <h4 className="card-title"><i className="home-icon-2 fas fa-plus-circle fa-6x"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">Add Machine</h5>
                         </div>
                     </div>
                     <div className="card m-3 border-dark animated zoomIn" id='links' onClick={this.changeView}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i className="fas fa-6x fa-tools"></i></h4>
+                        <h4 className="card-title"><i className="fas fa-6x fa-tools home-icon-3"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">DIY Links</h5>
                         </div>
                     </div>
                     <div className="card m-3 border-dark animated zoomIn" id='alerts' onClick={this.changeView}>
                         <div className="card-body home text-center">
-                        <h4 className="card-title"><i id="alert-icon" className="fas fa-6x fa-exclamation-triangle"></i></h4>
+                        <h4 className="card-title"><i id="alert-icon" className="fas fa-6x fa-exclamation-triangle home-icon-4"></i></h4>
                         <h5 className="card-subtitle mb-2 text-muted">Alerts</h5>
                         </div>
                     </div>

@@ -1,3 +1,30 @@
+@import '../../../styles/variables';
+
 .title-container {
-    margin-top: 15%
+    margin-top: 10%
+}
+
+.title {
+    font-size: 7rem;
+}
+
+.auth-icon-1, .auth-icon-2 {
+    margin-right: 5%;
+}
+
+.auth-icon-1{
+    color: $color2;
+}
+
+.auth-icon-2{
+    color: $color3;
+}
+
+.auth-icon-3{
+    color: $color4;
+}
+
+.auth-btn {
+    background-color: $color5;
+    color: $color1;
 }

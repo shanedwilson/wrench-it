@@ -5,7 +5,6 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
   } from 'reactstrap';
   import PropTypes from 'prop-types';
 
@@ -154,7 +153,7 @@ import {
             return (
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
-                    <div className="machineType-label input-group-text">Machine Type:</div>
+                    <div className="machineType-label input-group-text">Machine Type</div>
                     </div>
                     <select name="machine" required className="custom-select" value={selectedMachineType}
                             onChange={(event) => { this.selectMachineType(event); this.typeIdChange(event); }}>
@@ -173,13 +172,12 @@ import {
                 <ModalBody className="text-center modal-body" id="machine-modal">
                     <div className="">
                         <div className="reg-container d-flex animated fadeIn">
-                            <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
-                                <h3 className="reg-title mx-auto">Please Enter Your Machine's Info:</h3>
+                            <form className="row form-container border border-dark rounded mt-5 mb-5 mx-auto w-75 pt-4 pb-4" onSubmit={this.formSubmit}>
                                 <div className="form col-11 mt-2 mx-auto">
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
-                                            <div className="input-group-prepend w-10">
-                                            <div className="input-group-text">Year</div>
+                                            <div className="input-group-prepend">
+                                            <div className="input-group-text text-center">Year</div>
                                             </div>
                                             <input
                                             type="text"
@@ -324,18 +322,13 @@ import {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <button className="bttn-pill user-add-btn mx-auto mb-2" title="Add Machine">
-                                            <i className="fas fa-car fa-2x"></i>
+                                        <button className="bttn-pill user-add-btn mx-auto mt-3 mb-2" title="Add Machine">
+                                            <i className="fas fa-car fa-2x add-icon"></i>
                                         </button>
                                     </div>
                                 </div>
                              </form>
                         </div>
-                        <ModalFooter className="modal-footer">
-                        <button onClick={this.toggleEvent} className="bttn-pill bttn-md bttn-danger mb-3">
-                            Go Back
-                        </button>
-                        </ModalFooter>
                     </div>
                 </ModalBody>
             </Modal>

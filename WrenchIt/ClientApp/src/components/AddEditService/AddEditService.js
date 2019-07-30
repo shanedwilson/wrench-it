@@ -154,6 +154,7 @@ class AddEditService extends React.Component{
             let myServicePart = {};
             myServicePart.serviceId = serviceId;
             myServicePart.installDate = service.data.serviceDate;
+            myService.tireRotation = checked;
     
             selectedParts.forEach(part => {
                 let partId = part.id;
@@ -181,6 +182,7 @@ class AddEditService extends React.Component{
             this.setState({
             newService: selectedService,
             serviceDate: new Date(props.selectedService.serviceDate),
+            checked: selectedService.tireRotation,
             });
         }
     }

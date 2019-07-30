@@ -21,6 +21,7 @@ class AddEditUser extends React.Component{
 
     state = {
         newUser: defaultUser,
+        isEditing: false,
     }
 
     static propTypes = {
@@ -58,7 +59,7 @@ class AddEditUser extends React.Component{
         userRequests.createUser(myUser)
         .then((currentUser) => {
           this.props.getUser();
-          this.setState({ newUser: defaultUser });
+          this.setState({ newUser: defaultUser, isEditing: true });
         });
       }
       const userId = currentUser.id;
@@ -75,18 +76,52 @@ class AddEditUser extends React.Component{
       this.addEditUserMounted = !!currentUser.id;
 
       if (this.addEditUserMounted && isEditingUser) {
-          this.setState({ newUser: currentUser })
+          this.setState({ newUser: currentUser, isEditing: true })
       }
   }
 
     render(){
-        const newUser ={ ...this.state.newUser }
+        const newUser = { ...this.state.newUser }
+
+        const { isEditing } = this.state;
+
+        const makeButton = () => {
+          if(!isEditing) {
+            return (
+              <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
+                <i className="add-icon fas fa-user-plus" />
+              </button>
+            )
+          }
+          return (
+            <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
+              <i className="add-icon fas fa-user-check" />
+            </button>
+          )
+        }
+
+        const makeHeader = () => {
+          if (!isEditing) {
+            return (
+              <header className="modal-header user-form-header">
+                Please Register
+              </header>
+            )
+          }
+          return (
+            <header className="modal-header user-form-header">
+              Edit Profile
+            </header>
+          )
+        }
 
         return(
-            <div className="reg-container d-flex animated fadeIn">
-            <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
-              <h3 className="reg-title mx-auto">Please Register:</h3>
-              <div className="form col-11 mt-2">
+          <div className="reg-container d-flex animated fadeIn text-center">
+            <form className="row user-form form-container border border-dark rounded mx-auto mb-5 w-50 pt-4 pb-4" onSubmit={this.formSubmit}>
+              <div className="w-100">
+                {makeHeader()}
+              </div>
+              <div className="form col-11 mt-4 mx-auto">
                 <div className="col-auto form-lines p-0">
                   <div className="input-group mb-2">
                       <div className="input-group-prepend">
@@ -202,9 +237,7 @@ class AddEditUser extends React.Component{
                   </div>
                 </div>
                 <div className="text-center">
-                  <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit">
-                    <i className="fas fa-plus-circle" />
-                  </button>
+                  {makeButton()}
                 </div>
               </div>
             </form>

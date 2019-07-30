@@ -11,6 +11,8 @@ import {
   NavLink,
 } from 'reactstrap';
 
+import './MyNavbar.scss';
+
 class MyNavbar extends React.Component {
   static propTypes = {
     isAuthed: PropTypes.bool,
@@ -75,7 +77,7 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="my-navbar mb-5">
-       <Navbar color="dark" dark expand="md" className="fixed-top">
+       <Navbar dark expand="md" className="my-navbar" fixed={'top'}>
           <NavbarBrand href="/">Wrench It</NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>

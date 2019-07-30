@@ -81,7 +81,8 @@ namespace WrenchIt.Data
                     and m.isactive = 1
                     and s.servicedate = (select max(s.servicedate) 
                     from services s
-                    where s.machineId = m.id) 
+                    where s.machineId = m.id
+                    and s.isactive = 1) 
                     ",
                     new { Id = id }).ToList();
 

@@ -56,7 +56,7 @@ class Service extends React.Component{
 
     removePart = (id) => {
         const {selectedParts} = this.state;
-        const {isEditing, serviceParts, selectedServcieId} = this.props;
+        const {isEditing, serviceParts} = this.props;
         if(!isEditing) {
             selectedParts.forEach((sp, i) =>{
                 const index = selectedParts.findIndex(sp => sp.id === id);
@@ -65,15 +65,17 @@ class Service extends React.Component{
                     this.setState({ selectedParts })
                 };
             });
+        } else {
+            serviceParts.forEach((sp, i) =>{
+                if (sp.partId === id) {
+                    servicePartRequests.deleteServicePart(sp.id)
+                        .then(() => {
+                            this.props.getPartsByServiceId(sp.serviceId);
+                        })
+                }
+            });
         }
-        serviceParts.forEach((sp, i) =>{
-            if (sp.partId === id) {
-                servicePartRequests.deleteServicePart(sp.id)
-                    .then(() => {
-                        this.props.getPartsByServiceId(sp.serviceId);
-                    })
-            }
-        });
+
     }
 
     componentWillReceiveProps(props) {

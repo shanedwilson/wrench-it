@@ -158,9 +158,13 @@ class MyGarage extends React.Component{
     }
 
     showAddParts = () => {
-        const { addPart } = this.state;
+        const { addPart, isEditingPart } = this.state;
         this.setState({ addPart: !addPart })
+        if(isEditingPart) {
+            this.setState({ isEditingPart: !isEditingPart, selectedPartToEdit: {} });
+        }
     }
+
 
     componentDidMount(){
         const { currentUser } = this.props;

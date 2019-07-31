@@ -45,6 +45,7 @@ class AddEditPart extends React.Component {
 
     toggleEvent = () => {
         this.props.showAddParts();
+        this.setState({ newPart: defaultPart })
     }
 
     formFieldStringState = (name, e) => {
@@ -140,8 +141,7 @@ class AddEditPart extends React.Component {
                     <ModalBody className="text-center modal-body" id="part-modal">
                         <div className="mb-3">
                             <div className="reg-container d-flex animated fadeIn">
-                                <form className="row form-container border border-dark rounded mx-auto" onSubmit={this.formSubmit}>
-                                    <h5 className="reg-title mx-auto">Please Enter The Parts Info:</h5>
+                                <form className="row form-container border border-dark rounded mx-auto mt-3" onSubmit={this.formSubmit}>
                                     <div className="form col-11 mt-2 mx-auto">
                                         <div className="col-auto form-lines p-0">
                                             {makePartTypeDropdown()}
@@ -179,11 +179,11 @@ class AddEditPart extends React.Component {
                                             </div>
                                         </div>
                                         <div className="text-center">
-                                            <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Part">
-                                                <i className="fas fa-car fa-2x"></i>
+                                            <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
+                                                <i className="fas fa-car"></i>
                                             </button>
                                             <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={deletePart} title="Delete Part">
-                                                <i className="part-delete-btn fas fa-trash fa-1x"></i>
+                                                <i className="part-delete-btn fas fa-trash"></i>
                                             </button>
                                         </div>
                                     </div>

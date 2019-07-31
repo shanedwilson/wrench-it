@@ -103,7 +103,7 @@ class AddEditUser extends React.Component{
             <div className="row">
               <div className="mr-2 mx-auto">
                 <button className="bttn-pill user-add-btn mb-4 mt-3" title="Submit">
-                  <i className="add-icon fas fa-user-check" />
+                  <i className="add-btn fas fa-user-check" />
                 </button>
               </div>
               <div className="mr-2 mx-auto">

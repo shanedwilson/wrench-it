@@ -1,4 +1,21 @@
+@import '../../../styles/variables';
+
 .profile-container {
-    width: 70%;
-    margin-top: 7%;
+    width: 50%;
+    margin-top: 10%;
+}
+
+.profile-header {
+    background: $color3;
+    color: $color6;
+    border-bottom: 0px;
+    font-size: 2em;
+}
+
+.profile-body {
+    background-color: $color6;
+}
+
+.edit-btn {
+    color: $color2;
 }

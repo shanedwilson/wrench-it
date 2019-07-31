@@ -57,18 +57,20 @@ class Profile extends React.Component{
                 <div className="profile-container mx-auto">
                     <div className="d-flex justify-content-center">
                         <div className="profile-card border border-dark rounded animated fadeIn w-75 mt-5 text-center" id={currentUser.id}>
-                            <h3 className="text-center profile-header">{currentUser.name}</h3>
-                            <div className="ml-1">Email: {currentUser.email}</div>
-                            <div className="ml-1">Street: {currentUser.street}</div>
-                            <div className="ml-1">City: {currentUser.city}</div>
-                            <div className="ml-1">State: {currentUser.state}</div>
-                            <div className="ml-1">Postal Code: {currentUser.postalCode}</div>
-                            <div className="ml-1">Phone Number: {currentUser.phoneNumber}</div>
-                            <div>
-                                <button id='profile-edit' type="button" className="bttn-pill edit-btn ml-2" onClick={this.editProfile} title="Edit Profile">
-                                    <i className="far fa-edit fa-1x"/>
-                                </button>
-                            </div> 
+                            <header className="text-center profile-header">{currentUser.name}</header>
+                            <div className="profile-body p-3">
+                                <div className="ml-1">Email: {currentUser.email}</div>
+                                <div className="ml-1">Street: {currentUser.street}</div>
+                                <div className="ml-1">City: {currentUser.city}</div>
+                                <div className="ml-1">State: {currentUser.state}</div>
+                                <div className="ml-1">Postal Code: {currentUser.postalCode}</div>
+                                <div className="ml-1">Phone Number: {currentUser.phoneNumber}</div>
+                                <div>
+                                    <button id='profile-edit' type="button" className="bttn-pill edit-btn ml-2 mt-2" onClick={this.editProfile} title="Edit Profile">
+                                        <i className="far fa-edit fa-1x"/>
+                                    </button>
+                                </div>
+                            </div>    
                         </div>
                     </div>
                 </div>

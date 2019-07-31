@@ -10,10 +10,14 @@ import {
   NavItem,
   NavLink,
 } from 'reactstrap';
+import machineRequests from '../../helpers/data/machineRequests';
+import serviceRequests from '../../helpers/data/serviceRequests';
 
 import './MyNavbar.scss';
 
 class MyNavbar extends React.Component {
+  navMounted = false;
+
   static propTypes = {
     isAuthed: PropTypes.bool,
     logoutClickEvent: PropTypes.func,
@@ -22,12 +26,73 @@ class MyNavbar extends React.Component {
 
   state = {
     isOpen: false,
+    alertServices: [],
+    machines: [],
+    services: [],
   };
 
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
     });
+  }
+
+  alertFlash = () => {
+    const {alertServices} = this.state;
+    const element = document.getElementById("alerts");
+
+    if(alertServices.length > 0){
+        element.classList.add("alert-div");
+    }
+  }
+
+  checkDates = (serviceDate) => {
+    const x = 3;
+    const currentDate = new Date();
+    const checkedDate = new Date(serviceDate.setMonth(serviceDate.getMonth() + x));
+    if(currentDate >= checkedDate){
+        return true;
+    } else {
+        return false;
+    }
+  };
+
+  makeAlertServices = () => {
+    let alertServices = [];
+    const services = [...this.state.services];
+    services.forEach(s => {
+        let dateChecked = this.checkDates(new Date(s.ServiceDate));
+        if(dateChecked){
+            alertServices.push(s);
+        }
+        this.setState({ alertServices });
+        this.alertFlash();
+    })
+  }
+
+  getAllServicesByOwnerId = () => {
+    const { currentUser } = this.props;
+    const ownerId = currentUser.id;
+    serviceRequests.getAllServicesByOwnerId(ownerId)
+        .then((services) => {
+            this.setState({ services });
+            this.makeAlertServices();
+        });
+  }
+
+  getAllMachinesById = (id) => {
+    machineRequests.getAllMachinesById(id)
+      .then((machinesObject) => {
+        this.setState({ machines: machinesObject })
+        this.getAllServicesByOwnerId(id);
+      });
+    }
+
+  componentWillReceiveProps(props){
+    this.navMounted = !!props.currentUser.id;
+    if (this.navMounted) {
+        this.getAllMachinesById(props.currentUser.id);
+    }
   }
 
   render() {
@@ -51,7 +116,7 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to="/links">Links</NavLink>
           </NavItem>
           <NavItem className="nav-item">
-            <NavLink tag={RRNavLink} to="/alerts">Alerts</NavLink>
+            <NavLink id="alerts" tag={RRNavLink} to="/alerts">Alerts</NavLink>
           </NavItem>
           <NavItem className="nav-item">
             <NavLink onClick={logoutClickEvent}>Logout</NavLink>

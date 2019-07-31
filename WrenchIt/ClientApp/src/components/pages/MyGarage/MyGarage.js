@@ -175,7 +175,7 @@ class MyGarage extends React.Component{
             this.getAllMachinesById(currentUser.id);
             this.getAllPartTypes();
             this.getSingleMachine(this.props.match.params.id);
-            this.setState({ selectedMachineId: this.props.match.params.id });
+            this.setState({ selectedMachineId: this.props.match.params.id * 1 });
 
         } else if (this.myGarageMounted) {
             this.getAllMachinesById(currentUser.id);

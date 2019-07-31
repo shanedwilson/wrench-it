@@ -1,17 +1,17 @@
 import React from 'react';
+import SearchField from 'react-search-field';
 
 class LinksSearch extends React.Component{
     state= {
         searchValue: '',
     }
 
-    handleChange = (e) => {
-        this.setState({ searchValue: e.target.value });
+    handleChange = (value) => {
+        this.setState({ searchValue: value });
     }
 
     formSubmit = (e) => {
         const {searchValue} = this.state;
-        e.preventDefault();
         this.props.handleFormSubmit(searchValue);
     }
 
@@ -20,7 +20,15 @@ class LinksSearch extends React.Component{
 
         return(
             <div className="search-bar ui segment">
-                <form onSubmit={this.formSubmit} className="ui form">
+                <SearchField
+                placeholder="Search YouTube For DIY Videos"
+                onChange={ this.handleChange }
+                searchText=""
+                classNames="test-class w-50"
+                onEnter={this.formSubmit}
+                value={searchValue}
+                />
+                {/* <form onSubmit={this.formSubmit} className="ui form">
                     <div className="field">
                         <label htmlFor="video-search">Video Search</label>
                         <input
@@ -30,7 +38,7 @@ class LinksSearch extends React.Component{
                             value={searchValue}
                             />
                     </div>
-                </form>
+                </form> */}
             </div>
         )
     }

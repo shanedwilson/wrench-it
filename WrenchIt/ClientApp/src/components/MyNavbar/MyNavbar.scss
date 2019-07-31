@@ -1,6 +1,17 @@
 @import '../../styles/variables';
 
-
 .my-navbar {
     background: $color5;
 }
+
+.alert-div {
+    animation-name: flashAmt;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes flashAmt {
+    0% {color: white}
+    50% {color: red}
+    100% {color: white}
+  }

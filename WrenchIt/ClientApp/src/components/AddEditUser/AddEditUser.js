@@ -29,6 +29,10 @@ class AddEditUser extends React.Component{
         getUser: PropTypes.func,
     }
 
+    cancelEdit = () => {
+      this.props.editProfile();
+    }
+
     formFieldStringState = (name, e) => {
       e.preventDefault();
       const tempUser = { ...this.state.newUser };
@@ -88,15 +92,26 @@ class AddEditUser extends React.Component{
         const makeButton = () => {
           if(!isEditing) {
             return (
-              <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
-                <i className="add-icon fas fa-user-plus" />
-              </button>
+              <div>
+                <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
+                  <i className="add-icon fas fa-user-plus" />
+                </button>
+              </div>
             )
           }
           return (
-            <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
-              <i className="add-icon fas fa-user-check" />
-            </button>
+            <div className="row">
+              <div className="mr-2 mx-auto">
+                <button className="bttn-pill user-add-btn mb-4 mt-3" title="Submit">
+                  <i className="add-icon fas fa-user-check" />
+                </button>
+              </div>
+              <div className="mr-2 mx-auto">
+                <button className="bttn-pill user-add-btn mb-4 mt-3" onClick={this.cancelEdit} title="Cancel">
+                  <i className="far fa-window-close cancel-btn"></i>
+                </button>
+              </div>
+            </div>
           )
         }
 

@@ -32,6 +32,7 @@ class MyGarage extends React.Component{
         dropdownParts: [],
         addPart: false,
         addEditServiceModal: false,
+        isGarage: true,
     }
 
     toggleMachineModal = () => {
@@ -201,6 +202,7 @@ class MyGarage extends React.Component{
                 isEditingPart,
                 addEditServiceModal,
                 isEditingService,
+                isGarage,
             } = this.state;
 
         const makeDropdown = () => {
@@ -248,10 +250,11 @@ class MyGarage extends React.Component{
                             dropdownParts = {dropdownParts}
                             selectPartType = {this.selectPartType}
                             selectedPart = {selectedPartId}
+                            isGarage = {isGarage}
                         />
                         <div className="text-center">
-                            <button className="bttn-pill user-add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
-                                <i className="fas fa-cog fa-2x"></i>
+                            <button className="bttn-pill add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
+                                <i className="fas fa-cog"></i>
                             </button>
                         </div>
                     </div>
@@ -262,7 +265,7 @@ class MyGarage extends React.Component{
         return(
             
             <div className="myGarage mx-auto animated fadeIn">
-                <h1 className="text-center">My Garage</h1>
+                <h1 className="text-center">{currentUser.name}'s Garage</h1>
                 <div className="w-75 mx-auto">
                     {makeDropdown()}
                     {makeMachineCard()}

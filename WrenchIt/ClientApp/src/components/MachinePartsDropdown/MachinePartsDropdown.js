@@ -9,6 +9,7 @@ class MachinePartsDropdown extends React.Component {
         selectedPart: PropTypes.number,
         selectPart: PropTypes.func,
         selectPartType: PropTypes.func,
+        isGarage: PropTypes.bool,
     }
 
     selectPartEvent = (e) => {
@@ -20,14 +21,14 @@ class MachinePartsDropdown extends React.Component {
     }
 
     render(){
-        const { partTypes, selectedPartType, selectedPart, dropdownParts } = this.props;
+        const { partTypes, selectedPartType, selectedPart, dropdownParts, isGarage } = this.props;
 
         const makePartsDropDown = () => {
-            if(dropdownParts.length > 0) {
+            if(dropdownParts.length > 0 && isGarage) {
                 return (
                     <select  name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2"
                         onChange={(event) => { this.selectPartEvent(event) }}>
-                        <option value="">Select Part</option>
+                        <option value="">Select Part To Edit</option>
                         {
                             dropdownParts.map((part) => (
                             <option key={part.id} value={part.id} id={part.id}>{part.brand} {part.partNumber}</option>))
@@ -35,7 +36,18 @@ class MachinePartsDropdown extends React.Component {
                     </select> 
                 )
             }
-            return(<div></div>)
+            if(dropdownParts.length > 0) {
+                return(
+                    <select  name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2"
+                    onChange={(event) => { this.selectPartEvent(event) }}>
+                        <option value="">Select Part</option>
+                        {
+                            dropdownParts.map((part) => (
+                            <option key={part.id} value={part.id} id={part.id}>{part.brand} {part.partNumber}</option>))
+                        }
+                    </select>
+                )
+            }
         }
     
         const makePartTypeDropdown = () => {

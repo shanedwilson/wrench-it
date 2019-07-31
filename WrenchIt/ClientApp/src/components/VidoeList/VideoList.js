@@ -2,14 +2,21 @@ import React from 'react';
 import VideoItem from '../VideoItem/VideoItem';
 
 const VideoList = ({ videos, handleVideoSelect}) => {
-    const renderedVideos = videos.map((video) => {
+    const renderedVideos = videos.map((video, index) => {
         return <VideoItem 
-                    key={video.id.videoId}
+                    key={index}
                     video={video}
                     handleVideoSelect={handleVideoSelect}
                 />
     });
-    return <div className="ui relaxed dividedlist">{renderedVideos}</div>
+    return(
+        <div className="row d-flex justify-content-center">
+            <div className="card-deck">
+                {renderedVideos}
+            </div>
+        </div>
+    )
+
 }
 
 export default VideoList;

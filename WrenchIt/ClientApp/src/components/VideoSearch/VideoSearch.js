@@ -19,7 +19,7 @@ class LinksSearch extends React.Component{
         const { searchValue } = this.state;
 
         return(
-            <div className="search-bar ui segment">
+            <div className="search-bar text-center">
                 <SearchField
                 placeholder="Search YouTube For DIY Videos"
                 onChange={ this.handleChange }
@@ -28,17 +28,6 @@ class LinksSearch extends React.Component{
                 onEnter={this.formSubmit}
                 value={searchValue}
                 />
-                {/* <form onSubmit={this.formSubmit} className="ui form">
-                    <div className="field">
-                        <label htmlFor="video-search">Video Search</label>
-                        <input
-                            onChange={this.handleChange}
-                            name="video-search"
-                            type="text"
-                            value={searchValue}
-                            />
-                    </div>
-                </form> */}
             </div>
         )
     }

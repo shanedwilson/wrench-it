@@ -3,12 +3,11 @@ import React from 'react';
 import './VideoItem.scss';
 
 const VideoItem = ({ video, handleVideoSelect }) => {
-    console.log(video);
 
     return (
-        <div onClick={ () => handleVideoSelect(video) } className="video-item item">
+        <div onClick={ () => handleVideoSelect(video) } className="card video-card h-100 video-item item col-4">
             <img
-                className="ui image"
+                className="image mt-2"
                 src={video.snippet.thumbnails.medium.url}
                 alt={video.snippet.description}
             />

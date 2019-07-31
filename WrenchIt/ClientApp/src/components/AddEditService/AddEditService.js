@@ -237,7 +237,7 @@ class AddEditService extends React.Component{
         const makeButtons = () => {
             if (isDetail) {
                 return (
-                    <div>
+                    <div className="mb-2">
                         <button id='service-edit' type="button" className="bttn-pill edit-btn ml-2" onClick={this.editServiceEvent} title="Edit Service">
                             <i className="far fa-edit fa-1x"/>
                         </button>
@@ -252,7 +252,7 @@ class AddEditService extends React.Component{
           const makeServiceCard = () => {
               if(isDetail && !isEditing){
                   return(
-                    <div className="service-card border border-dark rounded animated fadeIn w-75 mt-5 mx-auto" id={selectedService.id}>
+                    <div className="service-card border border-dark rounded mb-2 w-100 mt-2 mx-auto" id={selectedService.id}>
                         <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
                         <div className="ml-1">Oil Type: {selectedService.oil}</div>
                         <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
@@ -265,11 +265,11 @@ class AddEditService extends React.Component{
                   )
               }
               return(
-                <form className="row form-container border border-dark rounded mt-5 mx-auto" onSubmit={this.formSubmit}>
-                <div className="form col-11 mt-2 mx-auto">
+                <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto" onSubmit={this.formSubmit}>
+                <div className="form col mt-2 mx-auto">
                     <div className="col-auto form-lines p-0">
                         <div className="input-group mb-2">
-                            <div className="input-group-prepend w-10">
+                            <div className="input-group-prepend">
                             <div className="input-group-text">Oil</div>
                             </div>
                             <input
@@ -336,11 +336,12 @@ class AddEditService extends React.Component{
                             <div className="input-group-prepend">
                             <div className="input-group-text">Notes</div>
                             </div>
-                            <input
+                            <textarea
                             type="text"
                             className="form-control"
                             id="notes"
                             placeholder=""
+                            rows="5"
                             value={newService.notes}
                             onChange={this.notesChange}
                             required
@@ -373,8 +374,8 @@ class AddEditService extends React.Component{
                         {makeSelectedParts()}
                     </div>
                     <div className="text-center">
-                        <button className="bttn-pill user-add-btn mx-auto mb-2" title="Submit Service">
-                            <i className="fas fa-tools fa-2x"></i>
+                        <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Service">
+                            <i className="fas fa-tools"></i>
                         </button>
                     </div>                                
                 </div>

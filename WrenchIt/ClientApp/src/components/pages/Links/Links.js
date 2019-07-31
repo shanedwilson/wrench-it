@@ -4,6 +4,8 @@ import youTubeRequests from '../../../helpers/data/youTubeRequests';
 import VideoList from '../../VidoeList/VideoList';
 import VideoDetail from '../../VideoDetail/VideoDetail';
 
+import './Links.scss';
+
 class Links extends React.Component{
     state = {
         videos: [],
@@ -12,7 +14,6 @@ class Links extends React.Component{
 
     handleSubmit = async (searchValue) => {
         const response = await youTubeRequests.getVideos(searchValue)
-        console.log(response);
         this.setState({ videos: response.data.items });
     };
 
@@ -26,20 +27,16 @@ class Links extends React.Component{
         const videos = [...this.state.videos];
 
         return(
-            <div className="ui container">
+            <div className="links-container">
                 <VideoSearch handleFormSubmit={this.handleSubmit}/>
-                <div className="ui grid">
-                    <div className="ui row">
-                        <div className="eleven wide column">
-                            <VideoDetail video={selectedVideo}/>
-                        </div>
-                        <div className="five wide column">
-                            <VideoList
-                                handleVideoSelect={this.handleVideoSelect}
-                                videos={videos}
-                            />
-                        </div>
+                <div className="w-100 mx-auto">
+                    <div className="mt-3 mx-auto">
+                        <VideoDetail video={selectedVideo}/>
                     </div>
+                        <VideoList
+                            handleVideoSelect={this.handleVideoSelect}
+                            videos={videos}
+                        />
                 </div>
             </div>
         )

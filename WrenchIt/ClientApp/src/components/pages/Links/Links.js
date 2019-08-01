@@ -14,7 +14,7 @@ class Links extends React.Component{
 
     handleSubmit = async (searchValue) => {
         const response = await youTubeRequests.getVideos(searchValue)
-        this.setState({ videos: response.data.items });
+        this.setState({ videos: response.data.items, selectedVideo: null });
     };
 
     handleVideoSelect = (video) => {

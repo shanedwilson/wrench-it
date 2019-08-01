@@ -91,8 +91,8 @@ class Alerts extends React.Component{
         };
 
         return(
-            <div className="alerts-container mx-auto">
-                <h1 className="text-center">{currentUser.name}'s Service Alerts</h1>
+            <div className="alerts-container mx-auto animated fadeIn">
+                <h1 className="text-center mb-5">{currentUser.name}'s Service Alerts</h1>
                 <div className="text-center">{makeAlerts()}</div>
             </div>
         )

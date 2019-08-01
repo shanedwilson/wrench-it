@@ -54,7 +54,7 @@ class Profile extends React.Component{
                 )
             }
             return(
-                <div className="profile-container mx-auto">
+                <div className="profile-container mx-auto animated fadeIn">
                     <div className="d-flex justify-content-center">
                         <div className="profile-card border border-dark rounded animated fadeIn w-75 mt-5 text-center" id={currentUser.id}>
                             <header className="text-center profile-header">{currentUser.name}</header>

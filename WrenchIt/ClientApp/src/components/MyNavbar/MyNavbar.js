@@ -12,6 +12,7 @@ import {
 } from 'reactstrap';
 import machineRequests from '../../helpers/data/machineRequests';
 import serviceRequests from '../../helpers/data/serviceRequests';
+import logo from '../../images/wrench_it.png';
 
 import './MyNavbar.scss';
 
@@ -142,11 +143,13 @@ class MyNavbar extends React.Component {
 
     return (
       <div className="my-navbar mb-5">
-       <Navbar dark expand="md" className="my-navbar" fixed={'top'}>
-          <NavbarBrand href="/">Wrench It</NavbarBrand>
+        <Navbar dark expand="md" className="my-navbar" fixed={'top'}>
+          <NavbarBrand tag={RRNavLink} to="/home">
+            <img src={logo} className="nav-logo" alt="logo" />
+          </NavbarBrand>          
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
-           {buildNavbar()}
+            {buildNavbar()}
           </Collapse>
         </Navbar>
       </div>

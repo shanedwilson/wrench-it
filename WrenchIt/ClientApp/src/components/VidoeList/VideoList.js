@@ -10,7 +10,7 @@ const VideoList = ({ videos, handleVideoSelect}) => {
                 />
     });
     return(
-        <div className="row d-flex justify-content-center">
+        <div className="row d-flex justify-content-center animated fadeIn">
             <div className="card-deck">
                 {renderedVideos}
             </div>

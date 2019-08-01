@@ -211,15 +211,15 @@ class AddEditService extends React.Component{
             if(isDetail && !isEditing){
                 return(
                 selectedParts.map((p,index) => (
-                    <div  key={index} className="mr-2 selected-parts" id={p.id}>
+                    <span  key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
                         {p.brand} {p.partNumber}
-                    </div>  
+                    </span>  
                 ))                      
                 )
             }
             return(
                 selectedParts.map((p,index) => (
-                    <span  key={index} className="mr-2 selected-parts" onClick={this.removePartEvent} id={p.id}>
+                    <span  key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
                         {p.brand} {p.partNumber}
                     </span>  
                 ))
@@ -251,7 +251,8 @@ class AddEditService extends React.Component{
                         <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
                         <div className="ml-1">Mileage: {selectedService.mileage}</div>
                         <div className="ml-1">Notes: {selectedService.notes}</div>
-                        <div>Selected Parts: {makeSelectedParts()}</div>
+                        <h5 className="mr-2">Selected Parts:</h5>
+                        {makeSelectedParts()}
                         {makeButtons()}
                     </div>
                   )
@@ -378,7 +379,7 @@ class AddEditService extends React.Component{
         return(
             <div className="col">
                 <div className="">
-                    <div className="service-container d-flex animated fadeIn">
+                    <div className="service-container row">
                         {makeServiceCard()}
                     </div>    
                 </div>   

@@ -1,5 +1,6 @@
 import React from 'react';
 import authRequests from '../../../helpers/data/authRequests';
+import logo from '../../../images/wrench_it.png';
 
 import './Auth.scss';
 
@@ -17,10 +18,9 @@ class Auth extends React.Component{
         return (
               <div className="Auth">
                 <div className="title-container mx-auto">
-                  <h1 className="title text-center">Wrench It</h1>
-                </div>
-                <div className="text-center mt-5">
-                  <i className="fas fa-tools fa-5x"></i>
+                  <h1 className="title text-center">
+                    <img src={logo} className="logo-icon" alt="logo" />
+                  </h1>
                 </div>
                 <div className="icon-container text-center mt-5">
                   <i className="auth-icon-1 fas fa-car-side fa-7x border rounded border-dark p-2"></i>

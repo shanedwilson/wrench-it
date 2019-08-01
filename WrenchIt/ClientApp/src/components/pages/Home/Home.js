@@ -1,7 +1,5 @@
 import React from 'react';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
-import machineRequests from '../../../helpers/data/machineRequests';
-import serviceRequests from '../../../helpers/data/serviceRequests';
 import PropTypes from 'prop-types';
 
 import './Home.scss';
@@ -58,12 +56,6 @@ class Home extends React.Component{
                         <h5 className="card-subtitle mb-2 text-muted">DIY Links</h5>
                         </div>
                     </div>
-                    {/* <div className="card m-3 border-dark animated zoomIn" id='alerts' onClick={this.changeView}>
-                        <div className="card-body home text-center">
-                        <h4 className="card-title"><i id="alert-icon" className="fas fa-6x fa-exclamation-triangle home-icon-4"></i></h4>
-                        <h5 className="card-subtitle mb-2 text-muted">Alerts</h5>
-                        </div>
-                    </div> */}
                 </div>
                 <AddEditMachine
                     toggleMachineModal = {this.toggleMachineModal}

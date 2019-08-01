@@ -29,3 +29,28 @@
     background-color: $color5;
     color: $color1;
 }
+
+.auth-btn-container {
+    margin-top: 5%;
+}
+
+.fadeInLoad1 {
+    animation: fadeInLoad 2s;
+}
+
+.fadeInLoad2 {
+    animation: fadeInLoad 6s;
+}
+
+.fadeInLoad3 {
+    animation: fadeInLoad 8s;
+}
+
+@keyframes fadeInLoad {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}

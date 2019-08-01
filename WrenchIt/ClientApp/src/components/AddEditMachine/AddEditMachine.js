@@ -322,8 +322,8 @@ import {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <button className="bttn-pill user-add-btn mx-auto mt-3 mb-2" title="Add Machine">
-                                            <i className="fas fa-car fa-2x add-icon"></i>
+                                        <button className="bttn-pill add-btn mx-auto mt-3 mb-2" title="Add Machine">
+                                            <i className="fas fa-car add-icon"></i>
                                         </button>
                                     </div>
                                 </div>

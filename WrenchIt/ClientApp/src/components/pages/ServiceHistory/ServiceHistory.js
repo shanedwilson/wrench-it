@@ -1,5 +1,6 @@
 import React from 'react';
 import Service from '../../Service/Service';
+import ServiceHistoryTable from '../ServiceHistoryTable/ServiceHistoryTable';
 import serviceRequests from '../../../helpers/data/serviceRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partRequests from '../../../helpers/data/partRequests';
@@ -21,6 +22,7 @@ class ServiceHistory extends React.Component {
         selectedParts: [],
         serviceParts: [],
         isEditing: false,
+        isAlerts: false,
     }
 
     showAddEditService = (e) => {
@@ -154,46 +156,21 @@ class ServiceHistory extends React.Component {
             selectedServiceId,
             addEditServiceModal,
             isEditing,
+            isAlerts,
         } = this.state;
-
-        const formatMDYDate = (date) => {
-            const inputDate = new Date(date);
-            const month = inputDate.getMonth() + 1;
-            const day = inputDate.getDate();
-            const year = inputDate.getFullYear();
-            const formattedDate = `${month}/${day}/${year}`;
-            return formattedDate;
-          };
-
-        const createMachineServices = () => {
-            return(
-                machineServices.map(ms => (
-                    <tr id={ms.id} key={ms.id} className="renting-item" onClick={(e) => {this.showAddEditService(e); this.getSelectedService(e) }}>
-                        <td className="service-date">{formatMDYDate(ms.serviceDate)}</td>
-                        <td className="service-notes">{ms.notes}</td>
-                    </tr>
-                    )
-                )
-            )
-        }
 
         return(
             <div>
-                <div className="table-div mx-auto">
-                    <div className="mt-5">
-                        <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
-                        <table className="table table-hover text-center">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Service Date</th>
-                                    <th scope="col">Notes</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {createMachineServices()}
-                            </tbody>
-                        </table>
-                    </div>
+                <div className="mt-5">
+                <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
+                    <ServiceHistoryTable 
+                        currentUser={currentUser}
+                        selectedMachine={selectedMachine}
+                        machineServices={machineServices}
+                        showAddEditService={this.showAddEditService}
+                        getSelectedService={this.getSelectedService}
+                        isAlerts={isAlerts}
+                    />
                 </div>
                 <Service
                     isDetail={isDetail}

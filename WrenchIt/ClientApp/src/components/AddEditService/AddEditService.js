@@ -1,7 +1,8 @@
 import React from 'react';
 import serviceRequests from '../../helpers/data/serviceRequests';
 import servicePartRequests from '../../helpers/data/servicePartRequests';
-import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown'
+import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown';
+import formatDate from '../../helpers/formatDate';
 import DatePicker from "react-datepicker";
 import PropTypes from 'prop-types';
 
@@ -206,15 +207,6 @@ class AddEditService extends React.Component{
 
         const newService = {...this.state.newService};
 
-        const formatMDYDate = (date) => {
-            const inputDate = new Date(date);
-            const month = inputDate.getMonth() + 1;
-            const day = inputDate.getDate();
-            const year = inputDate.getFullYear();
-            const formattedDate = `${month}/${day}/${year}`;
-            return formattedDate;
-          };
-
         const makeSelectedParts = () => {
             if(isDetail && !isEditing){
                 return(
@@ -253,7 +245,7 @@ class AddEditService extends React.Component{
               if(isDetail && !isEditing){
                   return(
                     <div className="service-card border border-dark rounded mb-2 w-100 mt-2 mx-auto" id={selectedService.id}>
-                        <h3 className="text-center profile-header">{formatMDYDate(selectedService.serviceDate)}</h3>
+                        <h3 className="text-center profile-header">{formatDate.formatMDYDate(selectedService.serviceDate)}</h3>
                         <div className="ml-1">Oil Type: {selectedService.oil}</div>
                         <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
                         <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>

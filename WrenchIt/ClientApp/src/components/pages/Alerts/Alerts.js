@@ -1,4 +1,5 @@
 import React from 'react';
+import ServiceHistoryTable from '../ServiceHistoryTable/ServiceHistoryTable'
 import machineRequests from '../../../helpers/data/machineRequests';
 import serviceRequests from '../../../helpers/data/serviceRequests';
 
@@ -11,10 +12,11 @@ class Alerts extends React.Component{
         machines: [],
         services: [],
         alertServices: [],
+        isAlerts: true,
     }
 
-    garageView = (e) => {
-        const machineId = e.target.id
+    garageView = (machineId) => {
+        console.log(machineId);
         this.props.history.push(`/mygarage/${machineId}`);
     }
 
@@ -67,28 +69,24 @@ class Alerts extends React.Component{
 
     render() {
         const alertServices = [...this.state.alertServices];
+        
+        const { isAlerts } = this.state;
 
         const { currentUser } = this.props;
-
-        const formatMDYDate = (date) => {
-            const inputDate = new Date(date);
-            const month = inputDate.getMonth() + 1;
-            const day = inputDate.getDate();
-            const year = inputDate.getFullYear();
-            const formattedDate = `${month}/${day}/${year}`;
-            return formattedDate;
-          };
 
         const makeAlerts = () => {
             if (alertServices.length === 0) {
                 return (
-                    <div>You have no alerts today.</div>
+                    <h3>You have no alerts today.</h3>
                 );
             }
             return (
-                alertServices.map((as,index) => 
-                    <div className="mt-5" onClick={this.garageView} key={as.Id} id={as.MachineId}>Your {as.year} {as.make} {as.model} was last serviced on {formatMDYDate(as.ServiceDate)}.</div>
-                )
+                <ServiceHistoryTable
+                    alertServices={alertServices}
+                    isAlerts={isAlerts}
+                    currentUser={currentUser}
+                    garageView={this.garageView}
+                />
             )
         };
 

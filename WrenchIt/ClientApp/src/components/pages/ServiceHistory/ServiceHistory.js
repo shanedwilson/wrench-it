@@ -160,8 +160,8 @@ class ServiceHistory extends React.Component {
         } = this.state;
 
         return(
-            <div>
-                <div className="mt-5">
+            <div className="history-container animated fadeIn">
+                <div className="">
                 <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
                     <ServiceHistoryTable 
                         currentUser={currentUser}

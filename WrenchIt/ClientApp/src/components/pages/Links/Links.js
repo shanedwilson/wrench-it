@@ -27,16 +27,18 @@ class Links extends React.Component{
         const videos = [...this.state.videos];
 
         return(
-            <div className="links-container">
+            <div className="links-container animated fadeIn">
                 <VideoSearch handleFormSubmit={this.handleSubmit}/>
                 <div className="w-100 mx-auto">
                     <div className="mt-3 mx-auto">
                         <VideoDetail video={selectedVideo}/>
                     </div>
+                    <div className="animated fadeIn">
                         <VideoList
                             handleVideoSelect={this.handleVideoSelect}
                             videos={videos}
                         />
+                    </div>    
                 </div>
             </div>
         )

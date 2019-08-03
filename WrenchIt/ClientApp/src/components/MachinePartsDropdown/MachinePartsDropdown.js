@@ -53,7 +53,7 @@ class MachinePartsDropdown extends React.Component {
         const makePartTypeDropdown = () => {
             return (
                     partTypes.map((partType, index) => (
-                        <option key={index} value={index + 1}>{partType}</option>
+                        <option key={index} value={index}>{partType}</option>
                     ))
             );  
         };  

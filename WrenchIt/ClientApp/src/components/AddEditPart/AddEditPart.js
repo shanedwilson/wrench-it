@@ -141,7 +141,7 @@ class AddEditPart extends React.Component {
     componentWillReceiveProps(props) {
         const { isEditingPart, selectedPartToEdit } = props;
         if (isEditingPart) {
-            const selectedAddPartType = selectedPartToEdit.typeId - 1;
+            const selectedAddPartType = selectedPartToEdit.typeId;
             this.setState({
             newPart: selectedPartToEdit,
             selectedAddPartType: selectedAddPartType,

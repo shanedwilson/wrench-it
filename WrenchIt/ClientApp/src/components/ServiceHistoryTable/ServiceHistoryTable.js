@@ -1,5 +1,5 @@
 import React from 'react';
-import formatDate from '../../../helpers/formatDate';
+import formatDate from '../../helpers/formatDate';
 
 class ServiceHistoryTable extends React.Component {
     garageViewEvent = (e) => {

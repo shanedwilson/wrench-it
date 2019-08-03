@@ -293,6 +293,7 @@ class MyGarage extends React.Component{
                     showAddParts= {this.showAddParts}
                     selectedPartToEdit = {selectedPartToEdit}
                     deletePart = {this.deletePart}
+                    machineParts={machineParts}
                 />
                 <Service
                     selectedMachineId={selectedMachineId}

@@ -16,18 +16,18 @@ class Auth extends React.Component{
     
       render() {
         return (
-              <div className="Auth">
+              <div className="Auth animated fadeIn">
                 <div className="title-container mx-auto">
                   <h1 className="title text-center">
                     <img src={logo} className="logo-icon" alt="logo" />
                   </h1>
                 </div>
                 <div className="icon-container text-center mt-5">
-                  <i className="auth-icon-1 fas fa-car-side fa-7x border rounded border-dark p-2"></i>
-                  <i className="auth-icon-2 fas fa-motorcycle fa-7x border rounded border-dark p-2"></i>
-                  <i className="auth-icon-3 fas fa-truck-pickup fa-7x border rounded border-dark p-2"></i>
+                  <i className="auth-icon-1 fas fa-car-side fa-7x border rounded border-dark p-2 fadeInLoad1"></i>
+                  <i className="auth-icon-2 fas fa-motorcycle fa-7x border rounded border-dark p-2 fadeInLoad2"></i>
+                  <i className="auth-icon-3 fas fa-truck-pickup fa-7x border rounded border-dark p-2 fadeInLoad3"></i>
                 </div>
-                <div className="btn-container text-center mt-5">
+                <div className="btn-container text-center auth-btn-container">
                   <button className="auth-btn bttn-pill bttn-lg" onClick={this.authenticateUser}>
                     <i className="fab fa-google"></i> Sign In w/Google
                   </button>

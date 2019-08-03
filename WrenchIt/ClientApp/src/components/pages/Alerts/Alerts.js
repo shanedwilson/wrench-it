@@ -1,5 +1,5 @@
 import React from 'react';
-import ServiceHistoryTable from '../ServiceHistoryTable/ServiceHistoryTable'
+import ServiceHistoryTable from '../../ServiceHistoryTable/ServiceHistoryTable';
 import machineRequests from '../../../helpers/data/machineRequests';
 import serviceRequests from '../../../helpers/data/serviceRequests';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Service from '../../Service/Service';
-import ServiceHistoryTable from '../ServiceHistoryTable/ServiceHistoryTable';
+import ServiceHistoryTable from '../../ServiceHistoryTable/ServiceHistoryTable';
 import serviceRequests from '../../../helpers/data/serviceRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
 import partRequests from '../../../helpers/data/partRequests';

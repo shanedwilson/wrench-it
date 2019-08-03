@@ -4,7 +4,6 @@ import {
     Modal,
     ModalHeader,
     ModalBody,
-    ModalFooter,
   } from 'reactstrap';
 import partRequests from '../../helpers/data/partRequests';
 import machinePartRequests from '../../helpers/data/machinePartRequests';
@@ -27,6 +26,7 @@ class AddEditPart extends React.Component {
         newPart: defaultPart,
         newMachinePart: defaultMachinePart,
         selectedAddPartType: 1000,
+        allParts: [],
     }
 
     static propTypes = {
@@ -36,6 +36,37 @@ class AddEditPart extends React.Component {
         showParts: PropTypes.bool,
         getPartsByMachine: PropTypes.func,
         showAddParts: PropTypes.func,
+    }   
+
+    getAllParts = () => {
+        partRequests.getAllParts()
+            .then((allParts) => {
+                this.setState({ allParts });
+            });
+    }
+
+    checkExistingParts = (e) => {
+        e.preventDefault();
+        const myPart = { ...this.state.newPart };
+        const allParts = [...this.state.allParts];
+        const filteredParts = allParts.filter(part => part.brand.toLowerCase() === myPart.brand.toLowerCase()
+                                                && part.partNumber.toLowerCase() === myPart.partNumber.toLowerCase());
+        if(filteredParts.length > 0){
+            const existingPartId = filteredParts[0].id
+            this.checkExistingMachineParts(existingPartId);
+        } else {
+            this.formSubmit(e);
+        }
+    }
+
+    checkExistingMachineParts = (partId) => {
+        const {machineParts} = this.props;
+        const filteredMachineParts = machineParts.filter(part => part.id === partId)
+        if(filteredMachineParts.length > 0){
+            this.toggleEvent();
+        } else {
+            this.createMachinePart(partId);
+        }
     }
 
     selectAddPartType = (e) => {
@@ -78,22 +109,39 @@ class AddEditPart extends React.Component {
                 .then(() => {
                     this.setState({ newMachinePart: defaultMachinePart });
                     getPartsByMachine(selectedMachineId)
+                    this.toggleEvent();
                 })
             });
-        }
-        else {
-                partRequests.updatePart(myPart.id, myPart)
-                    .then((part) => {
-                        getPartsByMachine(selectedMachineId)
-                        this.toggleEvent();
-            });
+        }else {
+            partRequests.updatePart(myPart.id, myPart)
+                .then((part) => {
+                    getPartsByMachine(selectedMachineId)
+                    this.toggleEvent();
+                });
         }
     };
+
+    createMachinePart = (partId) => {
+        const { selectedMachineId, getPartsByMachine } = this.props;
+        const myMachinePart = {...this.state.newMachinePart};
+        myMachinePart.partId = partId;
+        myMachinePart.machineId = selectedMachineId;
+        machinePartRequests.createMachinePart(myMachinePart)
+        .then(() => {
+            this.setState({ newMachinePart: defaultMachinePart });
+            getPartsByMachine(selectedMachineId);
+            this.toggleEvent();
+        })
+    }
+
+    componentDidMount() {
+        this.getAllParts();
+    }
 
     componentWillReceiveProps(props) {
         const { isEditingPart, selectedPartToEdit } = props;
         if (isEditingPart) {
-            const selectedAddPartType = selectedPartToEdit.typeId - 1;
+            const selectedAddPartType = selectedPartToEdit.typeId;
             this.setState({
             newPart: selectedPartToEdit,
             selectedAddPartType: selectedAddPartType,
@@ -129,7 +177,7 @@ class AddEditPart extends React.Component {
                             onChange={(event) => { this.selectAddPartType(event) }}>
                     <option value="">Select Part Type</option>
                         {
-                        partTypes.map((partType, i) => (<option key={i}value={i}>{partType}</option>))
+                        partTypes.map((partType, i) => (<option key={i}value={i + 1}>{partType}</option>))
                         }
                     </select>
                 </div>
@@ -141,7 +189,7 @@ class AddEditPart extends React.Component {
                     <ModalBody className="text-center modal-body" id="part-modal">
                         <div className="mb-3">
                             <div className="reg-container d-flex animated fadeIn">
-                                <form className="row form-container border border-dark rounded mx-auto mt-3" onSubmit={this.formSubmit}>
+                                <form className="row form-container border border-dark rounded mx-auto mt-3" onSubmit={this.checkExistingParts}>
                                     <div className="form col-11 mt-2 mx-auto">
                                         <div className="col-auto form-lines p-0">
                                             {makePartTypeDropdown()}

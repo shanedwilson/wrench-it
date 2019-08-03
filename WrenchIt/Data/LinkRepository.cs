@@ -18,15 +18,15 @@ namespace WrenchIt.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Link AddLink(string name, string url)
+        public Link AddLink(string name, string youtubeid)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newLink = db.QueryFirstOrDefault<Link>(@"
-                    insert into links (name, url)
+                    insert into links (name, youtubeid)
                     output inserted.*
-                    values(@name, @url)",
-                    new { name, url });
+                    values(@name, @youtubeid)",
+                    new { name, youtubeid });
 
                 if(newLink != null)
                 {
@@ -45,6 +45,22 @@ namespace WrenchIt.Data
                     select *
                     from links"
                     ).ToList();
+
+                return links;
+            }
+        }
+
+        public IEnumerable<Link> GetAllLinksByMachineId(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var links = db.Query<Link>(@"
+                    select l.*
+                    from machinelinks ml
+                    join links l
+                    on ml.linkId = l.id
+                    where ml.machineid = @id",
+                    new { id }).ToList();
 
                 return links;
             }

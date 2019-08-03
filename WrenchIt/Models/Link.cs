@@ -9,7 +9,7 @@ namespace WrenchIt.Models
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        public String Url { get; set; }
+        public String YouTubeId { get; set; }
         public bool IsActive { get; set; }
     }
 }

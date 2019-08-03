@@ -3,7 +3,8 @@ import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown';
 import MachineCard from '../../MachineCard/MachineCard';
 import AddEditPart from '../../AddEditPart/AddEditPart';
-import Service from '../../Service/Service'
+import Service from '../../Service/Service';
+import MachineDropdown from '../../MachineDropdown/MachineDropdown';
 import machineRequests from '../../../helpers/data/machineRequests';
 import machinePartRequests from '../../../helpers/data/machinePartRequests';
 import partTypeRequests from '../../../helpers/data/partTypeRequests';
@@ -59,14 +60,14 @@ class MyGarage extends React.Component{
           .then((machinesObject) => {
             this.setState({ machines: machinesObject });
           });
-      }
+    }
 
     getAllPartTypes = () => {
         partTypeRequests.getAllPartTypes()
           .then((partTypes) => {
             this.setState({ partTypes });
           });
-      }
+    }
 
     getSingleMachine = (id) => {
         machineRequests.getSingleMachine(id)
@@ -74,7 +75,7 @@ class MyGarage extends React.Component{
             this.setState({ selectedMachine: machine.data });
             this.getPartsByMachine(id);
           });
-      }
+    }
 
     getPartsByMachine = (id) => {
         partRequests.getPartsByMachineId(id)
@@ -209,23 +210,6 @@ class MyGarage extends React.Component{
                 isGarage,
             } = this.state;
 
-        const makeDropdown = () => {
-            return (
-                    <div className="text-center mt-5">
-                        <select name="machines" required className="custom-select w-50" value={selectedMachineId}
-                                onChange={(event) => { this.selectMachine(event) }}>
-                        <option value="">Select Your Machine</option>
-                        {
-                            machines.map((machine, i) => (
-                                <option key={i} value={machine.id}>
-                                    {machine.year} {machine.make} {machine.model} {machine.trim}
-                                </option>))
-                        }
-                        </select>
-                    </div>
-                    );
-        };
-
         const makeMachineCard = () => {
             if(selectedMachine.id){
                 return (
@@ -271,7 +255,11 @@ class MyGarage extends React.Component{
             <div className="myGarage mx-auto animated fadeIn">
                 <h1 className="text-center">{currentUser.name}'s Garage</h1>
                 <div className="w-75 mx-auto">
-                    {makeDropdown()}
+                    <MachineDropdown
+                        machines={machines}
+                        selectedMachineId={selectedMachineId}
+                        selectMachine={this.selectMachine}
+                    />
                     {makeMachineCard()}
                     {makePartsDiv()}
                 </div>

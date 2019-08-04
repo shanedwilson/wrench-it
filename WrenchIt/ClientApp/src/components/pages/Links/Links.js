@@ -94,6 +94,14 @@ class Links extends React.Component{
             })
     }
 
+    deleteLink = (videoId) => {
+        const { selectedMachineId } = this.state;
+        machineLinkRequests.deleteMachineLink(videoId)
+            .then(() => {
+                this.getAllLinksByMachineId(selectedMachineId);
+            })
+    }
+
     componentDidMount = () => {
         const { currentUser } = this.props;
         this.linksMounted = !!currentUser.id;
@@ -138,6 +146,7 @@ class Links extends React.Component{
                             <LinksTable
                                 savedMachineLinks={savedMachineLinks}
                                 handleLinkSelect={this.handleLinkSelect}
+                                deleteLink={this.deleteLink}
                             />
                         </div>
                     </div>                    

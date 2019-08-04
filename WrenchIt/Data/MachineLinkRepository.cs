@@ -91,7 +91,7 @@ namespace WrenchIt.Data
                             from machineLinks
                             where id = @id";
 
-                var rowsAffected = db.Execute(sql, new { Id = id });
+                var rowsAffected = db.Execute(sql, new { id });
 
                 if (rowsAffected != 1)
                     throw new Exception("Could Not Delete MachineLink.");

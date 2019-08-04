@@ -6,26 +6,36 @@ class LinksTable extends React.Component {
         this.props.handleLinkSelect(videoId);
     }
 
+    editLinkEvent = (e) => {
+        const videoId = e.currentTarget.id;
+        this.props.editLink(videoId);
+    }
+
+    deleteLinkEvent = (e) => {
+        const videoId = e.currentTarget.dataset.deleteid;
+        this.props.deleteLink(videoId);
+        console.log(videoId);
+    }
+
     render() {
         const { savedMachineLinks } = this.props;
 
         const createLinks = () => {
             return (
                 savedMachineLinks.map((sml) => 
-                    <tr className="mt-5" onClick={this.linkSelectEvent} key={sml.id} id={sml.youTubeId}>
-                        <td className="service-machine">
-                            {sml.name}
+                    <tr className="mt-5"  key={sml.id}>
+                        <td className="service-machine" onClick={this.linkSelectEvent} id={sml.youTubeId}>
+                            {sml.Name}
                         </td>
-                        <td>
-                            <i className="far fa-edit edit-btn" onClick={this.editLinkEvent} title="Edit Machine"/>
+                        <td onClick={this.editLinkEvent} title="Edit Machine" data-editid={sml.machineLinkId}>
+                            <i className="far fa-edit edit-btn"/>
                         </td>
-                        <td>
-                            <i className="delete-btn fas fa-trash" onClick={this.deleteLinkeEvent} title="Delete Machine"></i>
+                        <td onClick={this.deleteLinkEvent} title="Delete Machine" data-deleteid={sml.machineLinkId}>
+                            <i className="delete-btn fas fa-trash"></i>
                         </td>
                     </tr>
                 )
             )
-
         }
 
         return(

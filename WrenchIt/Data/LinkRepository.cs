@@ -50,12 +50,12 @@ namespace WrenchIt.Data
             }
         }
 
-        public IEnumerable<Link> GetAllLinksByMachineId(int id)
+        public IEnumerable<Object> GetAllLinksByMachineId(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var links = db.Query<Link>(@"
-                    select l.*
+                var links = db.Query<Object>(@"
+                    select l.*, ml.id as machineLinkId
                     from machinelinks ml
                     join links l
                     on ml.linkId = l.id

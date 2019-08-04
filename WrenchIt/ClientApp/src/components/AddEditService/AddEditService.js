@@ -75,7 +75,6 @@ class AddEditService extends React.Component{
                 return false;
             }
         }).length;
-
     }
 
     addServicePart = () => {

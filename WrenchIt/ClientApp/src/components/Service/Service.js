@@ -50,8 +50,11 @@ class Service extends React.Component{
         const selectedParts = [...this.state.selectedParts]
         const partId = e.target.value * 1;
         const filteredParts = machineParts.filter(part => part.id === partId);
-        selectedParts.push(filteredParts[0]);
-        this.setState({ selectedParts, selectedPart: 0, selectedPartType:1000, dropdownParts: [] });
+        const duplicateParts = selectedParts.filter(part => part.id === partId)
+        if(duplicateParts.length === 0) {
+            selectedParts.push(filteredParts[0]);
+            this.setState({ selectedParts, selectedPart: 0, selectedPartType:1000, dropdownParts: [] });
+        }
     }
 
     removePart = (id) => {

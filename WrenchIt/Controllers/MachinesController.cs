@@ -49,7 +49,15 @@ namespace WrenchIt.Controllers
         [HttpGet("{id}")]
         public ActionResult GetAllMachinesById(int id)
         {
-            var machines = _repository.GetAllMachines();
+            var machines = _repository.GetAllMachinesByUserId(id);
+
+            return Ok(machines);
+        }
+
+        [HttpGet("yore/{id}")]
+        public ActionResult GetAllInactiveMachinesById(int id)
+        {
+            var machines = _repository.GetAllInactiveMachinesByUserId(id);
 
             return Ok(machines);
         }

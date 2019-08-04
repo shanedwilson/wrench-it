@@ -18,6 +18,7 @@ class MyGarage extends React.Component{
 
     state = {
         machines: [],
+        inactiveMachines: [],
         partTypes: [],
         machineParts: [],
         selectedMachineId: 0,
@@ -59,6 +60,13 @@ class MyGarage extends React.Component{
         machineRequests.getAllMachinesById(id)
           .then((machinesObject) => {
             this.setState({ machines: machinesObject });
+          });
+    }
+
+    getAllInactiveMachinesById = (id) => {
+        machineRequests.getAllInactiveMachinesById(id)
+          .then((machinesObject) => {
+            this.setState({ inactiveMachines: machinesObject });
           });
     }
 
@@ -181,6 +189,7 @@ class MyGarage extends React.Component{
         } else if (this.myGarageMounted) {
             this.getAllMachinesById(currentUser.id);
             this.getAllPartTypes();
+            this.getAllInactiveMachinesById(currentUser.id);
         }
     }
 
@@ -208,6 +217,7 @@ class MyGarage extends React.Component{
                 addEditServiceModal,
                 isEditingService,
                 isGarage,
+                inactiveMachines,
             } = this.state;
 
         const makeMachineCard = () => {
@@ -259,6 +269,7 @@ class MyGarage extends React.Component{
                         machines={machines}
                         selectedMachineId={selectedMachineId}
                         selectMachine={this.selectMachine}
+                        inactiveMachines={inactiveMachines}
                     />
                     {makeMachineCard()}
                     {makePartsDiv()}

@@ -46,26 +46,28 @@ class MachineCard extends React.Component{
                 return(
                     <div></div>
                 )
+            } else if (selectedMachine.isActive) {
+                return(
+                    <div className="btn-container d-flex justify-content-between p-2">
+                        <button id='machine-edit' type="button" className="bttn-pill edit-btn" onClick={this.editMachineEvent} title="Edit Machine">
+                            <i className="far fa-edit fa-1x"/>
+                        </button>
+                        <button id='machine-delete' type="button" className="bttn-pill delete-btn" onClick={this.deleteMachineEvent} title="Delete Machine">
+                            <i className="machine-delete-btn fas fa-trash fa-1x"></i>
+                        </button>
+                        <button id='show-parts' type="button" className="bttn-pill parts-btn" onClick={this.showPartsDivEvent} title="See/Hide Parts">
+                            <i className="fas fa-cogs"></i>
+                        </button>
+                        <button id='goto-service' type="button" className="bttn-pill add-btn" onClick={this.showAddEditServiceEvent} title="Add A Service Record">
+                            <i className="fas fa-tools"></i>
+                        </button>
+                        <button id='service-history' type="button" className="bttn-pill history-btn" onClick={this.goToServiceHistoryEvent} title="See Service History">
+                            <i className="fas fa-file-medical-alt"></i>
+                        </button>
+                    </div>
+                )
             }
-            return(
-                <div className="btn-container d-flex justify-content-between p-2">
-                    <button id='machine-edit' type="button" className="bttn-pill edit-btn" onClick={this.editMachineEvent} title="Edit Machine">
-                        <i className="far fa-edit fa-1x"/>
-                    </button>
-                    <button id='machine-delete' type="button" className="bttn-pill delete-btn" onClick={this.deleteMachineEvent} title="Delete Machine">
-                        <i className="machine-delete-btn fas fa-trash fa-1x"></i>
-                    </button>
-                    <button id='show-parts' type="button" className="bttn-pill parts-btn" onClick={this.showPartsDivEvent} title="See/Hide Parts">
-                        <i className="fas fa-cogs"></i>
-                    </button>
-                    <button id='goto-service' type="button" className="bttn-pill add-btn" onClick={this.showAddEditServiceEvent} title="Add A Service Record">
-                        <i className="fas fa-tools"></i>
-                    </button>
-                    <button id='service-history' type="button" className="bttn-pill history-btn" onClick={this.goToServiceHistoryEvent} title="See Service History">
-                        <i className="fas fa-file-medical-alt"></i>
-                    </button>
-                </div>
-            )
+
         }
         return(
             <div className="d-flex justify-content-center">

@@ -74,8 +74,23 @@ namespace WrenchIt.Data
                 var machines = db.Query<Machine>(@"
                     select *
                     from machines
-                    where id = @id
+                    where machines.ownerid = @id
                     and isActive = 1",
+                    new { id }).ToList();
+
+                return machines;
+            }
+        }
+
+        public IEnumerable<Machine> GetAllInactiveMachinesByUserId(int id)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var machines = db.Query<Machine>(@"
+                    select *
+                    from machines
+                    where machines.ownerid = @id
+                    and isActive = 0",
                     new { id }).ToList();
 
                 return machines;

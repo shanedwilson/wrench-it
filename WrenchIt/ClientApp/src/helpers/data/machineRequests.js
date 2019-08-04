@@ -25,6 +25,17 @@ const getAllMachinesById = (id) => new Promise((resolve, reject) => {
       });
   });
 
+  const getAllInactiveMachinesById = (id) => new Promise((resolve, reject) => {
+    axios.get(`${apiUrl}/yore/${id}`)
+      .then((results) => {
+        const userMachinesObject = results.data;
+        resolve(userMachinesObject);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+
   const getSingleMachine = machineId => axios.get(`${apiUrl}/machine/${machineId}`);
 
   const createMachine = machineObject => axios.post(`${apiUrl}`, (machineObject));
@@ -40,4 +51,5 @@ const getAllMachinesById = (id) => new Promise((resolve, reject) => {
                     createMachine,
                     updateMachine,
                     deleteMachine,
+                    getAllInactiveMachinesById,
                 };

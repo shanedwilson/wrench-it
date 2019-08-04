@@ -4,12 +4,6 @@ class LinksTable extends React.Component {
     linkSelectEvent = (e) => {
         const videoId = e.currentTarget.id;
         this.props.handleLinkSelect(videoId);
-        console.log(videoId)
-    }
-
-    editLinkEvent = (e) => {
-        const videoId = e.currentTarget.id;
-        this.props.editLink(videoId);
     }
 
     deleteLinkEvent = (e) => {
@@ -27,9 +21,6 @@ class LinksTable extends React.Component {
                         <td className="service-machine" onClick={this.linkSelectEvent} id={sml.youTubeId}>
                             {sml.name}
                         </td>
-                        <td onClick={this.editLinkEvent} title="Edit Machine" data-editid={sml.id}>
-                            <i className="far fa-edit edit-btn"/>
-                        </td>
                         <td onClick={this.deleteLinkEvent} title="Delete Machine" data-deleteid={sml.id}>
                             <i className="delete-btn fas fa-trash"></i>
                         </td>
@@ -44,7 +35,6 @@ class LinksTable extends React.Component {
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
-                            <th scope="col">Edit Link</th>
                             <th scope="col">Delete Link</th>
                         </tr>
                     </thead>

@@ -217,6 +217,7 @@ class MyGarage extends React.Component{
                 addEditServiceModal,
                 isEditingService,
                 isGarage,
+                inactiveMachines,
             } = this.state;
 
         const makeMachineCard = () => {
@@ -268,6 +269,7 @@ class MyGarage extends React.Component{
                         machines={machines}
                         selectedMachineId={selectedMachineId}
                         selectMachine={this.selectMachine}
+                        inactiveMachines={inactiveMachines}
                     />
                     {makeMachineCard()}
                     {makePartsDiv()}

@@ -183,6 +183,28 @@ class AddEditPart extends React.Component {
                 </div>
             );
         };
+
+        const makeButtons = () => {
+            if(isEditingPart) {
+                return(
+                    <div className="text-center">
+                        <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
+                            <i className="fas fa-car"></i>
+                        </button>
+                        <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={deletePart} title="Delete Part">
+                            <i className="part-delete-btn fas fa-trash"></i>
+                        </button>
+                    </div>
+                )
+            } return(
+                <div className="text-center">
+                    <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
+                        <i className="fas fa-car"></i>
+                    </button>
+                </div>
+            )
+        }
+
         return(
             <Modal isOpen={addPart} className="modal-lg">
                 <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
@@ -226,14 +248,7 @@ class AddEditPart extends React.Component {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="text-center">
-                                            <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
-                                                <i className="fas fa-car"></i>
-                                            </button>
-                                            <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={deletePart} title="Delete Part">
-                                                <i className="part-delete-btn fas fa-trash"></i>
-                                            </button>
-                                        </div>
+                                        {makeButtons()}
                                     </div>
                                 </form>
                             </div>

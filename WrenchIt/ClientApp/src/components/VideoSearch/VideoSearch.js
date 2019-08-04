@@ -1,25 +1,25 @@
 import React from 'react';
 import SearchField from 'react-search-field';
 
-class LinksSearch extends React.Component{
+class LinksSearch extends React.Component {
     state= {
-        searchValue: '',
+      searchValue: '',
     }
 
     handleChange = (value) => {
-        this.setState({ searchValue: value });
+      this.setState({ searchValue: value });
     }
 
     formSubmit = (e) => {
-        const {searchValue} = this.state;
-        this.props.handleFormSubmit(searchValue);
-        this.setState({ searchValue: "" })
+      const { searchValue } = this.state;
+      this.props.handleFormSubmit(searchValue);
+      this.setState({ searchValue: '' });
     }
 
     render() {
-        const { searchValue } = this.state;
+      const { searchValue } = this.state;
 
-        return(
+      return (
             <div className="search-bar text-center">
                 <SearchField
                 placeholder="Search YouTube For DIY Videos"
@@ -30,7 +30,7 @@ class LinksSearch extends React.Component{
                 value={searchValue}
                 />
             </div>
-        )
+      );
     }
 }
 

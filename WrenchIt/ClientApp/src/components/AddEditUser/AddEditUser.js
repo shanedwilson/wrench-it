@@ -6,29 +6,29 @@ import userRequests from '../../helpers/data/userRequests';
 import './AddEditUser.scss';
 
 const defaultUser = {
-    email: '',
-    firebaseId: '',
-    name: '',
-    street: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    phoneNumber: '',
-  };
+  email: '',
+  firebaseId: '',
+  name: '',
+  street: '',
+  city: '',
+  state: '',
+  postalCode: '',
+  phoneNumber: '',
+};
 
-class AddEditUser extends React.Component{
+class AddEditUser extends React.Component {
     addEditUserMounted = false;
 
     state = {
-        newUser: defaultUser,
-        isEditing: false,
+      newUser: defaultUser,
+      isEditing: false,
     }
 
     static propTypes = {
-        currentUser: PropTypes.object,
-        getUser: PropTypes.func,
-        editProfile: PropTypes.func,
-        isEditingUser: PropTypes.bool,
+      currentUser: PropTypes.object,
+      getUser: PropTypes.func,
+      editProfile: PropTypes.func,
+      isEditingUser: PropTypes.bool,
     }
 
     cancelEdit = () => {
@@ -41,40 +41,40 @@ class AddEditUser extends React.Component{
       tempUser[name] = e.target.value;
       this.setState({ newUser: tempUser });
     }
-  
+
     emailChange = e => this.formFieldStringState('email', e);
-  
+
     nameChange = e => this.formFieldStringState('name', e);
-  
+
     streetChange = e => this.formFieldStringState('street', e);
-  
+
     cityChange = e => this.formFieldStringState('city', e);
-  
+
     stateChange = e => this.formFieldStringState('state', e);
-  
+
     postalCodeChange = e => this.formFieldStringState('postalCode', e);
-  
+
     phoneNumberChange = e => this.formFieldStringState('phoneNumber', e);
 
     formSubmit = (e) => {
       e.preventDefault();
       const myUser = { ...this.state.newUser };
-      const {isEditingUser, currentUser} = this.props;
+      const { isEditingUser, currentUser } = this.props;
       myUser.firebaseId = authRequests.getCurrentUid();
-      if(!isEditingUser){
+      if (!isEditingUser) {
         userRequests.createUser(myUser)
-        .then((currentUser) => {
-          this.props.getUser();
-          this.setState({ newUser: defaultUser, isEditing: true });
-        });
+          .then(() => {
+            this.props.getUser();
+            this.setState({ newUser: defaultUser, isEditing: true });
+          });
       }
       const userId = currentUser.id;
       userRequests.updateUser(userId, myUser)
         .then((user) => {
-          this.setState({ currentUser: defaultUser })
+          this.setState({ currentUser: defaultUser });
           this.props.editProfile();
           this.props.getUser();
-        })
+        });
     };
 
     componentDidMount() {
@@ -82,26 +82,26 @@ class AddEditUser extends React.Component{
       this.addEditUserMounted = !!currentUser.id;
 
       if (this.addEditUserMounted && isEditingUser) {
-          this.setState({ newUser: currentUser, isEditing: true })
+        this.setState({ newUser: currentUser, isEditing: true });
       }
-  }
+    }
 
-    render(){
-        const newUser = { ...this.state.newUser }
+    render() {
+      const newUser = { ...this.state.newUser };
 
-        const { isEditing } = this.state;
+      const { isEditing } = this.state;
 
-        const makeButton = () => {
-          if(!isEditing) {
-            return (
+      const makeButton = () => {
+        if (!isEditing) {
+          return (
               <div>
                 <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
                   <i className="add-icon fas fa-user-plus" />
                 </button>
               </div>
-            )
-          }
-          return (
+          );
+        }
+        return (
             <div className="row">
               <div className="mr-2 mx-auto">
                 <button className="bttn-pill user-add-btn mb-4 mt-3" title="Submit">
@@ -114,25 +114,25 @@ class AddEditUser extends React.Component{
                 </button>
               </div>
             </div>
-          )
-        }
+        );
+      };
 
-        const makeHeader = () => {
-          if (!isEditing) {
-            return (
+      const makeHeader = () => {
+        if (!isEditing) {
+          return (
               <header className="modal-header user-form-header">
                 Please Register
               </header>
-            )
-          }
-          return (
+          );
+        }
+        return (
             <header className="modal-header user-form-header">
               Edit Profile
             </header>
-          )
-        }
+        );
+      };
 
-        return(
+      return (
           <div className="reg-container d-flex animated fadeIn text-center col-xs w-85 mt-5">
             <form className="row user-form form-container border border-dark rounded mx-auto mb-5 w-85 pt-4 pb-4" onSubmit={this.formSubmit}>
               <div className="w-100">
@@ -259,7 +259,7 @@ class AddEditUser extends React.Component{
               </div>
             </form>
           </div>
-        )
+      );
     }
 }
 

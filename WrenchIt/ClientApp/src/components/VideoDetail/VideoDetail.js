@@ -1,8 +1,7 @@
 import React from 'react';
 
-const VideoDetail = ({video, checkExistingLinks, selectedVideoId }) => {
-
-    if(video && !selectedVideoId){
+const VideoDetail = ({ video, checkExistingLinks, selectedVideoId }) => {
+  if (video && !selectedVideoId) {
     const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
     return (
         <div className="">
@@ -19,10 +18,10 @@ const VideoDetail = ({video, checkExistingLinks, selectedVideoId }) => {
                 </div>
             </div>
         </div>
-    )
-    } else if(!video && selectedVideoId) {
-        const videoSrc = `https://www.youtube.com/embed/${selectedVideoId}`;
-        return (
+    );
+  } if (!video && selectedVideoId) {
+    const videoSrc = `https://www.youtube.com/embed/${selectedVideoId}`;
+    return (
             <div className="">
                 <div className="text-center">
                     <iframe src={videoSrc} allowFullScreen title='Video player'/>
@@ -31,10 +30,11 @@ const VideoDetail = ({video, checkExistingLinks, selectedVideoId }) => {
                     {/* <h4 className='header text-center'>{video.snippet.title}</h4> */}
                 </div>
             </div>
-        )
-    } else if (!video && !selectedVideoId) {
-        return <div></div>;
-    }
-}
+    );
+  } if (!video && !selectedVideoId) {
+    return <div></div>;
+  }
+  return (<div></div>);
+};
 
 export default VideoDetail;

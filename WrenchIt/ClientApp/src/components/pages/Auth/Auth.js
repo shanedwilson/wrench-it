@@ -4,18 +4,18 @@ import logo from '../../../images/wrench_it.png';
 
 import './Auth.scss';
 
-class Auth extends React.Component{
+class Auth extends React.Component {
     authenticateUser = (e) => {
-        e.preventDefault();
-        authRequests.authenticate()
-          .then(() => {
-            this.props.history.push('/register');
-          })
-          .catch(error => console.error('there was a problem with auth', error));
-      }
-    
-      render() {
-        return (
+      e.preventDefault();
+      authRequests.authenticate()
+        .then(() => {
+          this.props.history.push('/register');
+        })
+        .catch(error => console.error('there was a problem with auth', error));
+    }
+
+    render() {
+      return (
               <div className="Auth animated fadeIn col-sm">
                 <div className="title-container mx-auto">
                   <h1 className="title text-center">
@@ -33,8 +33,8 @@ class Auth extends React.Component{
                   </button>
                 </div>
               </div>
-        );
-      }
+      );
+    }
 }
 
 export default Auth;

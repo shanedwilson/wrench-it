@@ -31,7 +31,7 @@ namespace WrenchIt.Controllers
                 return BadRequest(new { error = "Please Enter All Fields" });
             }
 
-            var newLink = _repository.AddLink(createRequest.Name, createRequest.YouTubeId);
+            var newLink = _repository.AddLink(createRequest.Name, createRequest.YouTubeId, createRequest.MachineId);
 
             return Created($"api/links/{ newLink.Id }", newLink);
         }

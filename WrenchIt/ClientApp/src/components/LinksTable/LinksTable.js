@@ -4,6 +4,7 @@ class LinksTable extends React.Component {
     linkSelectEvent = (e) => {
         const videoId = e.currentTarget.id;
         this.props.handleLinkSelect(videoId);
+        console.log(videoId)
     }
 
     editLinkEvent = (e) => {
@@ -12,9 +13,8 @@ class LinksTable extends React.Component {
     }
 
     deleteLinkEvent = (e) => {
-        const videoId = e.currentTarget.dataset.deleteid;
-        this.props.deleteLink(videoId);
-        console.log(videoId);
+        const linkId = e.currentTarget.dataset.deleteid * 1;
+        this.props.deleteLink(linkId);
     }
 
     render() {
@@ -25,12 +25,12 @@ class LinksTable extends React.Component {
                 savedMachineLinks.map((sml) => 
                     <tr className="mt-5"  key={sml.id}>
                         <td className="service-machine" onClick={this.linkSelectEvent} id={sml.youTubeId}>
-                            {sml.Name}
+                            {sml.name}
                         </td>
-                        <td onClick={this.editLinkEvent} title="Edit Machine" data-editid={sml.machineLinkId}>
+                        <td onClick={this.editLinkEvent} title="Edit Machine" data-editid={sml.id}>
                             <i className="far fa-edit edit-btn"/>
                         </td>
-                        <td onClick={this.deleteLinkEvent} title="Delete Machine" data-deleteid={sml.machineLinkId}>
+                        <td onClick={this.deleteLinkEvent} title="Delete Machine" data-deleteid={sml.id}>
                             <i className="delete-btn fas fa-trash"></i>
                         </td>
                     </tr>

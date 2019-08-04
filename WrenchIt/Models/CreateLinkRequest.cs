@@ -9,5 +9,6 @@ namespace WrenchIt.Models
     {
         public String Name { get; set; }
         public String YouTubeId { get; set; }
+        public int MachineId { get; set; }
     }
 }

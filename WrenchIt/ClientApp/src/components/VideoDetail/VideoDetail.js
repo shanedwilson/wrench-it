@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VideoDetail = ({video, saveLink, selectedVideoId }) => {
+const VideoDetail = ({video, checkExistingLinks, selectedVideoId }) => {
 
     if(video && !selectedVideoId){
     const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`;
@@ -13,7 +13,7 @@ const VideoDetail = ({video, saveLink, selectedVideoId }) => {
                 <h4 className='header text-center'>{video.snippet.title}</h4>
                 <p className='text-center'>{video.snippet.description}</p>
                 <div className="button-div text-center">
-                    <button className="bttn-pill add-btn mb-2" onClick={saveLink} title="Save Vidoe Link">
+                    <button className="bttn-pill add-btn mb-2" onClick={checkExistingLinks} title="Save Vidoe Link">
                         <i className="fas fa-video"></i>
                     </button>
                 </div>

@@ -18,15 +18,15 @@ namespace WrenchIt.Data
             _connectionString = dbConfig.Value.ConnectionString;
         }
 
-        public Link AddLink(string name, string youtubeid)
+        public Link AddLink(string name, string youtubeid, int machineId)
         {
             using (var db = new SqlConnection(_connectionString))
             {
                 var newLink = db.QueryFirstOrDefault<Link>(@"
-                    insert into links (name, youtubeid)
+                    insert into links (name, youtubeid, machineId)
                     output inserted.*
-                    values(@name, @youtubeid)",
-                    new { name, youtubeid });
+                    values(@name, @youtubeid, @machineId)",
+                    new { name, youtubeid, machineId });
 
                 if(newLink != null)
                 {
@@ -50,16 +50,14 @@ namespace WrenchIt.Data
             }
         }
 
-        public IEnumerable<Object> GetAllLinksByMachineId(int id)
+        public IEnumerable<Link> GetAllLinksByMachineId(int id)
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var links = db.Query<Object>(@"
-                    select l.*, ml.id as machineLinkId
-                    from machinelinks ml
-                    join links l
-                    on ml.linkId = l.id
-                    where ml.machineid = @id",
+                var links = db.Query<Link>(@"
+                    select l.*
+                    from links l
+                    where l.machineid = @id",
                     new { id }).ToList();
 
                 return links;
@@ -106,8 +104,7 @@ namespace WrenchIt.Data
         {
             using (var db = new SqlConnection(_connectionString))
             {
-                var sql = @"update links
-                            set isactive = 0
+                var sql = @"delete from links
                             where id = @id";
 
                 var rowsAffected = db.Execute(sql, new { Id = id });

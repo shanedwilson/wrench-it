@@ -7,18 +7,13 @@ import MachineDropdown from '../../MachineDropdown/MachineDropdown';
 import LinksTable from '../../LinksTable/LinksTable';
 import linkRequests from '../../../helpers/data/linkRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
-import machineLinkRequests from '../../../helpers/data/machineLinkRequests';
 
 import './Links.scss';
 
 const defaultLink = {
     name: "",
     youTubeId: "",
-  };
-
-const defaulMachinetLink = {
     machineId: 0,
-    linkId: 0,
   };
 
 class Links extends React.Component{
@@ -27,13 +22,27 @@ class Links extends React.Component{
     state = {
         videos: [],
         selectedVideo: null,
-        selectedVideoId: null,
+        selectedVideoId: "",
         savedMachineLinks: [],
         newLink: defaultLink,
-        newMachineLink: defaulMachinetLink,
         machines: [],
         selectedMachineId: 0,
-        machineLinks: [],
+        allLinks: [],
+    }
+
+    checkExistingLinks = (e) => {
+        e.preventDefault();
+        const myLink = { ...this.state.newLink };
+        const allLinks = [...this.state.allLinks];
+        const {selectedMachineId} = this.state;
+        const filteredLinks = allLinks.filter(link => link.name.toLowerCase() === myLink.name.toLowerCase()
+                                                && link.youTubeId.toLowerCase() === myLink.youTubeId.toLowerCase()
+                                                && link.machineId === selectedMachineId);
+        if(filteredLinks.length > 0){
+            return;
+        } else {
+            this.saveLink(e);
+        }
     }
 
     getAllMachinesById = (id) => {
@@ -52,7 +61,12 @@ class Links extends React.Component{
 
     selectMachine = (e) => {
         const selectedMachineId =  e.target.value * 1;
-        this.setState({ selectedMachineId, selectedVideo: null, videos: [] });
+        this.setState({
+            selectedMachineId,
+            selectedVideo: null,
+            videos: [],
+            selectedVideoId: 0,
+        });
         this.getAllLinksByMachineId(selectedMachineId)
     }
 
@@ -62,43 +76,46 @@ class Links extends React.Component{
     };
 
     handleVideoSelect = (video) => {
-        this.setState({ selectedVideo: video, selectedVideoId: null });
+        const myLink = {...this.state.newLink};
+        myLink.name = video.snippet.title;
+        myLink.youTubeId = video.id.videoId;
+        this.setState({
+            selectedVideo: video,
+            selectedVideoId: null,
+            newLink: myLink,
+        });
     }
 
     handleLinkSelect = (videoId) => {
         this.setState({ selectedVideoId: videoId, selectedVideo: null });
     }
 
-
-    saveMachineLink = (linkId) => {
-        const myMachineLink = { ...this.state.newMachineLink };
-        const { selectedMachineId } = this.state;
-        myMachineLink.linkId = linkId;
-        myMachineLink.machineId = selectedMachineId;
-        machineLinkRequests.createMachineLink(myMachineLink)
-            .then(() => {
-                linkRequests.getAllLinksByMachineId(selectedMachineId);
-            });
-    }
-
     saveLink = () => {
+        const { selectedMachineId } = this.state;
         const selectedVideo = {...this.state.selectedVideo};
         const myLink = { ...this.state.newLink };
             myLink.name = selectedVideo.snippet.title;
             myLink.youTubeId = selectedVideo.id.videoId;
+            myLink.machineId = selectedMachineId;
           this.setState({ newLink: defaultLink });
           linkRequests.createLink(myLink)
             .then((link) => {
-                const linkId = link.data.id;
-                this.saveMachineLink(linkId);
+                this.getAllLinksByMachineId(link.machineId)
             })
     }
 
-    deleteLink = (videoId) => {
+    deleteLink = (linkId) => {
         const { selectedMachineId } = this.state;
-        machineLinkRequests.deleteMachineLink(videoId)
+        linkRequests.deleteLink(linkId)
             .then(() => {
                 this.getAllLinksByMachineId(selectedMachineId);
+            })
+    }
+
+    getAllLinks = () => {
+        linkRequests.getAllLinks()
+            .then((allLinks) => {
+                this.setState({ allLinks });
             })
     }
 
@@ -109,6 +126,7 @@ class Links extends React.Component{
 
         if (this.linksMounted) {
         this.getAllMachinesById(userId);
+        this.getAllLinks();
         }
     }
 
@@ -130,7 +148,7 @@ class Links extends React.Component{
                             <div className="mt-3 mx-auto">
                                 <VideoDetail
                                     video={selectedVideo}
-                                    saveLink={this.saveLink}
+                                    checkExistingLinks={this.checkExistingLinks}
                                     selectedVideoId={selectedVideoId}
                                 />
                             </div>

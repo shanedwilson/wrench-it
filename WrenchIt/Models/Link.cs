@@ -10,6 +10,7 @@ namespace WrenchIt.Models
         public int Id { get; set; }
         public String Name { get; set; }
         public String YouTubeId { get; set; }
+        public int MachineId { get; set; }
         public bool IsActive { get; set; }
     }
 }

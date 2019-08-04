@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Service from '../../Service/Service';
 import ServiceHistoryTable from '../../ServiceHistoryTable/ServiceHistoryTable';
 import serviceRequests from '../../../helpers/data/serviceRequests';
@@ -23,6 +24,10 @@ class ServiceHistory extends React.Component {
         serviceParts: [],
         isEditing: false,
         isAlerts: false,
+    }
+
+    static propTypes = {
+        currentUser: PropTypes.object,  
     }
 
     showAddEditService = (e) => {

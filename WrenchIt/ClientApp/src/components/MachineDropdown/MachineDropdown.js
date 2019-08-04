@@ -1,8 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './MachineDropdown.scss';
 
 class MachineDropdown extends React.Component{
+    static propTypes = {
+        machines: PropTypes.array,
+        selectedMachineId: PropTypes.number,
+        selectMachine: PropTypes.func,
+        inactiveMachines: PropTypes.array,
+    }
 
     render(){
         const { machines, selectedMachineId, selectMachine, inactiveMachines } = this.props;

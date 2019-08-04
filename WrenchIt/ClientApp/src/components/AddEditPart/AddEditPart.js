@@ -36,6 +36,11 @@ class AddEditPart extends React.Component {
         showParts: PropTypes.bool,
         getPartsByMachine: PropTypes.func,
         showAddParts: PropTypes.func,
+        machineParts: PropTypes.array,
+        currentUser: PropTypes.object,
+        selectedPartToEdit: PropTypes.object,
+        addPart: PropTypes.func,
+        deletePart: PropTypes.func,
     }   
 
     getAllParts = () => {

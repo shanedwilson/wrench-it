@@ -1,11 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AddEditUser from '../../AddEditUser/AddEditUser';
+import userRequests from '../../../helpers/data/userRequests';
 
 import './Profile.scss';
-import userRequests from '../../../helpers/data/userRequests';
 
 class Profile extends React.Component{
     profileMounted = false;
+    
+    static propTypes = {
+        currentUser: PropTypes.object,
+    }
 
     state = {
         currentUser: {},

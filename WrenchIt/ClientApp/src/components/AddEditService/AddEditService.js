@@ -37,6 +37,15 @@ class AddEditService extends React.Component{
         selectedParts: PropTypes.array,
         selectPart: PropTypes.func,
         serviceParts: PropTypes.array,
+        deleteService: PropTypes.func,
+        editService: PropTypes.func,
+        removePart: PropTypes.func,
+        routeToServiceHistory: PropTypes.func,
+        dropdownParts: PropTypes.array,
+        partTypes: PropTypes.array,
+        selectedPartType: PropTypes.number,
+        selectedPart: PropTypes.object,
+        isDetail: PropTypes.bool,
     }
 
     state = {

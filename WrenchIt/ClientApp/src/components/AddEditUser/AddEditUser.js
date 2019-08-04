@@ -27,6 +27,8 @@ class AddEditUser extends React.Component{
     static propTypes = {
         currentUser: PropTypes.object,
         getUser: PropTypes.func,
+        editProfile: PropTypes.func,
+        isEditingUser: PropTypes.bool,
     }
 
     cancelEdit = () => {

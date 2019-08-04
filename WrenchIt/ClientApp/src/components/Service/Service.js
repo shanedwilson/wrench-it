@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import machineRequests from '../../helpers/data/machineRequests';
 import servicePartRequests from '../../helpers/data/servicePartRequests';
 import AddEditService from'../AddEditService/AddEditService';
@@ -10,6 +11,23 @@ import {
 
 class Service extends React.Component{
     serviceMounted = false;
+
+    static propTypes = {
+        showAddEditService: PropTypes.func,
+        machineParts: PropTypes.array,
+        isEditing: PropTypes.bool,
+        serviceParts: PropTypes.array,
+        getPartsByServiceId: PropTypes.func,
+        isDetail: PropTypes.bool,
+        selectedParts: PropTypes.array,
+        addEditServiceModal: PropTypes.bool,
+        selectedMachine: PropTypes.number,
+        partTypes: PropTypes.array,
+        selectedService: PropTypes.object,
+        routeToServiceHistory: PropTypes.func,
+        deleteService: PropTypes.func,
+        editService: PropTypes.func,
+    }
 
     state = {
         selectedParts: [],

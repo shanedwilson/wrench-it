@@ -1,6 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class LinksTable extends React.Component {
+    static propTypes = {
+        handleLinkSelect: PropTypes.func,
+        deleteLink: PropTypes.func,
+        savedMachineLinks: PropTypes.array,
+    }
     linkSelectEvent = (e) => {
         const videoId = e.currentTarget.id;
         this.props.handleLinkSelect(videoId);

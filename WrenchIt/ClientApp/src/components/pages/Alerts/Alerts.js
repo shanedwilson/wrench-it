@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ServiceHistoryTable from '../../ServiceHistoryTable/ServiceHistoryTable';
 import machineRequests from '../../../helpers/data/machineRequests';
 import serviceRequests from '../../../helpers/data/serviceRequests';
@@ -7,6 +9,10 @@ import './Alerts.scss';
 
 class Alerts extends React.Component{
     alertMounted = false;
+
+    static propTypes = {
+        currentUser: PropTypes.object,
+    }
 
     state = {
         machines: [],

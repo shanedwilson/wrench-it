@@ -44,7 +44,7 @@ class AddEditService extends React.Component{
         dropdownParts: PropTypes.array,
         partTypes: PropTypes.array,
         selectedPartType: PropTypes.number,
-        selectedPart: PropTypes.object,
+        selectedPart: PropTypes.number,
         isDetail: PropTypes.bool,
     }
 

@@ -39,7 +39,7 @@ class AddEditPart extends React.Component {
         machineParts: PropTypes.array,
         currentUser: PropTypes.object,
         selectedPartToEdit: PropTypes.object,
-        addPart: PropTypes.func,
+        addPart: PropTypes.bool,
         deletePart: PropTypes.func,
     }   
 

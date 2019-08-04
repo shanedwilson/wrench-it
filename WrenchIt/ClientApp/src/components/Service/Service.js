@@ -21,7 +21,7 @@ class Service extends React.Component{
         isDetail: PropTypes.bool,
         selectedParts: PropTypes.array,
         addEditServiceModal: PropTypes.bool,
-        selectedMachine: PropTypes.number,
+        selectedMachine: PropTypes.object,
         partTypes: PropTypes.array,
         selectedService: PropTypes.object,
         routeToServiceHistory: PropTypes.func,

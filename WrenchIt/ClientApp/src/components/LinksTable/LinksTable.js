@@ -1,24 +1,24 @@
 import React from 'react';
 
 class LinksTable extends React.Component {
-    videoSelectEvent = (e) => {
+    linkSelectEvent = (e) => {
         const videoId = e.currentTarget.id;
-        this.props.handleVideoSelect(videoId);
+        this.props.handleLinkSelect(videoId);
     }
+
     render() {
         const { savedMachineLinks } = this.props;
 
         const createLinks = () => {
             return (
                 savedMachineLinks.map((sml) => 
-                    <tr className="mt-5" onClick={this.videoSelectEvent} key={sml.id} id={sml.youTubeId}>
+                    <tr className="mt-5" onClick={this.linkSelectEvent} key={sml.id} id={sml.youTubeId}>
                         <td className="service-machine">{sml.name}</td>
                     </tr>
                 )
             )
 
         }
-
 
         return(
             <div className="table-div mx-auto mt-5">

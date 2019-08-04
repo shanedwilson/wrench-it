@@ -26,7 +26,7 @@ class Links extends React.Component{
     state = {
         videos: [],
         selectedVideo: null,
-        selectedVideoId: '',
+        selectedVideoId: null,
         savedMachineLinks: [],
         newLink: defaultLink,
         newMachineLink: defaulMachinetLink,
@@ -57,16 +57,15 @@ class Links extends React.Component{
 
     handleSubmit = async (searchValue) => {
         const response = await youTubeRequests.getVideos(searchValue)
-        this.setState({ videos: response.data.items, selectedVideo: null });
+        this.setState({ videos: response.data.items, selectedVideo: null, selectedVideoId: null });
     };
 
     handleVideoSelect = (video) => {
-        const selectedVideoId = video.id.videoId
-        this.setState({ selectedVideo: video, selectedVideoId });
+        this.setState({ selectedVideo: video, selectedVideoId: null });
     }
 
     handleLinkSelect = (videoId) => {
-        this.setState({ selectedVideoId: videoId });
+        this.setState({ selectedVideoId: videoId, selectedVideo: null });
     }
 
 
@@ -102,7 +101,7 @@ class Links extends React.Component{
     }
 
     render(){
-        const {selectedVideo, selectedMachineId } = this.state;
+        const {selectedVideo, selectedMachineId, selectedVideoId } = this.state;
 
         const machines = [...this.state.machines]
 
@@ -118,6 +117,7 @@ class Links extends React.Component{
                         <VideoDetail
                             video={selectedVideo}
                             saveLink={this.saveLink}
+                            selectedVideoId={selectedVideoId}
                         />
                     </div>
                     <div className="animated fadeIn">
@@ -127,7 +127,7 @@ class Links extends React.Component{
                         />
                     </div>    
                 </div>
-                <div className="dropdown-container mx-auto">
+                <div className="dropdown-container mx-auto mt-5">
                     <h2 className="text-center">Saved Video Links</h2>
                     <MachineDropdown
                         machines={machines}
@@ -136,7 +136,7 @@ class Links extends React.Component{
                     />
                     <LinksTable
                         savedMachineLinks={savedMachineLinks}
-                        handleVideoSelect={this.handleVideoSelect}
+                        handleLinkSelect={this.handleLinkSelect}
                     />
                 </div>
             </div>

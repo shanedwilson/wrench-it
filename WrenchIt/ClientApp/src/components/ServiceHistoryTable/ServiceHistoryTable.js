@@ -1,7 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import formatDate from '../../helpers/formatDate';
 
 class ServiceHistoryTable extends React.Component {
+    static propTypes = {
+        garageView: PropTypes.func,
+        machineServices: PropTypes.array,
+        showAddEditService: PropTypes.func,
+        getSelectedService: PropTypes.func,
+        alertServices: PropTypes.array,
+        isAlerts: PropTypes.bool,
+    }
+
     garageViewEvent = (e) => {
         const machineId = e.currentTarget.id * 1;
         this.props.garageView(machineId);

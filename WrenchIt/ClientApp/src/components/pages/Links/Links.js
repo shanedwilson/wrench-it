@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import VideoSearch from '../../VideoSearch/VideoSearch';
 import youTubeRequests from '../../../helpers/data/youTubeRequests';
 import VideoList from '../../VidoeList/VideoList';
@@ -29,6 +30,10 @@ class Links extends React.Component{
         selectedMachineId: 0,
         allLinks: [],
         inactiveMachines: [],
+    }
+
+    static propTypes = {
+        currentUser: PropTypes.object,
     }
 
     checkExistingLinks = (e) => {

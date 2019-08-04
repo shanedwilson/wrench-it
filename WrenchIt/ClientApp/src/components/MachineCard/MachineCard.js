@@ -12,6 +12,8 @@ class MachineCard extends React.Component{
         showPartsDiv: PropTypes.func,
         showService: PropTypes.func,
         toggleServiceModal: PropTypes.func,
+        showAddEditService: PropTypes.func,
+        goToServiceHistory: PropTypes.func,
     }
 
     editMachineEvent = () => {

@@ -36,6 +36,11 @@ import {
 
     static propTypes = {
         currentUser: PropTypes.object,
+        modal: PropTypes.bool,
+        isEditing: PropTypes.bool,
+        toggleMachineModal: PropTypes.func,
+        getSingleMachine: PropTypes.func,
+        selectedMachine: PropTypes.object,
     }
 
     getMachineTypes = () => {
@@ -46,7 +51,7 @@ import {
       }
 
     toggleEvent = () => {
-        const { toggleMachineModal, } = this.props;
+        const { toggleMachineModal } = this.props;
         toggleMachineModal();
     }
 

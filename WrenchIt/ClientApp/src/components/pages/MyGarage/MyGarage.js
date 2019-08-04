@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import MachinePartsDropdown from '../../MachinePartsDropdown/MachinePartsDropdown';
 import MachineCard from '../../MachineCard/MachineCard';
@@ -35,6 +36,10 @@ class MyGarage extends React.Component{
         addPart: false,
         addEditServiceModal: false,
         isGarage: true,
+    }
+
+    static propTypes = {
+        currentUser: PropTypes.object,  
     }
 
     toggleMachineModal = () => {

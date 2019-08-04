@@ -26,7 +26,7 @@ const getAllLinks = () => new Promise((resolve, reject) => {
 
   const createLink = linkObject => axios.post(`${apiUrl}`, (linkObject));
 
-  const deleteLink = partId => axios.delete(`${apiUrl}/${partId}`);
+  const deleteLink = linkId => axios.delete(`${apiUrl}/${linkId}`);
 
   export default { getAllLinks, createLink, deleteLink, getAllLinksByMachineId };
   

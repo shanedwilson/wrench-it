@@ -13,6 +13,7 @@ class LinksSearch extends React.Component{
     formSubmit = (e) => {
         const {searchValue} = this.state;
         this.props.handleFormSubmit(searchValue);
+        this.setState({ searchValue: "" })
     }
 
     render() {

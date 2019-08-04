@@ -32,7 +32,7 @@ class Links extends React.Component{
         newLink: defaultLink,
         newMachineLink: defaulMachinetLink,
         machines: [],
-        selectedMachineId: null,
+        selectedMachineId: 0,
         machineLinks: [],
     }
 
@@ -52,7 +52,7 @@ class Links extends React.Component{
 
     selectMachine = (e) => {
         const selectedMachineId =  e.target.value * 1;
-        this.setState({ selectedMachineId });
+        this.setState({ selectedMachineId, selectedVideo: null, videos: [] });
         this.getAllLinksByMachineId(selectedMachineId)
     }
 

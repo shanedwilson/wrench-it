@@ -13,7 +13,15 @@ class LinksTable extends React.Component {
             return (
                 savedMachineLinks.map((sml) => 
                     <tr className="mt-5" onClick={this.linkSelectEvent} key={sml.id} id={sml.youTubeId}>
-                        <td className="service-machine">{sml.name}</td>
+                        <td className="service-machine">
+                            {sml.name}
+                        </td>
+                        <td>
+                            <i className="far fa-edit edit-btn" onClick={this.editLinkEvent} title="Edit Machine"/>
+                        </td>
+                        <td>
+                            <i className="delete-btn fas fa-trash" onClick={this.deleteLinkeEvent} title="Delete Machine"></i>
+                        </td>
                     </tr>
                 )
             )
@@ -26,6 +34,8 @@ class LinksTable extends React.Component {
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
+                            <th scope="col">Edit Link</th>
+                            <th scope="col">Delete Link</th>
                         </tr>
                     </thead>
                     <tbody>

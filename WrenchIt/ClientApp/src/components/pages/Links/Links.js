@@ -7,6 +7,7 @@ import MachineDropdown from '../../MachineDropdown/MachineDropdown';
 import LinksTable from '../../LinksTable/LinksTable';
 import linkRequests from '../../../helpers/data/linkRequests';
 import machineRequests from '../../../helpers/data/machineRequests';
+import machineLinkRequests from '../../../helpers/data/machineLinkRequests';
 
 import './Links.scss';
 
@@ -31,7 +32,7 @@ class Links extends React.Component{
         newLink: defaultLink,
         newMachineLink: defaulMachinetLink,
         machines: [],
-        selectedMachineId: 0,
+        selectedMachineId: null,
         machineLinks: [],
     }
 
@@ -71,10 +72,13 @@ class Links extends React.Component{
 
     saveMachineLink = (linkId) => {
         const myMachineLink = { ...this.state.newMachineLink };
-        const { machineId } = this.state;
+        const { selectedMachineId } = this.state;
         myMachineLink.linkId = linkId;
-        myMachineLink.machineId = machineId;
-        
+        myMachineLink.machineId = selectedMachineId;
+        machineLinkRequests.createMachineLink(myMachineLink)
+            .then(() => {
+                linkRequests.getAllLinksByMachineId(selectedMachineId);
+            });
     }
 
     saveLink = () => {
@@ -109,36 +113,48 @@ class Links extends React.Component{
 
         const savedMachineLinks = [...this.state.savedMachineLinks];
 
+        const createDiv = () => {
+            if(selectedMachineId) {
+                return (
+                    <div className="animated zoomIn">
+                        <VideoSearch handleFormSubmit={this.handleSubmit}/>
+                        <div className="w-100 mx-auto">
+                            <div className="mt-3 mx-auto">
+                                <VideoDetail
+                                    video={selectedVideo}
+                                    saveLink={this.saveLink}
+                                    selectedVideoId={selectedVideoId}
+                                />
+                            </div>
+                            <div className="animated fadeIn">
+                                <VideoList
+                                    handleVideoSelect={this.handleVideoSelect}
+                                    videos={videos}
+                                />
+                            </div>    
+                        </div>
+                        <div className="dropdown-container mx-auto mt-5">
+                            <h2 className="text-center">Saved Video Links</h2>
+                            <LinksTable
+                                savedMachineLinks={savedMachineLinks}
+                                handleLinkSelect={this.handleLinkSelect}
+                            />
+                        </div>
+                    </div>                    
+                )
+            }
+        }
+
         return(
             <div className="links-container animated fadeIn">
-                <VideoSearch handleFormSubmit={this.handleSubmit}/>
-                <div className="w-100 mx-auto">
-                    <div className="mt-3 mx-auto">
-                        <VideoDetail
-                            video={selectedVideo}
-                            saveLink={this.saveLink}
-                            selectedVideoId={selectedVideoId}
-                        />
-                    </div>
-                    <div className="animated fadeIn">
-                        <VideoList
-                            handleVideoSelect={this.handleVideoSelect}
-                            videos={videos}
-                        />
-                    </div>    
-                </div>
-                <div className="dropdown-container mx-auto mt-5">
-                    <h2 className="text-center">Saved Video Links</h2>
+                <div className="dropdown-container mx-auto mb-5">
                     <MachineDropdown
                         machines={machines}
                         selectedMachineId={selectedMachineId}
                         selectMachine={this.selectMachine}
                     />
-                    <LinksTable
-                        savedMachineLinks={savedMachineLinks}
-                        handleLinkSelect={this.handleLinkSelect}
-                    />
                 </div>
+                    {createDiv()}
             </div>
         )
     }

@@ -15,7 +15,7 @@ const getAllMachines = () => new Promise((resolve, reject) => {
 
   
 const getAllMachinesById = (id) => new Promise((resolve, reject) => {
-    axios.get(apiUrl)
+    axios.get(`${apiUrl}/${id}`)
       .then((results) => {
         const userMachinesObject = results.data;
         resolve(userMachinesObject);

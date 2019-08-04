@@ -76,7 +76,7 @@ namespace WrenchIt.Data
                     from machines
                     where id = @id
                     and isActive = 1",
-                    new {  id }).ToList();
+                    new { id }).ToList();
 
                 return machines;
             }

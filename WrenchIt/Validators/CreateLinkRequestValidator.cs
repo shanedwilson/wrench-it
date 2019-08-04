@@ -11,7 +11,7 @@ namespace WrenchIt.Validators
         public bool Validate(CreateLinkRequest requestToValidate)
         {
             return (string.IsNullOrEmpty(requestToValidate.Name)
-                    || string.IsNullOrEmpty(requestToValidate.Url));
+                    || string.IsNullOrEmpty(requestToValidate.YouTubeId));
         }
     }
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './MachineDropdown.scss';
+
 class MachineDropdown extends React.Component{
 
     render(){
@@ -29,9 +31,9 @@ class MachineDropdown extends React.Component{
                         onChange={(event) => { selectMachine(event) }}>
                 <option value="">Select Your Machine</option>
                     {makeMachineDropdownItems()}
-                <option disabled>________________</option>
+                <option className="upper-border"disabled></option>
                 <option disabled>Machines Of Yore</option>
-                <option disabled>________________</option>
+                <option className="lower-border" disabled></option>
                     {makeInactiveMachinesDropdown()}
                 </select>
             </div>

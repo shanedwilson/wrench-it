@@ -28,6 +28,7 @@ class Links extends React.Component{
         machines: [],
         selectedMachineId: 0,
         allLinks: [],
+        inactiveMachines: [],
     }
 
     checkExistingLinks = (e) => {
@@ -49,6 +50,13 @@ class Links extends React.Component{
         machineRequests.getAllMachinesById(id)
           .then((machinesObject) => {
             this.setState({ machines: machinesObject });
+          });
+    }
+
+    getAllInactiveMachinesById = (id) => {
+        machineRequests.getAllInactiveMachinesById(id)
+          .then((machinesObject) => {
+            this.setState({ inactiveMachines: machinesObject });
           });
     }
 
@@ -128,11 +136,12 @@ class Links extends React.Component{
         if (this.linksMounted) {
         this.getAllMachinesById(userId);
         this.getAllLinks();
+        this.getAllInactiveMachinesById(userId);
         }
     }
 
     render(){
-        const {selectedVideo, selectedMachineId, selectedVideoId } = this.state;
+        const {selectedVideo, selectedMachineId, selectedVideoId, inactiveMachines } = this.state;
 
         const machines = [...this.state.machines]
 
@@ -180,6 +189,7 @@ class Links extends React.Component{
                         machines={machines}
                         selectedMachineId={selectedMachineId}
                         selectMachine={this.selectMachine}
+                        inactiveMachines={inactiveMachines}
                     />
                 </div>
                     {createDiv()}

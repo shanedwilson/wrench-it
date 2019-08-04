@@ -244,21 +244,23 @@ class AddEditService extends React.Component{
           const makeServiceCard = () => {
               if(isDetail && !isEditing){
                   return(
-                    <div className="service-card border border-dark rounded mb-2 w-100 mt-2 mx-auto" id={selectedService.id}>
-                        <h3 className="text-center profile-header">{formatDate.formatMDYDate(selectedService.serviceDate)}</h3>
+                    <div className="service-card border border-dark rounded w-100 mx-auto" id={selectedService.id}>
+                        <h3 className="text-center">{formatDate.formatMDYDate(selectedService.serviceDate)}</h3>
                         <div className="ml-1">Oil Type: {selectedService.oil}</div>
                         <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
                         <div className="ml-1">Tire Pressure: {selectedService.tirePressure}</div>
                         <div className="ml-1">Mileage: {selectedService.mileage}</div>
                         <div className="ml-1">Notes: {selectedService.notes}</div>
-                        <h5 className="mr-2">Selected Parts:</h5>
-                        {makeSelectedParts()}
+                        <div className="mb-2">
+                            <h5 className="mr-2">Parts Used:</h5>
+                            {makeSelectedParts()}
+                        </div>
                         {makeButtons()}
                     </div>
                   )
               }
               return(
-                <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto" onSubmit={this.formSubmit}>
+                <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto w-100" onSubmit={this.formSubmit}>
                 <div className="form col mt-2 mx-auto">
                     <div className="col-auto form-lines p-0">
                         <div className="input-group mb-2">
@@ -353,7 +355,7 @@ class AddEditService extends React.Component{
                         onChange={this.handleServiceDateChange}
                         />
                     </div>
-                    <h3 className="text-center mt-5">Select Parts For Service</h3>
+                    <h3 className="text-center">Add Parts To Service</h3>
                     <MachinePartsDropdown
                         partTypes = {partTypes}
                         selectedPart = {selectedPart}
@@ -362,7 +364,7 @@ class AddEditService extends React.Component{
                         dropdownParts ={dropdownParts}
                         selectPart={selectPart}
                     />
-                    <div className="text-center mx-auto">
+                    <div className="text-center mx-auto mb-3">
                         <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
                         {makeSelectedParts()}
                     </div>
@@ -379,7 +381,7 @@ class AddEditService extends React.Component{
         return(
             <div className="col">
                 <div className="">
-                    <div className="service-container row">
+                    <div className="service-container row p-2">
                         {makeServiceCard()}
                     </div>    
                 </div>   

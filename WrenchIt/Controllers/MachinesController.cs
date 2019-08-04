@@ -33,7 +33,7 @@ namespace WrenchIt.Controllers
 
             var newMachine = _repository.AddMachine(createRequest.OwnerId, createRequest.Year, createRequest.Make, createRequest.Model,
                 createRequest.Trim, createRequest.TypeId, createRequest.OilType, createRequest.OilQuantity,
-                createRequest.TireSize, createRequest.TirePressure, createRequest.ServiceInterval);
+                createRequest.TireSize, createRequest.TirePressure, createRequest.ServiceInterval, createRequest.ImageUrl);
 
             return Created($"api/machines/{newMachine.Id}", newMachine);
         }

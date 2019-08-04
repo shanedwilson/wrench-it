@@ -19,7 +19,7 @@ namespace WrenchIt.Data
         }
 
         public Machine AddMachine(int ownerId, int year, string make, string model, string trim, int typeId, string oilType,
-                        int oilQuantity, string tireSize, int tirePressure, int serviceInterval)
+                        int oilQuantity, string tireSize, int tirePressure, int serviceInterval, string imageUrl)
         {
             using (var db = new SqlConnection(_connectionString))
             {
@@ -28,7 +28,7 @@ namespace WrenchIt.Data
                     tirePressure, serviceInterval)
                     output inserted.*
                     values(@ownerId, @year, @make, @model, @trim, @typeId, @oilType, @oilQuantity, @tireSize,
-                    @tirePressure, @serviceInterval)",
+                    @tirePressure, @serviceInterval, @imageUrl)",
                     new
                     {   
                         ownerId,
@@ -41,7 +41,8 @@ namespace WrenchIt.Data
                         oilQuantity,
                         tireSize,
                         tirePressure,
-                        serviceInterval
+                        serviceInterval,
+                        imageUrl
                     }
                     );
 
@@ -127,6 +128,7 @@ namespace WrenchIt.Data
                                 tireSize = @tireSize,
                                 tirePressure = @tirePressure,
                                 serviceInterval = @serviceInterval,
+                                imageUrl = @imageUrl,
                                 isActive = 1
                             where id = @id";
 

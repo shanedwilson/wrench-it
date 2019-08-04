@@ -99,8 +99,9 @@ class Links extends React.Component{
             myLink.machineId = selectedMachineId;
           this.setState({ newLink: defaultLink });
           linkRequests.createLink(myLink)
-            .then((link) => {
-                this.getAllLinksByMachineId(link.machineId)
+            .then(() => {
+                this.getAllLinksByMachineId(selectedMachineId)
+                this.setState({ selectedVideo: null, videos: [] })
             })
     }
 

@@ -13,7 +13,6 @@ namespace WrenchIt.Validators
             return (string.IsNullOrEmpty(requestToValidate.Make)
                    || string.IsNullOrEmpty(requestToValidate.Year.ToString())
                    || string.IsNullOrEmpty(requestToValidate.Model)
-                   || string.IsNullOrEmpty(requestToValidate.Trim)
                    || string.IsNullOrEmpty(requestToValidate.TypeId.ToString())
                    || string.IsNullOrEmpty(requestToValidate.OilType)
                    || string.IsNullOrEmpty(requestToValidate.OilQuantity.ToString())

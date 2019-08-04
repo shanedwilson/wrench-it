@@ -131,8 +131,8 @@ class AddEditUser extends React.Component{
         }
 
         return(
-          <div className="reg-container d-flex animated fadeIn text-center">
-            <form className="row user-form form-container border border-dark rounded mx-auto mb-5 w-50 pt-4 pb-4" onSubmit={this.formSubmit}>
+          <div className="reg-container d-flex animated fadeIn text-center col-xs w-85 mt-5">
+            <form className="row user-form form-container border border-dark rounded mx-auto mb-5 w-85 pt-4 pb-4" onSubmit={this.formSubmit}>
               <div className="w-100">
                 {makeHeader()}
               </div>

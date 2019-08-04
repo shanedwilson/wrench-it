@@ -19,6 +19,7 @@ namespace WrenchIt.Models
         public string TireSize { get; set; }
         public int TirePressure { get; set; }
         public int ServiceInterval { get; set; }
+        public string ImageUrl { get; set; }
         public bool IsActive { get; set; }
     }
 

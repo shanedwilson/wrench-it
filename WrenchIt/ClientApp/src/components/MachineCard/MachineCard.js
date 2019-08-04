@@ -41,6 +41,16 @@ class MachineCard extends React.Component{
     render(){
         const {selectedMachine, isService} = this.props;
 
+        const makeImage = () => {
+            if(selectedMachine.imageUrl !== null || selectedMachine.imageUrl !== "")
+            return(
+                <div className="card imgHolder mt-5 mb-5 w-25 mx-auto my-auto p-2">
+                    <img className="selectedMachine-img card-img-top"src={selectedMachine.imageUrl} alt="machine"/>
+                </div>
+            )
+            return <div></div>
+        }
+
         const makeButtons = () => {
             if(isService) {
                 return(
@@ -71,20 +81,21 @@ class MachineCard extends React.Component{
         }
         return(
             <div className="d-flex justify-content-center">
-            <div className="machine-card border border-dark rounded animated fadeIn w-50 mt-5 text-center" id={selectedMachine.id}>
-                <header className="text-center profile-header">
-                    <span>{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</span>
-                </header>
-                <div className="machine-body p-3">
-                    <div className="ml-1">Oil Type: {selectedMachine.oilType}</div>
-                    <div className="ml-1">Oil Quantity: {selectedMachine.oilQuantity} Quarts</div>
-                    <div className="ml-1">Tire Size: {selectedMachine.tireSize}</div>
-                    <div className="ml-1">Tire Pressure: {selectedMachine.tirePressure}</div>
-                    <div className="ml-1 mb-2">Service Interval: {selectedMachine.serviceInterval}</div>
-                    {makeButtons()}
+                {makeImage()}
+                <div className="card machine-card border border-dark rounded animated fadeIn w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
+                    <header className="text-center profile-header">
+                        <span>{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</span>
+                    </header>
+                    <div className="machine-body p-3">
+                        <div className="ml-1">Oil Type: {selectedMachine.oilType}</div>
+                        <div className="ml-1">Oil Quantity: {selectedMachine.oilQuantity} Quarts</div>
+                        <div className="ml-1">Tire Size: {selectedMachine.tireSize}</div>
+                        <div className="ml-1">Tire Pressure: {selectedMachine.tirePressure}</div>
+                        <div className="ml-1 mb-2">Service Interval: {selectedMachine.serviceInterval}</div>
+                        {makeButtons()}
+                    </div>
                 </div>
             </div>
-        </div>
         )
     }
 }

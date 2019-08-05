@@ -9,8 +9,8 @@ import {
 } from 'react-router-dom';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
 import Auth from '../components/pages/Auth/Auth';
-import Register from '../components/pages/Register/Register'
-import Home from '../components/pages/Home/Home'
+import Register from '../components/pages/Register/Register';
+import Home from '../components/pages/Home/Home';
 import MyGarage from '../components/pages/MyGarage/MyGarage';
 import Links from '../components/pages/Links/Links';
 import Alerts from '../components/pages/Alerts/Alerts';
@@ -63,7 +63,7 @@ export default class App extends Component {
           pendingUser: false,
         });
         authRequests.getCurrentUserJwt();
-        this.getUser()
+        this.getUser();
       } else {
         this.setState({
           authed: false,

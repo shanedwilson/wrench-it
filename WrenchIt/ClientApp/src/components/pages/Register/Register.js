@@ -4,30 +4,29 @@ import AddEditUser from '../../AddEditUser/AddEditUser';
 
 import './Register.scss';
 
-class Register extends React.Component{
-
+class Register extends React.Component {
     static propTypes = {
-        isRegistered: PropTypes.bool,
-        currentUser: PropTypes.object,
-      }
-
-    componentDidMount(){
-        const {isRegistered} = this.props;
-
-        if(isRegistered){
-            this.props.history.push('/home');
-        }
+      isRegistered: PropTypes.bool,
+      currentUser: PropTypes.object,
     }
 
-    render(){
-         const { getUser, currentUser } = this.props;
+    componentDidMount() {
+      const { isRegistered } = this.props;
 
-        return(
+      if (isRegistered) {
+        this.props.history.push('/home');
+      }
+    }
+
+    render() {
+      const { getUser, currentUser } = this.props;
+
+      return (
             <AddEditUser
             getUser = {getUser}
             currentUser={currentUser}
             />
-        )
+      );
     }
 }
 

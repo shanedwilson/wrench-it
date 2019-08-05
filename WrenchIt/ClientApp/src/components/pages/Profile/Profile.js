@@ -5,60 +5,60 @@ import userRequests from '../../../helpers/data/userRequests';
 
 import './Profile.scss';
 
-class Profile extends React.Component{
+class Profile extends React.Component {
     profileMounted = false;
-    
+
     static propTypes = {
-        currentUser: PropTypes.object,
+      currentUser: PropTypes.object,
     }
 
     state = {
-        currentUser: {},
-        isEditingUser: false,
+      currentUser: {},
+      isEditingUser: false,
     }
 
     editProfile = () => {
-        const {isEditingUser} = this.state;
-        this.setState({ isEditingUser: !isEditingUser })
+      const { isEditingUser } = this.state;
+      this.setState({ isEditingUser: !isEditingUser });
     }
 
     getUser = () => {
-        const currentUser = {...this.state.currentUser};
-        const userId = currentUser.firebaseId;
-        userRequests.getSingleUser(userId)
-            .then((user) => {
-                this.setState({currentUser: user.data})
-            })
+      const currentUser = { ...this.state.currentUser };
+      const userId = currentUser.firebaseId;
+      userRequests.getSingleUser(userId)
+        .then((user) => {
+          this.setState({ currentUser: user.data });
+        });
     }
 
     componentDidMount() {
-        const { currentUser } = this.props;
-        this.profileMounted = !!currentUser.id;
+      const { currentUser } = this.props;
+      this.profileMounted = !!currentUser.id;
 
-        if (this.profileMounted) {
-            this.setState({ currentUser })
-        }
+      if (this.profileMounted) {
+        this.setState({ currentUser });
+      }
     }
 
     render() {
-        const currentUser = {...this.state.currentUser};
+      const currentUser = { ...this.state.currentUser };
 
-        const {isEditingUser} = this.state;
+      const { isEditingUser } = this.state;
 
-        const buildView = () => {
-            if (isEditingUser) {
-                return (
+      const buildView = () => {
+        if (isEditingUser) {
+          return (
                     <div>
-                        <AddEditUser 
+                        <AddEditUser
                             isEditingUser={isEditingUser}
                             currentUser = {currentUser}
                             editProfile={this.editProfile}
                             getUser={this.getUser}
                         />
                     </div>
-                )
-            }
-            return(
+          );
+        }
+        return (
                 <div className="profile-container mx-auto animated fadeIn">
                     <div className="d-flex justify-content-center">
                         <div className="profile-card border border-dark rounded animated fadeIn w-75 mt-5 text-center" id={currentUser.id}>
@@ -75,18 +75,18 @@ class Profile extends React.Component{
                                         <i className="far fa-edit fa-1x"/>
                                     </button>
                                 </div>
-                            </div>    
+                            </div>
                         </div>
                     </div>
                 </div>
-            )
-        }
+        );
+      };
 
-        return (
+      return (
             <div>
             {buildView()}
             </div>
-        )
+      );
     }
 }
 

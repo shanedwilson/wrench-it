@@ -1,242 +1,242 @@
 import React from 'react';
+import DatePicker from 'react-datepicker';
+import PropTypes from 'prop-types';
 import serviceRequests from '../../helpers/data/serviceRequests';
 import servicePartRequests from '../../helpers/data/servicePartRequests';
 import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown';
 import formatDate from '../../helpers/formatDate';
-import DatePicker from "react-datepicker";
-import PropTypes from 'prop-types';
 
 import './AddEditService.scss';
-import "react-datepicker/dist/react-datepicker.css";
+import 'react-datepicker/dist/react-datepicker.css';
 
 const defaultService = {
-    machineId: 0,
-    oil: '',
-    oilQuantity: 0,
-    tirePressure: 0,
-    mileage: 0,
-    tireRotation: false,
-    serviceDate: new Date(),
-    notes: '',
-  };
+  machineId: 0,
+  oil: '',
+  oilQuantity: 0,
+  tirePressure: 0,
+  mileage: 0,
+  tireRotation: false,
+  serviceDate: new Date(),
+  notes: '',
+};
 
-  const defaultServicePart = {
-      serviceId: 0,
-      partId: 0,
-      installDate: new Date(),
-  }
+const defaultServicePart = {
+  serviceId: 0,
+  partId: 0,
+  installDate: new Date(),
+};
 
-class AddEditService extends React.Component{
+class AddEditService extends React.Component {
     modalMounted = false;
 
     static propTypes = {
-        isEditing: PropTypes.bool,
-        selectedMachine: PropTypes.object,
-        currentUser: PropTypes.object,
-        selectedService: PropTypes.object,
-        selectedParts: PropTypes.array,
-        selectPart: PropTypes.func,
-        serviceParts: PropTypes.array,
-        deleteService: PropTypes.func,
-        editService: PropTypes.func,
-        removePart: PropTypes.func,
-        routeToServiceHistory: PropTypes.func,
-        dropdownParts: PropTypes.array,
-        partTypes: PropTypes.array,
-        selectedPartType: PropTypes.number,
-        selectedPart: PropTypes.number,
-        isDetail: PropTypes.bool,
+      isEditing: PropTypes.bool,
+      selectedMachine: PropTypes.object,
+      currentUser: PropTypes.object,
+      selectedService: PropTypes.object,
+      selectedParts: PropTypes.array,
+      selectPart: PropTypes.func,
+      serviceParts: PropTypes.array,
+      deleteService: PropTypes.func,
+      editService: PropTypes.func,
+      removePart: PropTypes.func,
+      routeToServiceHistory: PropTypes.func,
+      dropdownParts: PropTypes.array,
+      partTypes: PropTypes.array,
+      selectedPartType: PropTypes.number,
+      selectedPart: PropTypes.number,
+      isDetail: PropTypes.bool,
     }
 
     state = {
-        newService: defaultService,
-        serviceDate: new Date(),
-        installDate: new Date(),
-        checked: true,
-        newServicePart: defaultServicePart,
+      newService: defaultService,
+      serviceDate: new Date(),
+      installDate: new Date(),
+      checked: true,
+      newServicePart: defaultServicePart,
     }
 
     deleteServiceEvent = () => {
-        this.props.deleteService()
+      this.props.deleteService();
     }
 
     editServiceEvent = () => {
-        this.props.editService()
+      this.props.editService();
     }
 
     removePartEvent = (e) => {
-        const partId = e.target.id * 1;
-        this.props.removePart(partId);
+      const partId = e.target.id * 1;
+      this.props.removePart(partId);
     }
 
     handleCheckbox = () => {
-        const { checked } = this.state;
-        this.setState({ checked: !checked })
+      const { checked } = this.state;
+      this.setState({ checked: !checked });
     }
 
     checkServiceParts = () => {
-        const {serviceParts} = this.props;
-        const newServicePart = {...this.state.newServicePart};
-        return serviceParts.filter(sp => {
-            if(sp.partId === newServicePart.partId && sp.serviceId === newServicePart.serviceId) {
-                return true;
-            } else {
-                return false;
-            }
-        }).length;
+      const { serviceParts } = this.props;
+      const newServicePart = { ...this.state.newServicePart };
+      return serviceParts.filter((sp) => {
+        if (sp.partId === newServicePart.partId && sp.serviceId === newServicePart.serviceId) {
+          return true;
+        }
+        return false;
+      }).length;
     }
 
     addServicePart = () => {
-        const newServicePart = {...this.state.newServicePart};
-        const {isEditing} = this.props;
-        if(isEditing) {
-            const partCheck = this.checkServiceParts();
-            if(!partCheck) {
-                servicePartRequests.createServicePart(newServicePart);
-            };
-        } else {
-            servicePartRequests.createServicePart(newServicePart);
-        };
+      const newServicePart = { ...this.state.newServicePart };
+      const { isEditing } = this.props;
+      if (isEditing) {
+        const partCheck = this.checkServiceParts();
+        if (!partCheck) {
+          servicePartRequests.createServicePart(newServicePart);
+        }
+      } else {
+        servicePartRequests.createServicePart(newServicePart);
+      }
     }
 
     formFieldStringState = (name, e) => {
-        e.preventDefault();
-        const tempService = { ...this.state.newService };
-        tempService[name] = e.target.value;
-        this.setState({ newService: tempService });
+      e.preventDefault();
+      const tempService = { ...this.state.newService };
+      tempService[name] = e.target.value;
+      this.setState({ newService: tempService });
     }
 
     formFieldNumberState = (name, e) => {
-        e.preventDefault();
-        const tempService = { ...this.state.newService };
-        tempService[name] = e.target.value * 1;
-        this.setState({ newService: tempService });
+      e.preventDefault();
+      const tempService = { ...this.state.newService };
+      tempService[name] = e.target.value * 1;
+      this.setState({ newService: tempService });
     }
-  
+
     oilChange = e => this.formFieldStringState('oil', e);
-  
+
     oilQuantityChange = e => this.formFieldNumberState('oilQuantity', e);
 
     tirePressureChange = e => this.formFieldNumberState('tirePressure', e);
-    
+
     mileageChange = e => this.formFieldNumberState('mileage', e);
 
     notesChange = e => this.formFieldStringState('notes', e);
 
     handleServiceDateChange = (date) => {
-        this.setState({ serviceDate: new Date(date) });
-      }
-      
+      this.setState({ serviceDate: new Date(date) });
+    }
+
     formSubmit = (e) => {
-        e.preventDefault();
-        const { isEditing, selectedMachine } = this.props;
-        const {checked, serviceDate} = this.state;
-        const myService = { ...this.state.newService };
-        myService.serviceDate = serviceDate;
-        myService.machineId = selectedMachine.id;
-        myService.tireRotation = checked;
-        if (isEditing === false) {
-            this.setState({ newService: defaultService });
-            serviceRequests.createService(myService)
-                .then((service) => {
-                    const serviceId = service.data.id;
-                    const {selectedParts} = this.props;
-                    let myServicePart = {};
-                    myServicePart.serviceId = serviceId;
-                    myServicePart.installDate = service.data.serviceDate;
-            
-                    selectedParts.forEach(part => {
-                        let partId = part.id;
-                        myServicePart.partId = partId;
-
-                        this.setState({ newServicePart: myServicePart })
-
-                        this.addServicePart();
-                    });
-                    this.props.routeToServiceHistory();
-                });
-        } else {
-          serviceRequests.updateService(myService.id, myService)
+      e.preventDefault();
+      const { isEditing, selectedMachine } = this.props;
+      const { checked, serviceDate } = this.state;
+      const myService = { ...this.state.newService };
+      myService.serviceDate = serviceDate;
+      myService.machineId = selectedMachine.id;
+      myService.tireRotation = checked;
+      if (isEditing === false) {
+        this.setState({ newService: defaultService });
+        serviceRequests.createService(myService)
           .then((service) => {
             const serviceId = service.data.id;
-            const {selectedParts} = this.props;
-            let myServicePart = {};
+            const { selectedParts } = this.props;
+            const myServicePart = {};
+            myServicePart.serviceId = serviceId;
+            myServicePart.installDate = service.data.serviceDate;
+
+            selectedParts.forEach((part) => {
+              const partId = part.id;
+              myServicePart.partId = partId;
+
+              this.setState({ newServicePart: myServicePart });
+
+              this.addServicePart();
+            });
+            this.props.routeToServiceHistory();
+          });
+      } else {
+        serviceRequests.updateService(myService.id, myService)
+          .then((service) => {
+            const serviceId = service.data.id;
+            const { selectedParts } = this.props;
+            const myServicePart = {};
             myServicePart.serviceId = serviceId;
             myServicePart.installDate = service.data.serviceDate;
             myService.tireRotation = checked;
-    
-            selectedParts.forEach(part => {
-                let partId = part.id;
-                myServicePart.partId = partId;
 
-                this.setState({ newServicePart: myServicePart })
+            selectedParts.forEach((part) => {
+              const partId = part.id;
+              myServicePart.partId = partId;
 
-                this.addServicePart();
+              this.setState({ newServicePart: myServicePart });
+
+              this.addServicePart();
             });
             this.editServiceEvent();
-        });
-        }
+          });
+      }
     };
 
-    componentDidMount() {
-        const { currentUser } = this.props;
-        this.modalMounted = !!currentUser.id;
-        if (this.modalMounted) {
-        }
-    }
-        
+    // componentDidMount() {
+    //   const { currentUser } = this.props;
+    //   this.modalMounted = !!currentUser.id;
+    //   if (this.modalMounted) {
+    //   }
+    // }
+
     componentWillReceiveProps(props) {
-        const { isEditing, selectedService } = props;
-        if (isEditing) {
-            this.setState({
-            newService: selectedService,
-            serviceDate: new Date(props.selectedService.serviceDate),
-            checked: selectedService.tireRotation,
-            });
-        }
+      const { isEditing, selectedService } = props;
+      if (isEditing) {
+        this.setState({
+          newService: selectedService,
+          serviceDate: new Date(props.selectedService.serviceDate),
+          checked: selectedService.tireRotation,
+        });
+      }
     }
 
-    render(){
-        const { 
-                isEditing,
-                selectedMachine,
-                selectedParts,
-                partTypes,
-                selectPartType,
-                selectedPartType,
-                selectedPart,
-                dropdownParts,
-                selectPart,
-                selectedService,
-                isDetail,
-            } = this.props;
+    render() {
+      const {
+        isEditing,
+        selectedMachine,
+        selectedParts,
+        partTypes,
+        selectPartType,
+        selectedPartType,
+        selectedPart,
+        dropdownParts,
+        selectPart,
+        selectedService,
+        isDetail,
+      } = this.props;
 
-        const {serviceDate, checked } = this.state;
+      const { serviceDate, checked } = this.state;
 
-        const newService = {...this.state.newService};
+      const newService = { ...this.state.newService };
 
-        const makeSelectedParts = () => {
-            if(isDetail && !isEditing){
-                return(
-                selectedParts.map((p,index) => (
-                    <span  key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
-                        {p.brand} {p.partNumber}
-                    </span>  
-                ))                      
-                )
-            }
-            return(
-                selectedParts.map((p,index) => (
-                    <span  key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
-                        {p.brand} {p.partNumber}
-                    </span>  
-                ))
-            )
+      const makeSelectedParts = () => {
+        if (isDetail && !isEditing) {
+          return (
+            selectedParts.map((p, index) => (
+                    <span key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
+                        <div>{p.brand}</div>
+                        <div>{p.partNumber}</div>
+                    </span>
+            ))
+          );
         }
+        return (
+          selectedParts.map((p, index) => (
+                    <span key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
+                        {p.brand} {p.partNumber}
+                    </span>
+          ))
+        );
+      };
 
-        const makeButtons = () => {
-            if (isDetail) {
-                return (
+      const makeButtons = () => {
+        if (isDetail) {
+          return (
                     <div className="mb-2">
                         <button id='service-edit' type="button" className="bttn-pill edit-btn ml-2" onClick={this.editServiceEvent} title="Edit Service">
                             <i className="far fa-edit fa-1x"/>
@@ -244,14 +244,17 @@ class AddEditService extends React.Component{
                         <button id='service-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={this.deleteServiceEvent} title="Delete Service">
                             <i className="machine-delete-btn fas fa-trash fa-1x"></i>
                         </button>
-                    </div>                
-                )
-            }
+                    </div>
+          );
         }
+        return (
+            <div></div>
+        );
+      };
 
-          const makeServiceCard = () => {
-              if(isDetail && !isEditing){
-                  return(
+      const makeServiceCard = () => {
+        if (isDetail && !isEditing) {
+          return (
                     <div className="service-card border border-dark rounded w-100 mx-auto" id={selectedService.id}>
                         <h3 className="text-center">{formatDate.formatMDYDate(selectedService.serviceDate)}</h3>
                         <div className="ml-1">Oil Type: {selectedService.oil}</div>
@@ -265,9 +268,9 @@ class AddEditService extends React.Component{
                         </div>
                         {makeButtons()}
                     </div>
-                  )
-              }
-              return(
+          );
+        }
+        return (
                 <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto w-100" onSubmit={this.formSubmit}>
                 <div className="form col mt-2 mx-auto">
                     <div className="col-auto form-lines p-0">
@@ -380,21 +383,21 @@ class AddEditService extends React.Component{
                         <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Service">
                             <i className="fas fa-tools"></i>
                         </button>
-                    </div>                                
+                    </div>
                 </div>
             </form>
-              )
-          }
+        );
+      };
 
-        return(
+      return (
             <div className="col">
                 <div className="">
                     <div className="service-container row p-2">
                         {makeServiceCard()}
-                    </div>    
-                </div>   
+                    </div>
+                </div>
         </div>
-        )
+      );
     }
 }
 

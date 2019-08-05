@@ -1,164 +1,163 @@
 import React from 'react';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from 'reactstrap';
+import PropTypes from 'prop-types';
 import machineTypeRequests from '../../helpers/data/machineTypeRequests';
 import machineRequests from '../../helpers/data/machineRequests';
-import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-  } from 'reactstrap';
-  import PropTypes from 'prop-types';
 
-  import './AddEditMachine.scss';
+import './AddEditMachine.scss';
 
-  const defaultMachine = {
-    year: 1970,
-    make: '',
-    model: '',
-    trim: '',
-    typeId: 0,
-    oilType: '',
-    oilQuantity: 0,
-    tireSize: '',
-    tirePressure: 32,
-    serviceInterval: 3000,
-    imageUrl: null,
-  };
+const defaultMachine = {
+  year: 1970,
+  make: '',
+  model: '',
+  trim: '',
+  typeId: 0,
+  oilType: '',
+  oilQuantity: 0,
+  tireSize: '',
+  tirePressure: 32,
+  serviceInterval: 3000,
+  imageUrl: null,
+};
 
-  class AddEditMachine extends React.Component{
+class AddEditMachine extends React.Component {
     modalMounted = false;
 
     state = {
-        machineTypes: [],
-        partTypes: [],
-        newMachine: defaultMachine,
-        selectedMachineType: 0,
+      machineTypes: [],
+      partTypes: [],
+      newMachine: defaultMachine,
+      selectedMachineType: 0,
     }
 
     static propTypes = {
-        currentUser: PropTypes.object,
-        modal: PropTypes.bool,
-        isEditing: PropTypes.bool,
-        toggleMachineModal: PropTypes.func,
-        getSingleMachine: PropTypes.func,
-        selectedMachine: PropTypes.object,
+      currentUser: PropTypes.object,
+      modal: PropTypes.bool,
+      isEditing: PropTypes.bool,
+      toggleMachineModal: PropTypes.func,
+      getSingleMachine: PropTypes.func,
+      selectedMachine: PropTypes.object,
     }
 
     getMachineTypes = () => {
-        machineTypeRequests.getAllMachineTypes()
-          .then((machineTypes) => {
-            this.setState({ machineTypes });
-          });
-      }
+      machineTypeRequests.getAllMachineTypes()
+        .then((machineTypes) => {
+          this.setState({ machineTypes });
+        });
+    }
 
     toggleEvent = () => {
-        const { toggleMachineModal } = this.props;
-        toggleMachineModal();
+      const { toggleMachineModal } = this.props;
+      toggleMachineModal();
     }
 
     formFieldStringState = (name, e) => {
-        e.preventDefault();
-        const tempMachine = { ...this.state.newMachine };
-        tempMachine[name] = e.target.value;
-        this.setState({ newMachine: tempMachine });
+      e.preventDefault();
+      const tempMachine = { ...this.state.newMachine };
+      tempMachine[name] = e.target.value;
+      this.setState({ newMachine: tempMachine });
     }
 
     formFieldNumberState = (name, e) => {
-        e.preventDefault();
-        const tempMachine = { ...this.state.newMachine };
-        tempMachine[name] = e.target.value;
-        this.setState({ newMachine: tempMachine });
+      e.preventDefault();
+      const tempMachine = { ...this.state.newMachine };
+      tempMachine[name] = e.target.value;
+      this.setState({ newMachine: tempMachine });
     }
 
     yearChange = e => this.formFieldNumberState('year', e);
-  
+
     makeChange = e => this.formFieldStringState('make', e);
-  
+
     modelChange = e => this.formFieldStringState('model', e);
-  
+
     trimChange = e => this.formFieldStringState('trim', e);
-  
+
     typeIdChange = e => this.formFieldNumberState('typeId', e);
-  
+
     oilTypeChange = e => this.formFieldStringState('oilType', e);
-  
+
     oilQuantityChange = e => this.formFieldNumberState('oilQuantity', e);
 
     tireSizeChange = e => this.formFieldStringState('tireSize', e);
 
     tirePressureChange = e => this.formFieldNumberState('tirePressure', e);
-    
+
     serviceIntervalChange = e => this.formFieldNumberState('serviceInterval', e);
 
     imageUrlChange = e => this.formFieldStringState('imageUrl', e);
 
     selectMachineType = (e) => {
-        const myMachine = { ...this.state.newMachine };
-        myMachine.typeId = e.target.value;
-        this.setState({ selectedMachineType: e.target.value });
+      const myMachine = { ...this.state.newMachine };
+      myMachine.typeId = e.target.value;
+      this.setState({ selectedMachineType: e.target.value });
     }
 
     formSubmit = (e) => {
-        e.preventDefault();
-        const { isEditing, getSingleMachine, selectedMachine } = this.props;
-        const myMachine = { ...this.state.newMachine };
-        if (isEditing === false) {
-            myMachine.ownerId = this.props.currentUser.id;
-          this.setState({ newMachine: defaultMachine });
-          machineRequests.createMachine(myMachine)
-            .then(() => {
-              this.toggleEvent();
-            });
-        }
-        else {
-          machineRequests.updateMachine(myMachine.id, myMachine)
-            .then(() => {
-                getSingleMachine(selectedMachine.id);
-                this.toggleEvent();
-            });
-        }
+      e.preventDefault();
+      const { isEditing, getSingleMachine, selectedMachine } = this.props;
+      const myMachine = { ...this.state.newMachine };
+      if (isEditing === false) {
+        myMachine.ownerId = this.props.currentUser.id;
+        this.setState({ newMachine: defaultMachine });
+        machineRequests.createMachine(myMachine)
+          .then(() => {
+            this.toggleEvent();
+          });
+      } else {
+        machineRequests.updateMachine(myMachine.id, myMachine)
+          .then(() => {
+            getSingleMachine(selectedMachine.id);
+            this.toggleEvent();
+          });
+      }
     };
 
     componentDidMount() {
-        const { currentUser } = this.props;
-        this.modalMounted = !!currentUser.id;
-        if (this.modalMounted) {
-            this.getMachineTypes();
-        }
+      const { currentUser } = this.props;
+      this.modalMounted = !!currentUser.id;
+      if (this.modalMounted) {
+        this.getMachineTypes();
+      }
     }
-        
+
     componentWillReceiveProps(props) {
-        const { isEditing, selectedMachine } = props;
-        if (isEditing) {
-            this.setState({
-            newMachine: selectedMachine,
-            selectedMachineType: selectedMachine.typeId,
-            });
-        }
+      const { isEditing, selectedMachine } = props;
+      if (isEditing) {
+        this.setState({
+          newMachine: selectedMachine,
+          selectedMachineType: selectedMachine.typeId,
+        });
+      }
     }
 
-    render(){
-        const { selectedMachineType } = this.state;
+    render() {
+      const { selectedMachineType } = this.state;
 
-        const newMachine = { ...this.state.newMachine };
+      const newMachine = { ...this.state.newMachine };
 
-        const machineTypes = [ ...this.state.machineTypes ];
+      const machineTypes = [...this.state.machineTypes];
 
-        const { modal, isEditing } = this.props;
+      const { modal, isEditing } = this.props;
 
-        const makeHeader = () => {
-            if (isEditing) {
-              return (
+      const makeHeader = () => {
+        if (isEditing) {
+          return (
                 <div>Edit Your Machine</div>
-              );
-            }
-            return (
+          );
+        }
+        return (
               <div>Add A Machine</div>
-            );
-          };
+        );
+      };
 
-        const makeMachineTypeDropdown = () => {
-            let counter = 0;
-            return (
+      const makeMachineTypeDropdown = () => {
+        let counter = 0;
+        return (
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
                     <div className="machineType-label input-group-text">Machine Type</div>
@@ -171,10 +170,10 @@ import {
                         }
                     </select>
                 </div>
-            );
-        };
+        );
+      };
 
-        return(
+      return (
             <Modal isOpen={modal} className="modal-lg">
                 <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
                 <ModalBody className="text-center modal-body" id="machine-modal">
@@ -354,8 +353,8 @@ import {
                     </div>
                 </ModalBody>
             </Modal>
-        )
+      );
     }
 }
 
-export default AddEditMachine
+export default AddEditMachine;

@@ -2,9 +2,7 @@ import React from 'react';
 
 import './VideoItem.scss';
 
-const VideoItem = ({ video, handleVideoSelect }) => {
-
-    return (
+const VideoItem = ({ video, handleVideoSelect }) => (
         <div onClick={ () => handleVideoSelect(video) } className="card video-card h-100 video-item item col-4">
             <img
                 className="image mt-2"
@@ -15,7 +13,6 @@ const VideoItem = ({ video, handleVideoSelect }) => {
                 <div className="header">{video.snippet.title}</div>
             </div>
         </div>
-    )
-}
+);
 
 export default VideoItem;

@@ -1,41 +1,41 @@
 import React from 'react';
-import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 import PropTypes from 'prop-types';
+import AddEditMachine from '../../AddEditMachine/AddEditMachine';
 
 import './Home.scss';
 
-class Home extends React.Component{
+class Home extends React.Component {
     homeMounted = false;
 
     state = {
-        modal: false,
-        isEditingMachine: false,
-        alertServices: [],
-        machines: [],
-        services: [],
+      modal: false,
+      isEditingMachine: false,
+      alertServices: [],
+      machines: [],
+      services: [],
     }
 
     static propTypes = {
-        currentUser: PropTypes.object,
+      currentUser: PropTypes.object,
     }
 
     changeView = (e) => {
-        const view = e.currentTarget.id;
-        this.props.history.push(`/${view}`);
+      const view = e.currentTarget.id;
+      this.props.history.push(`/${view}`);
     }
 
     toggleMachineModal = () => {
-        const { modal } = this.state;
+      const { modal } = this.state;
 
-        this.setState({ modal: !modal });
+      this.setState({ modal: !modal });
     }
 
-    render(){
-        const { modal,isEditingMachine } = this.state;
+    render() {
+      const { modal, isEditingMachine } = this.state;
 
-        const { currentUser } = this.props;
+      const { currentUser } = this.props;
 
-        return(
+      return (
             <div className="home w-50 mx-auto">
                 <div className="d-flex justify-content-center flex-wrap homeWrapper mt-5">
                     <div className="card m-3 border-dark animated zoomIn" id="myGarage" onClick={this.changeView}>
@@ -64,7 +64,7 @@ class Home extends React.Component{
                     isEditing = {isEditingMachine}
                 />
             </div>
-        )
+      );
     }
 }
 

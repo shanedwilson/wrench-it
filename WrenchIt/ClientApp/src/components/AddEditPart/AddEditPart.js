@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    Modal,
-    ModalHeader,
-    ModalBody,
-  } from 'reactstrap';
+  Modal,
+  ModalHeader,
+  ModalBody,
+} from 'reactstrap';
 import partRequests from '../../helpers/data/partRequests';
 import machinePartRequests from '../../helpers/data/machinePartRequests';
 
@@ -17,181 +17,183 @@ const defaultPart = {
 };
 
 const defaultMachinePart = {
-    machineId: 0,
-    partId: 0,
-  };
+  machineId: 0,
+  partId: 0,
+};
 
 class AddEditPart extends React.Component {
     state = {
-        newPart: defaultPart,
-        newMachinePart: defaultMachinePart,
-        selectedAddPartType: 1000,
-        allParts: [],
+      newPart: defaultPart,
+      newMachinePart: defaultMachinePart,
+      selectedAddPartType: 1000,
+      allParts: [],
     }
 
     static propTypes = {
-        partTypes: PropTypes.array,
-        selectedMachineId: PropTypes.number,
-        isEditingPart: PropTypes.bool,
-        showParts: PropTypes.bool,
-        getPartsByMachine: PropTypes.func,
-        showAddParts: PropTypes.func,
-        machineParts: PropTypes.array,
-        currentUser: PropTypes.object,
-        selectedPartToEdit: PropTypes.object,
-        addPart: PropTypes.bool,
-        deletePart: PropTypes.func,
-    }   
+      partTypes: PropTypes.array,
+      selectedMachineId: PropTypes.number,
+      isEditingPart: PropTypes.bool,
+      showParts: PropTypes.bool,
+      getPartsByMachine: PropTypes.func,
+      showAddParts: PropTypes.func,
+      machineParts: PropTypes.array,
+      currentUser: PropTypes.object,
+      selectedPartToEdit: PropTypes.object,
+      addPart: PropTypes.bool,
+      deletePart: PropTypes.func,
+    }
 
     getAllParts = () => {
-        partRequests.getAllParts()
-            .then((allParts) => {
-                this.setState({ allParts });
-            });
+      partRequests.getAllParts()
+        .then((allParts) => {
+          this.setState({ allParts });
+        });
     }
 
     checkExistingParts = (e) => {
-        e.preventDefault();
-        const myPart = { ...this.state.newPart };
-        const allParts = [...this.state.allParts];
-        const filteredParts = allParts.filter(part => part.brand.toLowerCase() === myPart.brand.toLowerCase()
+      e.preventDefault();
+      const myPart = { ...this.state.newPart };
+      const allParts = [...this.state.allParts];
+      const filteredParts = allParts.filter(part => part.brand.toLowerCase() === myPart.brand.toLowerCase()
                                                 && part.partNumber.toLowerCase() === myPart.partNumber.toLowerCase());
-        if(filteredParts.length > 0){
-            const existingPartId = filteredParts[0].id
-            this.checkExistingMachineParts(existingPartId);
-        } else {
-            this.formSubmit(e);
-        }
+      if (filteredParts.length > 0) {
+        const existingPartId = filteredParts[0].id;
+        this.checkExistingMachineParts(existingPartId);
+      } else {
+        this.formSubmit(e);
+      }
     }
 
     checkExistingMachineParts = (partId) => {
-        const {machineParts} = this.props;
-        const filteredMachineParts = machineParts.filter(part => part.id === partId)
-        if(filteredMachineParts.length > 0){
-            this.toggleEvent();
-        } else {
-            this.createMachinePart(partId);
-        }
+      const { machineParts } = this.props;
+      const filteredMachineParts = machineParts.filter(part => part.id === partId);
+      if (filteredMachineParts.length > 0) {
+        this.toggleEvent();
+      } else {
+        this.createMachinePart(partId);
+      }
     }
 
     selectAddPartType = (e) => {
-        const selectedAddPartType = e.target.value * 1;
-        this.setState({ selectedAddPartType });
+      const selectedAddPartType = e.target.value * 1;
+      this.setState({ selectedAddPartType });
     }
 
     toggleEvent = () => {
-        this.props.showAddParts();
-        this.setState({ newPart: defaultPart })
+      this.props.showAddParts();
+      this.setState({ newPart: defaultPart });
     }
 
     formFieldStringState = (name, e) => {
-        e.preventDefault();
-        const tempPart = { ...this.state.newPart };
-        tempPart[name] = e.target.value;
-        this.setState({ newPart: tempPart });
+      e.preventDefault();
+      const tempPart = { ...this.state.newPart };
+      tempPart[name] = e.target.value;
+      this.setState({ newPart: tempPart });
     }
 
     brandChange = e => this.formFieldStringState('brand', e);
-  
+
     partNumberChange = e => this.formFieldStringState('partNumber', e);
 
     formSubmit = (e) => {
-        e.preventDefault();
-        const { selectedMachineId, isEditingPart, currentUser, getPartsByMachine } = this.props;
-        const { selectedAddPartType } = this.state;
-        const myPart = { ...this.state.newPart };
-        const myMachinePart = {...this.state.newMachinePart};
-        if (isEditingPart === false) {
-            myPart.ownerId = currentUser.id;
-            myPart.typeId = selectedAddPartType;
-          this.setState({ newPart: defaultPart });
-          partRequests.createPart(myPart)
-            .then((part) => {
-                const partId = part.data.id;
-                myMachinePart.partId = partId;
-                myMachinePart.machineId = selectedMachineId;
-                machinePartRequests.createMachinePart(myMachinePart)
-                .then(() => {
-                    this.setState({ newMachinePart: defaultMachinePart });
-                    getPartsByMachine(selectedMachineId)
-                    this.toggleEvent();
-                })
-            });
-        }else {
-            partRequests.updatePart(myPart.id, myPart)
-                .then((part) => {
-                    getPartsByMachine(selectedMachineId)
-                    this.toggleEvent();
-                });
-        }
+      e.preventDefault();
+      const {
+        selectedMachineId, isEditingPart, currentUser, getPartsByMachine,
+      } = this.props;
+      const { selectedAddPartType } = this.state;
+      const myPart = { ...this.state.newPart };
+      const myMachinePart = { ...this.state.newMachinePart };
+      if (isEditingPart === false) {
+        myPart.ownerId = currentUser.id;
+        myPart.typeId = selectedAddPartType;
+        this.setState({ newPart: defaultPart });
+        partRequests.createPart(myPart)
+          .then((part) => {
+            const partId = part.data.id;
+            myMachinePart.partId = partId;
+            myMachinePart.machineId = selectedMachineId;
+            machinePartRequests.createMachinePart(myMachinePart)
+              .then(() => {
+                this.setState({ newMachinePart: defaultMachinePart });
+                getPartsByMachine(selectedMachineId);
+                this.toggleEvent();
+              });
+          });
+      } else {
+        partRequests.updatePart(myPart.id, myPart)
+          .then((part) => {
+            getPartsByMachine(selectedMachineId);
+            this.toggleEvent();
+          });
+      }
     };
 
     createMachinePart = (partId) => {
-        const { selectedMachineId, getPartsByMachine } = this.props;
-        const myMachinePart = {...this.state.newMachinePart};
-        myMachinePart.partId = partId;
-        myMachinePart.machineId = selectedMachineId;
-        machinePartRequests.createMachinePart(myMachinePart)
+      const { selectedMachineId, getPartsByMachine } = this.props;
+      const myMachinePart = { ...this.state.newMachinePart };
+      myMachinePart.partId = partId;
+      myMachinePart.machineId = selectedMachineId;
+      machinePartRequests.createMachinePart(myMachinePart)
         .then(() => {
-            this.setState({ newMachinePart: defaultMachinePart });
-            getPartsByMachine(selectedMachineId);
-            this.toggleEvent();
-        })
+          this.setState({ newMachinePart: defaultMachinePart });
+          getPartsByMachine(selectedMachineId);
+          this.toggleEvent();
+        });
     }
 
     componentDidMount() {
-        this.getAllParts();
+      this.getAllParts();
     }
 
     componentWillReceiveProps(props) {
-        const { isEditingPart, selectedPartToEdit } = props;
-        if (isEditingPart) {
-            const selectedAddPartType = selectedPartToEdit.typeId;
-            this.setState({
-            newPart: selectedPartToEdit,
-            selectedAddPartType: selectedAddPartType,
-            });
-        }
+      const { isEditingPart, selectedPartToEdit } = props;
+      if (isEditingPart) {
+        const selectedAddPartType = selectedPartToEdit.typeId;
+        this.setState({
+          newPart: selectedPartToEdit,
+          selectedAddPartType,
+        });
+      }
     }
 
-    render(){
-        const { partTypes, addPart, isEditingPart, deletePart } = this.props;
+    render() {
+      const {
+        partTypes, addPart, isEditingPart, deletePart,
+      } = this.props;
 
-        const { selectedAddPartType } = this.state;
+      const { selectedAddPartType } = this.state;
 
-        const newPart = {...this.state.newPart};
+      const newPart = { ...this.state.newPart };
 
-        const makeHeader = () => {
-            if (isEditingPart) {
-              return (
+      const makeHeader = () => {
+        if (isEditingPart) {
+          return (
                 <div>Edit Your Part</div>
-              );
-            }
-            return (
+          );
+        }
+        return (
               <div>Add A Part</div>
-            );
-          };
+        );
+      };
 
-        const makePartTypeDropdown = () => {
-            return (
+      const makePartTypeDropdown = () => (
                 <div className="input-group mb-2">
                     <div className="input-group-prepend">
                     <div className="partType-label input-group-text">Part Type:</div>
                     </div>
                     <select name="part" required className="custom-select" value={selectedAddPartType}
-                            onChange={(event) => { this.selectAddPartType(event) }}>
+                            onChange={(event) => { this.selectAddPartType(event); }}>
                     <option value="">Select Part Type</option>
                         {
                         partTypes.map((partType, i) => (<option key={i}value={i + 1}>{partType}</option>))
                         }
                     </select>
                 </div>
-            );
-        };
+      );
 
-        const makeButtons = () => {
-            if(isEditingPart) {
-                return(
+      const makeButtons = () => {
+        if (isEditingPart) {
+          return (
                     <div className="text-center">
                         <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
                             <i className="fas fa-car"></i>
@@ -200,17 +202,17 @@ class AddEditPart extends React.Component {
                             <i className="part-delete-btn fas fa-trash"></i>
                         </button>
                     </div>
-                )
-            } return(
+          );
+        } return (
                 <div className="text-center">
                     <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
                         <i className="fas fa-car"></i>
                     </button>
                 </div>
-            )
-        }
+        );
+      };
 
-        return(
+      return (
             <Modal isOpen={addPart} className="modal-lg">
                 <ModalHeader class-name="modal-header" toggle={this.toggleEvent}>{makeHeader()}</ModalHeader>
                     <ModalBody className="text-center modal-body" id="part-modal">
@@ -259,8 +261,8 @@ class AddEditPart extends React.Component {
                             </div>
                         </div>
                     </ModalBody>
-            </Modal>            
-        )
+            </Modal>
+      );
     }
 }
 

@@ -3,63 +3,64 @@ import PropTypes from 'prop-types';
 
 import './MachineCard.scss';
 
-class MachineCard extends React.Component{
+class MachineCard extends React.Component {
     static propTypes = {
-        selectedMachine: PropTypes.object,
-        isService: PropTypes.bool,
-        editMachine: PropTypes.func,
-        deleteMachine: PropTypes.func,
-        showPartsDiv: PropTypes.func,
-        showService: PropTypes.func,
-        toggleServiceModal: PropTypes.func,
-        showAddEditService: PropTypes.func,
-        goToServiceHistory: PropTypes.func,
+      selectedMachine: PropTypes.object,
+      isService: PropTypes.bool,
+      editMachine: PropTypes.func,
+      deleteMachine: PropTypes.func,
+      showPartsDiv: PropTypes.func,
+      showService: PropTypes.func,
+      toggleServiceModal: PropTypes.func,
+      showAddEditService: PropTypes.func,
+      goToServiceHistory: PropTypes.func,
     }
 
     editMachineEvent = () => {
-        this.props.editMachine();
+      this.props.editMachine();
     }
 
     deleteMachineEvent = () => {
-        this.props.deleteMachine();
+      this.props.deleteMachine();
     }
 
     showPartsDivEvent = () => {
-        this.props.showPartsDiv();
+      this.props.showPartsDiv();
     }
 
     showAddEditServiceEvent = () => {
-        this.props.showAddEditService();
+      this.props.showAddEditService();
     }
 
     goToServiceHistoryEvent = () => {
-        this.props.goToServiceHistory();
+      this.props.goToServiceHistory();
     }
 
     toggleServiceModalEvent =() => {
-        this.props.toggleServiceModal();
+      this.props.toggleServiceModal();
     }
-    
-    render(){
-        const {selectedMachine, isService} = this.props;
 
-        const makeImage = () => {
-            if(selectedMachine.imageUrl !== null || selectedMachine.imageUrl !== "")
-            return(
+    render() {
+      const { selectedMachine, isService } = this.props;
+
+      const makeImage = () => {
+        if (selectedMachine.imageUrl !== null || selectedMachine.imageUrl !== '') {
+          return (
                 <div className="card imgHolder mt-5 mb-5 w-25 mx-auto my-auto p-2">
                     <img className="selectedMachine-img card-img-top"src={selectedMachine.imageUrl} alt="machine"/>
                 </div>
-            )
-            return <div></div>
+          );
         }
+        return <div></div>;
+      };
 
-        const makeButtons = () => {
-            if(isService) {
-                return(
+      const makeButtons = () => {
+        if (isService) {
+          return (
                     <div></div>
-                )
-            } else if (selectedMachine.isActive) {
-                return(
+          );
+        } if (selectedMachine.isActive) {
+          return (
                     <div className="btn-container d-flex justify-content-between p-2">
                         <button id='machine-edit' type="button" className="bttn-pill edit-btn" onClick={this.editMachineEvent} title="Edit Machine">
                             <i className="far fa-edit fa-1x"/>
@@ -77,11 +78,11 @@ class MachineCard extends React.Component{
                             <i className="fas fa-file-medical-alt"></i>
                         </button>
                     </div>
-                )
-            }
-
+          );
         }
-        return(
+        return (<div></div>);
+      };
+      return (
             <div className="d-flex justify-content-center">
                 {makeImage()}
                 <div className="card machine-card border border-dark rounded animated fadeIn w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
@@ -98,7 +99,7 @@ class MachineCard extends React.Component{
                     </div>
                 </div>
             </div>
-        )
+      );
     }
 }
 

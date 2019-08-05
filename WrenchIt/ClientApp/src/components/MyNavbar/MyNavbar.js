@@ -39,11 +39,11 @@ class MyNavbar extends React.Component {
   }
 
   alertFlash = () => {
-    const {alertServices} = this.state;
-    const element = document.getElementById("alerts");
+    const { alertServices } = this.state;
+    const element = document.getElementById('alerts');
 
-    if(alertServices.length > 0){
-        element.classList.add("alert-div");
+    if (alertServices.length > 0) {
+      element.classList.add('alert-div');
     }
   }
 
@@ -51,48 +51,47 @@ class MyNavbar extends React.Component {
     const x = 3;
     const currentDate = new Date();
     const checkedDate = new Date(serviceDate.setMonth(serviceDate.getMonth() + x));
-    if(currentDate >= checkedDate){
-        return true;
-    } else {
-        return false;
+    if (currentDate >= checkedDate) {
+      return true;
     }
+    return false;
   };
 
   makeAlertServices = () => {
-    let alertServices = [];
+    const alertServices = [];
     const services = [...this.state.services];
-    services.forEach(s => {
-        let dateChecked = this.checkDates(new Date(s.ServiceDate));
-        if(dateChecked){
-            alertServices.push(s);
-        }
-        this.setState({ alertServices });
-        this.alertFlash();
-    })
+    services.forEach((s) => {
+      const dateChecked = this.checkDates(new Date(s.ServiceDate));
+      if (dateChecked) {
+        alertServices.push(s);
+      }
+      this.setState({ alertServices });
+      this.alertFlash();
+    });
   }
 
   getAllServicesByOwnerId = () => {
     const { currentUser } = this.props;
     const ownerId = currentUser.id;
     serviceRequests.getAllServicesByOwnerId(ownerId)
-        .then((services) => {
-            this.setState({ services });
-            this.makeAlertServices();
-        });
+      .then((services) => {
+        this.setState({ services });
+        this.makeAlertServices();
+      });
   }
 
   getAllMachinesById = (id) => {
     machineRequests.getAllMachinesById(id)
       .then((machinesObject) => {
-        this.setState({ machines: machinesObject })
+        this.setState({ machines: machinesObject });
         this.getAllServicesByOwnerId(id);
       });
-    }
+  }
 
-  componentWillReceiveProps(props){
+  componentWillReceiveProps(props) {
     this.navMounted = !!props.currentUser.id;
     if (this.navMounted) {
-        this.getAllMachinesById(props.currentUser.id);
+      this.getAllMachinesById(props.currentUser.id);
     }
   }
 
@@ -139,6 +138,7 @@ class MyNavbar extends React.Component {
           <Nav className="ml-auto" navbar></Nav>
         );
       }
+      return (<div></div>);
     };
 
     return (
@@ -146,7 +146,7 @@ class MyNavbar extends React.Component {
         <Navbar dark expand="md" className="my-navbar" fixed={'top'}>
           <NavbarBrand tag={RRNavLink} to="/home">
             <img src={logo} className="nav-logo" alt="logo" />
-          </NavbarBrand>          
+          </NavbarBrand>
           <NavbarToggler onClick={e => this.toggle(e)} />
           <Collapse isOpen={this.state.isOpen} navbar>
             {buildNavbar()}

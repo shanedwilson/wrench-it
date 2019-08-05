@@ -12,166 +12,152 @@ import './ServiceHistory.scss';
 
 class ServiceHistory extends React.Component {
     state = {
-        machineServices: [],
-        selectedMachine: {},
-        selectedServiceId: 0,
-        isDetail: false,
-        addEditServiceModal: false,
-        selectedService: {},
-        partTypes: [],
-        machineParts: [],
-        selectedParts: [],
-        serviceParts: [],
-        isEditing: false,
-        isAlerts: false,
+      machineServices: [],
+      selectedMachine: {},
+      selectedServiceId: 0,
+      isDetail: false,
+      addEditServiceModal: false,
+      selectedService: {},
+      partTypes: [],
+      machineParts: [],
+      selectedParts: [],
+      serviceParts: [],
+      isEditing: false,
+      isAlerts: false,
     }
 
     static propTypes = {
-        currentUser: PropTypes.object,  
+      currentUser: PropTypes.object,
     }
 
     showAddEditService = (e) => {
-        const { isDetail, addEditServiceModal, isEditing } = this.state;
-        if(isEditing){
-            this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal, isEditing: !isEditing });
-        }
-        this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal });
+      const { isDetail, addEditServiceModal, isEditing } = this.state;
+      if (isEditing) {
+        this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal, isEditing: !isEditing });
+      }
+      this.setState({ isDetail: !isDetail, addEditServiceModal: !addEditServiceModal });
     }
 
     getMachineById = (machineId) => {
-        machineRequests.getSingleMachine(machineId)
+      machineRequests.getSingleMachine(machineId)
         .then((machine) => {
-            this.setState({ selectedMachine: machine.data});
+          this.setState({ selectedMachine: machine.data });
         });
     }
 
     getSelectedService = (e) => {
-        const selectedServiceId = e.currentTarget.id * 1;
-        serviceRequests.getSingleService(selectedServiceId)
-            .then((selectedService) => {
-                this.setState({
-                    selectedService: selectedService.data,
-                    selectedServiceId,
-                });
-            });
-        this.getPartsByServiceId(selectedServiceId);
-    }
-
-    getAllParts = () => {
-        const parts = [...this.state.parts];
-        const partTypes = [...this.state.partTypes];
-        partRequests.getAllParts()
-        .then((parts) => {
-            this.setState({ parts });
+      const selectedServiceId = e.currentTarget.id * 1;
+      serviceRequests.getSingleService(selectedServiceId)
+        .then((selectedService) => {
+          this.setState({
+            selectedService: selectedService.data,
+            selectedServiceId,
+          });
         });
-        parts.map(p => (
-            partTypes.map((pt, i) => pt.typeId === i +1 (
-                p.typeName = pt
-            ))
-        ))
+      this.getPartsByServiceId(selectedServiceId);
     }
 
     getAllPartTypes = () => {
-        partTypeRequests.getAllPartTypes()
-          .then((partTypes) => {
-            this.setState({ partTypes });
+      partTypeRequests.getAllPartTypes()
+        .then((partTypes) => {
+          this.setState({ partTypes });
+        });
+    }
+
+    getPartsByMachine = (id) => {
+      partRequests.getPartsByMachineId(id)
+        .then((machineParts) => {
+          this.setState({ machineParts });
+        });
+    }
+
+      getServicePartsByServiceId = (id) => {
+        servicePartRequests.getAllServicePartsByServiceId(id)
+          .then((serviceParts) => {
+            this.setState({ serviceParts });
           });
       }
 
-    getPartsByMachine = (id) => {
-        partRequests.getPartsByMachineId(id)
-            .then((machineParts) => {
-                this.setState({ machineParts });
-            });
-      }
-
-      getServicePartsByServiceId = (id) => {
-          servicePartRequests.getAllServicePartsByServiceId(id)
-          .then((serviceParts) => {
-              this.setState({ serviceParts });
-          })
-      }
-
     getPartsByServiceId = (id) => {
-        partRequests.getPartsByServiceId(id)
+      partRequests.getPartsByServiceId(id)
         .then((selectedParts) => {
-            this.setState({ selectedParts });
-            this.getServicePartsByServiceId(id);
-        })
+          this.setState({ selectedParts });
+          this.getServicePartsByServiceId(id);
+        });
     }
 
     getServicesByMachineId = (machineId) => {
-        serviceRequests.getAllServicesByMachineId(machineId)
+      serviceRequests.getAllServicesByMachineId(machineId)
         .then((machineServices) => {
-            this.setState({ machineServices });
+          this.setState({ machineServices });
         });
     }
 
     deleteService = () => {
-        const machineId = this.props.match.params.id
-        const serviceId = this.state.selectedServiceId;
-        serviceRequests.deleteService(serviceId)
-            .then(() => {
-                this.showAddEditService();
-                this.getServicesByMachineId(machineId);
-            })
+      const machineId = this.props.match.params.id;
+      const serviceId = this.state.selectedServiceId;
+      serviceRequests.deleteService(serviceId)
+        .then(() => {
+          this.showAddEditService();
+          this.getServicesByMachineId(machineId);
+        });
     }
 
     editService = () => {
-        const machineId = this.props.match.params.id
-        const {isEditing} = this.state;
-        if(isEditing){
-            this.showAddEditService()
-            this.getServicesByMachineId(machineId)
-        }
-        this.setState({isEditing: !isEditing});
+      const machineId = this.props.match.params.id;
+      const { isEditing } = this.state;
+      if (isEditing) {
+        this.showAddEditService();
+        this.getServicesByMachineId(machineId);
+      }
+      this.setState({ isEditing: !isEditing });
     }
 
     componentDidMount() {
-        const { currentUser } = this.props;
-        const machineId = this.props.match.params.id
-        this.serviceMounted = !!currentUser.id;
-        if (this.serviceMounted) {
-            this.getServicesByMachineId(machineId);
-            this.getPartsByMachine(machineId);
-            this.getAllPartTypes();
-            this.getMachineById(machineId);
-        }
+      const { currentUser } = this.props;
+      const machineId = this.props.match.params.id;
+      this.serviceMounted = !!currentUser.id;
+      if (this.serviceMounted) {
+        this.getServicesByMachineId(machineId);
+        this.getPartsByMachine(machineId);
+        this.getAllPartTypes();
+        this.getMachineById(machineId);
+      }
     }
 
     render() {
-        const machineServices = [...this.state.machineServices];
+      const machineServices = [...this.state.machineServices];
 
-        const selectedMachine = {...this.state.selectedMachine};
+      const selectedMachine = { ...this.state.selectedMachine };
 
-        const selectedService = {...this.state.selectedService};
+      const selectedService = { ...this.state.selectedService };
 
-        const partTypes = [...this.state.partTypes];
+      const partTypes = [...this.state.partTypes];
 
-        const machineParts = [...this.state.machineParts];
+      const machineParts = [...this.state.machineParts];
 
-        const selectedParts = [...this.state.selectedParts];
+      const selectedParts = [...this.state.selectedParts];
 
-        const serviceParts = [...this.state.serviceParts];
+      const serviceParts = [...this.state.serviceParts];
 
-        const { currentUser } = this.props;
+      const { currentUser } = this.props;
 
-        const {
-            isDetail,
-            selectedServiceId,
-            addEditServiceModal,
-            isEditing,
-            isAlerts,
-        } = this.state;
+      const {
+        isDetail,
+        selectedServiceId,
+        addEditServiceModal,
+        isEditing,
+        isAlerts,
+      } = this.state;
 
-        return(
+      return (
             <div className="history-container animated fadeIn">
                 <div className="card imgHolder mb-5 w-25 mx-auto my-auto p-2">
                     <img className="selectedMachine-img card-img-top"src={selectedMachine.imageUrl} alt="machine"/>
                 </div>
                 <div className="mt-5">
                 <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>
-                    <ServiceHistoryTable 
+                    <ServiceHistoryTable
                         currentUser={currentUser}
                         selectedMachine={selectedMachine}
                         machineServices={machineServices}
@@ -198,7 +184,7 @@ class ServiceHistory extends React.Component {
                     getPartsByServiceId={this.getPartsByServiceId}
                 />
             </div>
-        )
+      );
     }
 }
 

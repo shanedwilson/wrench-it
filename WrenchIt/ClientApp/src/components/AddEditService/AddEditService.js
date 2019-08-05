@@ -219,7 +219,8 @@ class AddEditService extends React.Component {
           return (
             selectedParts.map((p, index) => (
                     <span key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
-                        {p.brand} {p.partNumber}
+                        <div>{p.brand}</div>
+                        <div>{p.partNumber}</div>
                     </span>
             ))
           );

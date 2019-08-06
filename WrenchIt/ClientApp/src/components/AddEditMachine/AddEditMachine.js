@@ -130,7 +130,7 @@ class AddEditMachine extends React.Component {
 
     componentWillReceiveProps(newProps) {
       const { isEditing, selectedMachine } = newProps;
-      if (isEditing && this.props.selectedMachine.id !== selectedMachine.id) {
+      if (isEditing) {
         this.setState({
           newMachine: selectedMachine,
           selectedMachineType: selectedMachine.typeId,
@@ -340,8 +340,8 @@ class AddEditMachine extends React.Component {
                                             className="form-control"
                                             id="manualUrl"
                                             placeholder="www.google.com"
-                                            value={newMachine.manualUrl}
-                                            onChange={this.manualUrlChange}
+                                            value={newMachine.serviceManualUrl}
+                                            onChange={this.serviceManualUrlChange}
                                             />
                                         </div>
                                     </div>

@@ -130,7 +130,7 @@ class AddEditMachine extends React.Component {
 
     componentWillReceiveProps(newProps) {
       const { isEditing, selectedMachine } = newProps;
-      if (isEditing) {
+      if (isEditing && selectedMachine.id !== null) {
         this.setState({
           newMachine: selectedMachine,
           selectedMachineType: selectedMachine.typeId,

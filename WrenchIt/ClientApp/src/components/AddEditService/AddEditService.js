@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import serviceRequests from '../../helpers/data/serviceRequests';
 import servicePartRequests from '../../helpers/data/servicePartRequests';
 import MachinePartsDropdown from '../MachinePartsDropdown/MachinePartsDropdown';
+import ServicePartsTable from '../ServicePartsTable/ServicePartsTable';
 import formatDate from '../../helpers/formatDate';
 
 import './AddEditService.scss';
@@ -65,7 +66,7 @@ class AddEditService extends React.Component {
     }
 
     removePartEvent = (e) => {
-      const partId = e.target.id * 1;
+      const partId = e.currentTarget.id * 1;
       this.props.removePart(partId);
     }
 
@@ -177,13 +178,6 @@ class AddEditService extends React.Component {
       }
     };
 
-    // componentDidMount() {
-    //   const { currentUser } = this.props;
-    //   this.modalMounted = !!currentUser.id;
-    //   if (this.modalMounted) {
-    //   }
-    // }
-
     componentWillReceiveProps(props) {
       const { isEditing, selectedService } = props;
       if (isEditing) {
@@ -214,25 +208,25 @@ class AddEditService extends React.Component {
 
       const newService = { ...this.state.newService };
 
-      const makeSelectedParts = () => {
-        if (isDetail && !isEditing) {
-          return (
-            selectedParts.map((p, index) => (
-                    <span key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
-                        <div>{p.brand}</div>
-                        <div>{p.partNumber}</div>
-                    </span>
-            ))
-          );
-        }
-        return (
-          selectedParts.map((p, index) => (
-                    <span key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
-                        {p.brand} {p.partNumber}
-                    </span>
-          ))
-        );
-      };
+      // const makeSelectedParts = () => {
+      //   if (isDetail && !isEditing) {
+      //     return (
+      //       selectedParts.map((p, index) => (
+      //               <span key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
+      //                   <div>{p.brand}</div>
+      //                   <div>{p.partNumber}</div>
+      //               </span>
+      //       ))
+      //     );
+      //   }
+      //   return (
+      //     selectedParts.map((p, index) => (
+      //               <span key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
+      //                   {p.brand} {p.partNumber}
+      //               </span>
+      //     ))
+      //   );
+      // };
 
       const makeButtons = () => {
         if (isDetail) {
@@ -263,8 +257,12 @@ class AddEditService extends React.Component {
                         <div className="ml-1">Mileage: {selectedService.mileage}</div>
                         <div className="ml-1">Notes: {selectedService.notes}</div>
                         <div className="mb-2">
-                            <h5 className="mr-2">Parts Used:</h5>
-                            {makeSelectedParts()}
+                            <h6 className="mr-2 mt-3">Parts Used:</h6>
+                            <ServicePartsTable
+                              isEditing={isEditing}
+                              isDetail={isDetail}
+                              selectedParts={selectedParts}
+                            />
                         </div>
                         {makeButtons()}
                     </div>
@@ -354,11 +352,11 @@ class AddEditService extends React.Component {
                             />
                         </div>
                     </div>
-                    <div className="form-check text-center">
+                    <div className="form-check text-center mt-3">
                         <input type="checkbox" onChange={this.handleCheckbox} checked={checked} className="form-check-input" id="tireRotation"/>
                         <label className="form-check-label">Tire Rotation?</label>
                     </div>
-                    <div id="serviceDate" className="text-center">
+                    <div id="serviceDate" className="text-center mt-3">
                         <label>Service Date</label>
                         <DatePicker
                         className="ml-3"
@@ -366,7 +364,7 @@ class AddEditService extends React.Component {
                         onChange={this.handleServiceDateChange}
                         />
                     </div>
-                    <h3 className="text-center">Add Parts To Service</h3>
+                    <h5 className="text-center mt-3">Add Parts To Service</h5>
                     <MachinePartsDropdown
                         partTypes = {partTypes}
                         selectedPart = {selectedPart}
@@ -376,8 +374,14 @@ class AddEditService extends React.Component {
                         selectPart={selectPart}
                     />
                     <div className="text-center mx-auto mb-3">
-                        <h5 className="mr-2">Selected Parts: (Click To Remove)</h5>
-                        {makeSelectedParts()}
+                        <h6 className="mr-2">Selected Parts: (Click To Remove)</h6>
+                        {/* {makeSelectedParts()} */}
+                        <ServicePartsTable
+                          isEditing={isEditing}
+                          isDetail={isDetail}
+                          selectedParts={selectedParts}
+                          removePartEvent={this.removePartEvent}
+                        />
                     </div>
                     <div className="text-center">
                         <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Service">

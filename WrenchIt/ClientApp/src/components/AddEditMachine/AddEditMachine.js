@@ -333,7 +333,7 @@ class AddEditMachine extends React.Component {
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
-                                            <div className="input-group-text">Service Manual Url</div>
+                                            <div className="input-group-text">Manual Url</div>
                                             </div>
                                             <input
                                             type="text"
@@ -348,7 +348,7 @@ class AddEditMachine extends React.Component {
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
-                                            <div className="input-group-text">Machine Image Url</div>
+                                            <div className="input-group-text">Image Url</div>
                                             </div>
                                             <input
                                             type="text"

@@ -46,6 +46,11 @@
     animation: fadeInLoad 4s;
 }
 
+.logo-icon{
+    width: 70%;
+    height: auto;
+}
+
 @keyframes fadeInLoad {
     from {
         opacity:0;

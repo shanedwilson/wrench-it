@@ -110,7 +110,7 @@ class MyNavbar extends React.Component {
             <NavLink tag={RRNavLink} to="/profile">Profile</NavLink>
           </NavItem>
           <NavItem className="nav-item">
-            <NavLink tag={RRNavLink} to="/myGarage">My Garage</NavLink>
+            <NavLink tag={RRNavLink} to="/myGarage">Garage</NavLink>
           </NavItem>
           <NavItem className="nav-item">
             <NavLink tag={RRNavLink} to="/links">Links</NavLink>

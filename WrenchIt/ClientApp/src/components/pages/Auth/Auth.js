@@ -1,6 +1,6 @@
 import React from 'react';
 import authRequests from '../../../helpers/data/authRequests';
-import logo from '../../../images/wrench_it.png';
+import logo from '../../../images/wrench_it2.png';
 
 import './Auth.scss';
 

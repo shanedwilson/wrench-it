@@ -208,26 +208,6 @@ class AddEditService extends React.Component {
 
       const newService = { ...this.state.newService };
 
-      // const makeSelectedParts = () => {
-      //   if (isDetail && !isEditing) {
-      //     return (
-      //       selectedParts.map((p, index) => (
-      //               <span key={index} className="mr-2 selected-parts border border-dark rounded" id={p.id}>
-      //                   <div>{p.brand}</div>
-      //                   <div>{p.partNumber}</div>
-      //               </span>
-      //       ))
-      //     );
-      //   }
-      //   return (
-      //     selectedParts.map((p, index) => (
-      //               <span key={index} className="mr-2 selected-parts border border-dark rounded" onClick={this.removePartEvent} id={p.id}>
-      //                   {p.brand} {p.partNumber}
-      //               </span>
-      //     ))
-      //   );
-      // };
-
       const makeButtons = () => {
         if (isDetail) {
           return (
@@ -374,8 +354,7 @@ class AddEditService extends React.Component {
                         selectPart={selectPart}
                     />
                     <div className="text-center mx-auto mb-3">
-                        <h6 className="mr-2">Selected Parts: (Click To Remove)</h6>
-                        {/* {makeSelectedParts()} */}
+                        <h6 className="mr-2">Parts Used</h6>
                         <ServicePartsTable
                           isEditing={isEditing}
                           isDetail={isDetail}

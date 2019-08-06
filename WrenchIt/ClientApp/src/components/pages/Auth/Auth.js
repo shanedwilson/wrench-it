@@ -18,9 +18,9 @@ class Auth extends React.Component {
       return (
               <div className="Auth animated fadeIn col-sm">
                 <div className="title-container mx-auto">
-                  <h1 className="title text-center">
+                  <div className="title text-center">
                     <img src={logo} className="logo-icon" alt="logo" />
-                  </h1>
+                  </div>
                 </div>
                 <div className="icon-container text-center mt-5">
                   <i className="auth-icon-1 fas fa-car-side fa-7x border rounded border-dark p-2 fadeInLoad1"></i>

@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import machineRequests from '../../helpers/data/machineRequests';
 import serviceRequests from '../../helpers/data/serviceRequests';
-import logo from '../../images/wrench_it.png';
+import logo from '../../images/wrench_it2.png';
 
 import './MyNavbar.scss';
 

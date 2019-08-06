@@ -82,6 +82,18 @@ class MachineCard extends React.Component {
         }
         return (<div></div>);
       };
+
+      const makeManualLink = () => {
+        if (selectedMachine.serviceManualUrl !== null) {
+          return (
+            <div className="ml-1 mb-2">Service Manual: <a href={selectedMachine.serviceManualUrl} target="_blank">Manual</a></div>
+          );
+        }
+        return (
+          <div className="ml-1 mb-2">Service Manual: No Url Supplied</div>
+        );
+      };
+
       return (
             <div className="d-flex justify-content-center">
                 {makeImage()}
@@ -94,7 +106,8 @@ class MachineCard extends React.Component {
                         <div className="ml-1">Oil Quantity: {selectedMachine.oilQuantity} Quarts</div>
                         <div className="ml-1">Tire Size: {selectedMachine.tireSize}</div>
                         <div className="ml-1">Tire Pressure: {selectedMachine.tirePressure}</div>
-                        <div className="ml-1 mb-2">Service Interval: {selectedMachine.serviceInterval}</div>
+                        <div className="ml-1">Service Interval: {selectedMachine.serviceInterval}</div>
+                        {makeManualLink()}
                         {makeButtons()}
                     </div>
                 </div>

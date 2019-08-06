@@ -22,6 +22,7 @@ const defaultMachine = {
   tirePressure: 32,
   serviceInterval: 3000,
   imageUrl: null,
+  serviceManualUrl: null,
 };
 
 class AddEditMachine extends React.Component {
@@ -88,6 +89,8 @@ class AddEditMachine extends React.Component {
     tirePressureChange = e => this.formFieldNumberState('tirePressure', e);
 
     serviceIntervalChange = e => this.formFieldNumberState('serviceInterval', e);
+
+    serviceManualUrlChange = e => this.formFieldStringState('serviceManualUrl', e);
 
     imageUrlChange = e => this.formFieldStringState('imageUrl', e);
 
@@ -324,6 +327,21 @@ class AddEditMachine extends React.Component {
                                             value={newMachine.serviceInterval}
                                             onChange={this.serviceIntervalChange}
                                             required
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-auto form-lines p-0">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
+                                            <div className="input-group-text">Service Manual Url</div>
+                                            </div>
+                                            <input
+                                            type="text"
+                                            className="form-control"
+                                            id="imageUrl"
+                                            placeholder="www.google.com"
+                                            value={newMachine.serviceManualUrl}
+                                            onChange={this.serviceManualUrlChange}
                                             />
                                         </div>
                                     </div>

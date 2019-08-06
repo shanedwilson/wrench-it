@@ -21,6 +21,7 @@ namespace WrenchIt.Models
         public int ServiceInterval { get; set; }
         public string ImageUrl { get; set; }
         public bool IsActive { get; set; }
+        public string ServiceManualUrl { get; set; }
     }
 
 

@@ -23,6 +23,15 @@ class MachineDropdown extends React.Component {
                     </option>))
       );
 
+      const makeInactiveMachinesDiv = () => {
+        if (inactiveMachines.length > 0) {
+          return (
+          <option disabled>Machines Of Yore</option>
+          );
+        }
+        return (<option></option>);
+      };
+
       const makeInactiveMachinesDropdown = () => (
         inactiveMachines.map((machine, i) => (
                     <option key={i} value={machine.id}>
@@ -37,7 +46,7 @@ class MachineDropdown extends React.Component {
                 <option value="">Select Your Machine</option>
                     {makeMachineDropdownItems()}
                 <option className="upper-border"disabled></option>
-                <option disabled>Machines Of Yore</option>
+                  {makeInactiveMachinesDiv()}
                 <option className="lower-border" disabled></option>
                     {makeInactiveMachinesDropdown()}
                 </select>

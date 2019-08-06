@@ -95,7 +95,7 @@ class AddEditUser extends React.Component {
         if (!isEditing) {
           return (
               <div>
-                <button className="bttn-pill user-add-btn mx-auto mb-4 mt-3" title="Submit">
+                <button className="bttn-pill add-btn mx-auto mb-4 mt-3" title="Submit">
                   <i className="add-icon fas fa-user-plus" />
                 </button>
               </div>

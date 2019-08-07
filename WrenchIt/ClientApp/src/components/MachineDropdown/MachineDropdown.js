@@ -41,7 +41,7 @@ class MachineDropdown extends React.Component {
 
       return (
             <div className="text-center mt-5">
-                <select name="machines" required className="custom-select w-50" value={selectedMachineId}
+                <select name="machines" required className="custom-select w-50 shadow-lg" value={selectedMachineId}
                         onChange={(event) => { selectMachine(event); }}>
                 <option value="">Select Your Machine</option>
                     {makeMachineDropdownItems()}

@@ -46,7 +46,7 @@ class MachineCard extends React.Component {
       const makeImage = () => {
         if (selectedMachine.imageUrl !== null || selectedMachine.imageUrl !== '') {
           return (
-                <div className="card imgHolder mt-5 mb-5 w-25 mx-auto my-auto p-2">
+                <div className="card shadow-lg imgHolder mt-5 mb-5 w-25 mx-auto my-auto p-2">
                     <img className="selectedMachine-img card-img-top"src={selectedMachine.imageUrl} alt="machine"/>
                 </div>
           );
@@ -97,7 +97,7 @@ class MachineCard extends React.Component {
       return (
             <div className="d-flex justify-content-center animated fadeIn">
                 {makeImage()}
-                <div className="card machine-card border border-dark rounded w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
+                <div className="card shadow-lg machine-card border border-dark rounded w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
                     <header className="text-center profile-header">
                         <span>{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</span>
                     </header>

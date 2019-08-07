@@ -28,7 +28,7 @@ class MachinePartsDropdown extends React.Component {
       const makePartsDropDown = () => {
         if (dropdownParts.length > 0 && isGarage) {
           return (
-                    <select name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2"
+                    <select name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2 shadow-lg"
                         onChange={(event) => { this.selectPartEvent(event); }}>
                         <option value="">Select Part To Edit</option>
                         {
@@ -40,7 +40,7 @@ class MachinePartsDropdown extends React.Component {
         }
         if (dropdownParts.length > 0) {
           return (
-                    <select name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2"
+                    <select name="parts-dropdown" value={selectedPart} className="custom-select w-25 mb-3 mr-2 shadow-lg"
                     onChange={(event) => { this.selectPartEvent(event); }}>
                         <option value="">Select Part</option>
                         {
@@ -61,7 +61,7 @@ class MachinePartsDropdown extends React.Component {
 
       return (
             <div className="text-center">
-                <select name="part-type-dropdown" value={selectedPartType} className="custom-select w-25 mb-3 mr-2"
+                <select name="part-type-dropdown" value={selectedPartType} className="custom-select w-25 mb-3 mr-2 shadow-lg"
                         onChange={(event) => { this.selectPartTypeEvent(event); }}>
                     <option value="">Select Part Type</option>
                     {makePartTypeDropdown()}

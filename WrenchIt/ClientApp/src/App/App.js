@@ -22,7 +22,6 @@ import connection from '../helpers/data/connection';
 
 import './App.scss';
 
-
 const PublicRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = props => (authed === false
     ? (<Component { ...props } {...rest} />)

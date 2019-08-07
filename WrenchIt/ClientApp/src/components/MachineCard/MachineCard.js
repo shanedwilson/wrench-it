@@ -95,9 +95,9 @@ class MachineCard extends React.Component {
       };
 
       return (
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center animated fadeIn">
                 {makeImage()}
-                <div className="card machine-card border border-dark rounded animated fadeIn w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
+                <div className="card machine-card border border-dark rounded w-50 mt-5 mb-5 p-2 text-center" id={selectedMachine.id}>
                     <header className="text-center profile-header">
                         <span>{selectedMachine.year} {selectedMachine.make} {selectedMachine.model} {selectedMachine.trim}</span>
                     </header>

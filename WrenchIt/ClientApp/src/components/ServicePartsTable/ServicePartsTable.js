@@ -14,6 +14,33 @@ class ServicePartsTable extends React.Component {
         selectedParts, isDetail, isEditing, removePartEvent,
       } = this.props;
 
+      const makeTableHead = () => {
+        if (isDetail) {
+          return (
+            <tr>
+              <th scope="col">Brand</th>
+              <th scope="col">Part</th>
+            </tr>
+          );
+        }
+        if (isEditing) {
+          return (
+            <tr>
+              <th scope="col">Brand</th>
+              <th scope="col">Part</th>
+              <th scope="col">Delete Part</th>
+            </tr>
+          );
+        }
+        return (
+          <tr>
+            <th scope="col">Brand</th>
+            <th scope="col">Part</th>
+            <th scope="col">Remove Part</th>
+          </tr>
+        );
+      };
+
       const createServiceParts = () => {
         if (isDetail && !isEditing) {
           return (
@@ -42,10 +69,7 @@ class ServicePartsTable extends React.Component {
             <div className="table-div mx-auto">
             <table className="table table-hover text-center">
                 <thead>
-                    <tr>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Part</th>
-                    </tr>
+                  {makeTableHead()}
                 </thead>
                 <tbody>
                     {createServiceParts()}

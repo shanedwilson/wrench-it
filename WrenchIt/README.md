@@ -31,9 +31,9 @@ routes the user to the alerts page. Clicking on an alert routes the user to the 
 
 ## Screenshots
 ![Auth Screenshot](https://github.com/shanedwilson/wrench-it/blob/finalTidyUp/WrenchIt/screenshots/wrench-it-auth.png?raw=true)
-![Home Screenshot](../images/wrench-it-home.png)
-![Garage Screenshot](../images/wrench-it-garage.png)
-![Links Screenshot](../images/wrench-it-links.png)
+![Home Screenshot](https://github.com/shanedwilson/wrench-it/blob/finalTidyUp/WrenchIt/screenshots/wrench-it-home.png?raw=true)
+![Garage Screenshot](https://github.com/shanedwilson/wrench-it/blob/finalTidyUp/WrenchIt/screenshots/wrench-it-garage.png?raw=true)
+![Links Screenshot](https://github.com/shanedwilson/wrench-it/blob/finalTidyUp/WrenchIt/screenshots/wrench-it-links.png?raw=true)
 
 ## How to run this project:
 

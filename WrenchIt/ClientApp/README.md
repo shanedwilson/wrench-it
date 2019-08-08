@@ -30,10 +30,10 @@ routes the user to the alerts page. Clicking on an alert routes the user to the 
 * Planning with Github Projects
 
 ## Screenshots
-![Auth Screenshot](../../../../images/wrench-it-auth.png)
-![Home Screenshot](../../screenshots/wrench-it-home.png)
-![Garage Screenshot](../../screenshots/wrench-it-garage.png)
-![Links Screenshot](../../screenshots/wrench-it-links.png)
+![Auth Screenshot](./images/wrench-it-auth.png)
+![Home Screenshot](../../images/wrench-it-home.png)
+![Garage Screenshot](../../images/wrench-it-garage.png)
+![Links Screenshot](../../images/wrench-it-links.png)
 
 ## How to run this project:
 

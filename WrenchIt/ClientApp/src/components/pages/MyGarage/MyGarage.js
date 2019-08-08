@@ -95,6 +95,7 @@ class MyGarage extends React.Component {
       partRequests.getPartsByMachineId(id)
         .then((machineParts) => {
           this.setState({ machineParts });
+          this.setState({selectedPartType: 1000 });
         });
     }
 

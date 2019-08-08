@@ -25,10 +25,10 @@ namespace WrenchIt.Data
             {
                 var newMachine = db.QueryFirstOrDefault<Machine>(@"
                     insert into machines (ownerId, year, make, model, trim, typeId, oilType, oilQuantity, tireSize,
-                    tirePressure, serviceInterval)
+                    tirePressure, serviceInterval, imageUrl, serviceManualUrl)
                     output inserted.*
                     values(@ownerId, @year, @make, @model, @trim, @typeId, @oilType, @oilQuantity, @tireSize,
-                    @tirePressure, @serviceInterval, @imageUrl)",
+                    @tirePressure, @serviceInterval, @imageUrl, @serviceManualUrl)",
                     new
                     {   
                         ownerId,

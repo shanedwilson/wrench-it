@@ -229,7 +229,7 @@ class AddEditService extends React.Component {
       const makeServiceCard = () => {
         if (isDetail && !isEditing) {
           return (
-                    <div className="service-card border border-dark rounded w-100 mx-auto" id={selectedService.id}>
+                    <div className="service-card border border-dark rounded w-100 mx-auto shadow-lg" id={selectedService.id}>
                         <h3 className="text-center">{formatDate.formatMDYDate(selectedService.serviceDate)}</h3>
                         <div className="ml-1">Oil Type: {selectedService.oil}</div>
                         <div className="ml-1">Oil Quantity: {selectedService.oilQuantity} Quarts</div>
@@ -249,7 +249,7 @@ class AddEditService extends React.Component {
           );
         }
         return (
-                <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto w-100" onSubmit={this.formSubmit}>
+                <form className="row form-container border border-dark rounded mt-2 mb-2 mx-auto w-100 shadow-lg" onSubmit={this.formSubmit}>
                 <div className="form col mt-2 mx-auto">
                     <div className="col-auto form-lines p-0">
                         <div className="input-group mb-2">

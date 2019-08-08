@@ -128,9 +128,9 @@ class AddEditMachine extends React.Component {
       }
     }
 
-    componentWillReceiveProps(props) {
-      const { isEditing, selectedMachine } = props;
-      if (isEditing) {
+    componentWillReceiveProps(newProps) {
+      const { isEditing, selectedMachine } = newProps;
+      if (isEditing && selectedMachine.id !== null) {
         this.setState({
           newMachine: selectedMachine,
           selectedMachineType: selectedMachine.typeId,
@@ -182,7 +182,7 @@ class AddEditMachine extends React.Component {
                 <ModalBody className="text-center modal-body" id="machine-modal">
                     <div className="">
                         <div className="reg-container d-flex animated fadeIn">
-                            <form className="row form-container border border-dark rounded mt-5 mb-5 mx-auto w-75 pt-4 pb-4" onSubmit={this.formSubmit}>
+                            <form className="row form-container border border-dark rounded mt-5 mb-5 mx-auto w-75 pt-4 pb-4 shadow-lg" onSubmit={this.formSubmit}>
                                 <div className="form col-11 mt-2 mx-auto">
                                     <div className="col-auto form-lines p-0">
                                         <div className="input-group mb-2">
@@ -191,7 +191,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="year"
                                             placeholder="1968"
                                             value={newMachine.year}
@@ -207,7 +207,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="make"
                                             placeholder="Plymouth"
                                             value={newMachine.make}
@@ -223,7 +223,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="model"
                                             placeholder="Valiant"
                                             value={newMachine.model}
@@ -239,7 +239,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="trim"
                                             placeholder="Signet"
                                             value={newMachine.trim}
@@ -257,7 +257,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="oilType"
                                             placeholder="5w30"
                                             value={newMachine.oilType}
@@ -273,7 +273,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="oilQuantity"
                                             placeholder="5"
                                             value={newMachine.oilQuantity}
@@ -289,7 +289,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="tireSize"
                                             placeholder="165/80R14"
                                             value={newMachine.tireSize}
@@ -305,7 +305,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="tirePressure"
                                             placeholder="32"
                                             value={newMachine.tirePressure}
@@ -321,7 +321,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="serviceInterval"
                                             placeholder="3000"
                                             value={newMachine.serviceInterval}
@@ -337,8 +337,8 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
-                                            id="imageUrl"
+                                            className="form-control shadow"
+                                            id="manualUrl"
                                             placeholder="www.google.com"
                                             value={newMachine.serviceManualUrl}
                                             onChange={this.serviceManualUrlChange}
@@ -352,7 +352,7 @@ class AddEditMachine extends React.Component {
                                             </div>
                                             <input
                                             type="text"
-                                            className="form-control"
+                                            className="form-control shadow"
                                             id="imageUrl"
                                             placeholder="www.Instagram.com"
                                             value={newMachine.imageUrl}
@@ -361,7 +361,7 @@ class AddEditMachine extends React.Component {
                                         </div>
                                     </div>
                                     <div className="text-center">
-                                        <button className="bttn-pill add-btn mx-auto mt-3 mb-2" title="Add Machine">
+                                        <button className="bttn-pill add-btn mx-auto mt-3 mb-2 shadow-lg" title="Add Machine">
                                             <i className="fas fa-car add-icon"></i>
                                         </button>
                                     </div>

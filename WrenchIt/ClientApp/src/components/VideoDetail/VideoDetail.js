@@ -6,7 +6,7 @@ const VideoDetail = ({ video, checkExistingLinks, selectedVideoId }) => {
     return (
         <div className="">
             <div className="text-center">
-                <iframe src={videoSrc} allowFullScreen title='Video player'/>
+                <iframe src={videoSrc} allowFullScreen title='Video player' className="shadow-lg"/>
             </div>
             <div className='segment'>
                 <h4 className='header text-center'>{video.snippet.title}</h4>

@@ -153,7 +153,7 @@ class ServiceHistory extends React.Component {
       return (
             <div className="history-container animated fadeIn">
               <div className="card serviceHistory-card mx-auto">
-                <img className="card-img-top" src={selectedMachine.imageUrl} alt="machine"/>
+                <img className="card-img-top shadow-lg" src={selectedMachine.imageUrl} alt="machine"/>
               </div>
                 <div className="mt-5">
                 <h1 className="text-center mb-5">Services For {currentUser.name}'s {selectedMachine.year} {selectedMachine.make} {selectedMachine.model}</h1>

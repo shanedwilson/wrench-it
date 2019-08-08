@@ -159,7 +159,7 @@ class Links extends React.Component {
       const createDiv = () => {
         if (selectedMachineId) {
           return (
-                    <div className="animated zoomIn">
+                    <div className="animated zoomIn sha">
                         <VideoSearch handleFormSubmit={this.handleSubmit}/>
                         <div className="w-100 mx-auto">
                             <div className="mt-3 mx-auto">

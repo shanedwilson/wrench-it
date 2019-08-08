@@ -46,7 +46,7 @@ class MachineCard extends React.Component {
       const makeImage = () => {
         if (selectedMachine.imageUrl !== null || selectedMachine.imageUrl !== '') {
           return (
-                <div className="card shadow-lg imgHolder mt-5 mb-5 w-25 mx-auto my-auto p-2">
+                <div className="card shadow-lg imgHolder mt-5 mb-5 mx-auto my-auto p-2">
                     <img className="selectedMachine-img card-img-top"src={selectedMachine.imageUrl} alt="machine"/>
                 </div>
           );

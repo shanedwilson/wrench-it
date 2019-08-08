@@ -195,10 +195,10 @@ class AddEditPart extends React.Component {
         if (isEditingPart) {
           return (
                     <div className="text-center">
-                        <button className="bttn-pill add-btn mx-auto mb-2" title="Submit Part">
+                        <button className="bttn-pill add-btn mx-auto mb-2 shadow" title="Submit Part">
                             <i className="fas fa-car"></i>
                         </button>
-                        <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2" onClick={deletePart} title="Delete Part">
+                        <button id='part-delete' type="button" className="bttn-pill delete-btn ml-2 mr-2 shadow" onClick={deletePart} title="Delete Part">
                             <i className="part-delete-btn fas fa-trash"></i>
                         </button>
                     </div>
@@ -218,7 +218,7 @@ class AddEditPart extends React.Component {
                     <ModalBody className="text-center modal-body" id="part-modal">
                         <div className="mb-3">
                             <div className="reg-container d-flex animated fadeIn">
-                                <form className="row form-container border border-dark rounded mx-auto mt-3" onSubmit={this.checkExistingParts}>
+                                <form className="row form-container border border-dark rounded mx-auto mt-3 shadow-lg" onSubmit={this.checkExistingParts}>
                                     <div className="form col-11 mt-2 mx-auto">
                                         <div className="col-auto form-lines p-0">
                                             {makePartTypeDropdown()}
@@ -230,7 +230,7 @@ class AddEditPart extends React.Component {
                                                 </div>
                                                 <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control shadow"
                                                 id="brand"
                                                 placeholder="Fram"
                                                 value={newPart.brand}
@@ -246,7 +246,7 @@ class AddEditPart extends React.Component {
                                                 </div>
                                                 <input
                                                 type="text"
-                                                className="form-control"
+                                                className="form-control shadow"
                                                 id="partNumber"
                                                 placeholder="xxx123"
                                                 value={newPart.partNumber}

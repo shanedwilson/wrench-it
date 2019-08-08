@@ -258,7 +258,7 @@ class MyGarage extends React.Component {
                             isGarage = {isGarage}
                         />
                         <div className="text-center">
-                            <button className="bttn-pill add-btn mx-auto mb-2" onClick={this.showAddParts} title="Add Parts">
+                            <button className="bttn-pill add-btn mx-auto mb-2 shadow-lg" onClick={this.showAddParts} title="Add Parts">
                                 <i className="fas fa-cog"></i>
                             </button>
                         </div>

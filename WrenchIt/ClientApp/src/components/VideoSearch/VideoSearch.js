@@ -25,7 +25,7 @@ class LinksSearch extends React.Component {
                 placeholder="Search YouTube For DIY Videos"
                 onChange={ this.handleChange }
                 searchText=""
-                classNames="test-class w-50"
+                classNames="test-class w-50 shadow-lg"
                 onEnter={this.formSubmit}
                 value={searchValue}
                 />

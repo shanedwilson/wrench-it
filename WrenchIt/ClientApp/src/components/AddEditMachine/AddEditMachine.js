@@ -21,8 +21,8 @@ const defaultMachine = {
   tireSize: '',
   tirePressure: 32,
   serviceInterval: 3000,
-  imageUrl: null,
-  serviceManualUrl: null,
+  imageUrl: '',
+  serviceManualUrl: '',
 };
 
 class AddEditMachine extends React.Component {

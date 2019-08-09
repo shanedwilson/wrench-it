@@ -100,7 +100,7 @@ class Links extends React.Component {
     }
 
     handleLinkSelect = (videoId) => {
-      this.setState({ selectedVideoId: videoId, selectedVideo: null });
+      this.setState({ selectedVideoId: videoId, selectedVideo: null, videos: [] });
     }
 
     saveLink = () => {

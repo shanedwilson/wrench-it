@@ -1,32 +1,35 @@
 import axios from 'axios';
+import constants from '../constants';
 
-const apiUrl = '/api/links';
+const apiUrl = `${constants.apiUrl}/links`;
+// const apiUrl = '/api/links';
 
 const getAllLinks = () => new Promise((resolve, reject) => {
-    axios.get(apiUrl)
-      .then((results) => {
-        const linksObject = results.data;
-        resolve(linksObject);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+  axios.get(apiUrl)
+    .then((results) => {
+      const linksObject = results.data;
+      resolve(linksObject);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 
-  const getAllLinksByMachineId = (machineId) => new Promise((resolve, reject) => {
-    axios.get(`${apiUrl}/machine/${machineId}`)
-      .then((results) => {
-        const linksObject = results.data;
-        resolve(linksObject);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+const getAllLinksByMachineId = machineId => new Promise((resolve, reject) => {
+  axios.get(`${apiUrl}/machine/${machineId}`)
+    .then((results) => {
+      const linksObject = results.data;
+      resolve(linksObject);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 
-  const createLink = linkObject => axios.post(`${apiUrl}`, (linkObject));
+const createLink = linkObject => axios.post(`${apiUrl}`, (linkObject));
 
-  const deleteLink = linkId => axios.delete(`${apiUrl}/${linkId}`);
+const deleteLink = linkId => axios.delete(`${apiUrl}/${linkId}`);
 
-  export default { getAllLinks, createLink, deleteLink, getAllLinksByMachineId };
-  
+export default {
+  getAllLinks, createLink, deleteLink, getAllLinksByMachineId,
+};

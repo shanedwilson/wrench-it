@@ -1,6 +1,8 @@
 import axios from 'axios';
+import constants from 'constants';
 
-const apiUrl = '/api/services';
+const apiUrl = `${constants.apiUrl}/services`;
+// const apiUrl = '/api/services';
 
 const getAllServices = () => new Promise((resolve, reject) => {
   axios.get(apiUrl)
@@ -13,7 +15,7 @@ const getAllServices = () => new Promise((resolve, reject) => {
     });
 });
 
-const getAllServicesByMachineId = (id) => new Promise((resolve, reject) => {
+const getAllServicesByMachineId = id => new Promise((resolve, reject) => {
   axios.get(`${apiUrl}/machine/${id}`)
     .then((results) => {
       const servicesObject = results.data;
@@ -24,7 +26,7 @@ const getAllServicesByMachineId = (id) => new Promise((resolve, reject) => {
     });
 });
 
-const getAllServicesByOwnerId = (id) => new Promise((resolve, reject) => {
+const getAllServicesByOwnerId = id => new Promise((resolve, reject) => {
   axios.get(`${apiUrl}/owner/${id}`)
     .then((results) => {
       const servicesObject = results.data;

@@ -1,6 +1,8 @@
 import axios from 'axios';
+import constants from '../constants';
 
-const apiUrl = '/api/users';
+const apiUrl = `${constants.apiUrl}/users`;
+// const apiUrl = '/api/users';
 
 const getAllUsers = () => new Promise((resolve, reject) => {
   axios.get(apiUrl)

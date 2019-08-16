@@ -1,16 +1,18 @@
 import axios from 'axios';
+import constants from '../constants';
 
-const apiUrl = '/api/parttypes';
+const apiUrl = `${constants.apiUrl}/parttypes`;
+// const apiUrl = '/api/parttypes';
 
 const getAllPartTypes = () => new Promise((resolve, reject) => {
-    axios.get(apiUrl)
-      .then((results) => {
-        const partTypesObject = results.data;
-        resolve(partTypesObject);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  });
+  axios.get(apiUrl)
+    .then((results) => {
+      const partTypesObject = results.data;
+      resolve(partTypesObject);
+    })
+    .catch((error) => {
+      reject(error);
+    });
+});
 
-  export default { getAllPartTypes };
+export default { getAllPartTypes };
